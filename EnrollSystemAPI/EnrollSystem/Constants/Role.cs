@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EnrollSystem.Constants
 {
-    public class Role
+    public class ROLE
     {
         public const string Admin = "admin";
         public const string Teacher = "teacher";

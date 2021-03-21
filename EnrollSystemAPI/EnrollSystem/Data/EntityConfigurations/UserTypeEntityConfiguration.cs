@@ -31,7 +31,7 @@ namespace EnrollSystem.Data.EntityConfigurations
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true);
             entity.Property(e => e.Role)
-                .HasDefaultValue(Role.Student);
+                .HasDefaultValue(ROLE.Student);
             //create 1 - 1 relationship
             entity.HasOne(a => a.Admin)
                 .WithOne(u => u.User)
