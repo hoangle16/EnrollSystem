@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 namespace EnrollSystem.Controllers
 {
     [Authorize]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -30,6 +31,13 @@ namespace EnrollSystem.Controllers
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
 
+        /// <summary>
+        /// UserController
+        /// </summary>
+        /// <param name="userService"></param>
+        /// <param name="imageService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="appSettings"></param>
         public UsersController(
             IUserRepository userService,
             IImageRepository imageService,
@@ -41,6 +49,11 @@ namespace EnrollSystem.Controllers
             _mapper = mapper;
             _appSettings = appSettings.Value;
         }
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>User's Info and token</returns>
         [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel model)
@@ -82,10 +95,15 @@ namespace EnrollSystem.Controllers
             }
             return Ok(new 
             {
-                userModel,
+                userInfo = userModel,
                 Token = tokenString
             });
         }
+        /// <summary>
+        /// Create admin account
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("create-admin")]
         public IActionResult CreateAdmin([FromBody] UserRegisterModel model)
@@ -110,6 +128,11 @@ namespace EnrollSystem.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+        /// <summary>
+        /// Create new User
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize(Roles = ROLE.Admin)]
         [HttpPost]
         public IActionResult Create([FromBody] UserRegisterModel model)
@@ -130,6 +153,10 @@ namespace EnrollSystem.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+        /// <summary>
+        /// Get all user info
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = ROLE.Admin+","+ROLE.Teacher)]
         [HttpGet]
         public IActionResult GetAll()
@@ -150,6 +177,12 @@ namespace EnrollSystem.Controllers
             var model = _mapper.Map<UserModel>(user);
             return Ok(model);
         }
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromForm] UserUpdateModel model)
         {
@@ -195,6 +228,11 @@ namespace EnrollSystem.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+        /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = ROLE.Admin)]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -202,6 +240,11 @@ namespace EnrollSystem.Controllers
             _userService.Delete(id);
             return Ok(new { message = "Deleted" });
         }
+        /// <summary>
+        /// Toggle IsActive user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = ROLE.Admin)]
         [HttpPut("block/{id}")]
         public IActionResult Block(int id)
