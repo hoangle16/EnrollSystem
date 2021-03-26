@@ -15,13 +15,13 @@ namespace EnrollSystem.Data
 
         }
         public virtual DbSet<Admin> Admins { get; set; }
-        public virtual DbSet<Class> Classes { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<AttendanceImage> AttendanceImages { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<StudentClass> StudentClasses { get; set; }
+        public virtual DbSet<StudentCourse> StudentCourses { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<TrainingImage> TrainingImages { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -34,10 +34,10 @@ namespace EnrollSystem.Data
             modelBuilder.ApplyConfiguration(new ImageTypeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new TrainingImageTypeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceImageTypeEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new StudentClassTypeEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentCourseTypeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceTypeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new RoomTypeEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new ClassTypeEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseTypeEntityConfiguration());
         }
     }
 }

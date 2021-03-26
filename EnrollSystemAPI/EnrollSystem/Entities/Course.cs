@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EnrollSystem.Entities
 {
-    public class Class
+    public class Course
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -20,7 +20,7 @@ namespace EnrollSystem.Entities
         public int MaxSlot { get; set; }
         public int RoomId { get; set; }
         public virtual Room Room { get; set; }
-        public virtual ICollection<StudentClass> StudentClasses { get; set; }
+        public virtual ICollection<StudentCourse> StudentCourses { get; set; }
         public virtual ICollection<AttendanceImage> AttendanceImages { get; set; }
     }
 }

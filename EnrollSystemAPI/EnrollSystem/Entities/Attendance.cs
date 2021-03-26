@@ -8,8 +8,8 @@ namespace EnrollSystem.Entities
     public class Attendance
     {
         public int Id { get; set; }
-        public int StudentClassId { get; set; }
-        public virtual StudentClass StudentClass { get; set; }
+        public int StudentCourseId { get; set; }
+        public virtual StudentCourse StudentCourse { get; set; }
         public DateTime Date { get; set; }
         public bool HasAttendance { get; set; }
     }
