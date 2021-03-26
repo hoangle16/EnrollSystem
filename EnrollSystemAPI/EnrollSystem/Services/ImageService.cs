@@ -27,8 +27,11 @@ namespace EnrollSystem.Services
         public void Delete(int imageId)
         {
             var image = _context.Images.Find(imageId);
-            _context.Images.Remove(image);
-            _context.SaveChanges();
+            if (image != null)
+            {
+                _context.Images.Remove(image);
+                _context.SaveChanges();
+            }
         }
 
         public IEnumerable<Image> GetAll()

@@ -12,6 +12,5 @@ namespace EnrollSystem.Entities
         public virtual User User { get; set; }
         public virtual ICollection<StudentClass> StudentClasses { get; set; }
         public virtual ICollection<TrainingImage> TrainingImages { get; set; }
-        public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
 }

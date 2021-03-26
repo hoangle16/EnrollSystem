@@ -4,14 +4,16 @@ using EnrollSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EnrollSystem.Migrations
 {
     [DbContext(typeof(EnrollContext))]
-    partial class EnrollContextModelSnapshot : ModelSnapshot
+    [Migration("20210326081416_ChangeRelationShip")]
+    partial class ChangeRelationShip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,9 +170,6 @@ namespace EnrollSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Rooms");
                 });
 
@@ -309,9 +308,6 @@ namespace EnrollSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AvatarId")
-                        .IsUnique();
-
-                    b.HasIndex("UserName")
                         .IsUnique();
 
                     b.ToTable("Users");

@@ -23,9 +23,9 @@ namespace EnrollSystem.Data.EntityConfigurations
                 .WithOne(e => e.Image)
                 .HasForeignKey<TrainingImage>(e => e.ImageId)
                 .OnDelete(DeleteBehavior.Restrict);
-            entity.HasOne<EnrollImage>(e => e.EnrollImage)
+            entity.HasOne<AttendanceImage>(e => e.AttendanceImage)
                 .WithOne(e => e.Image)
-                .HasForeignKey<EnrollImage>(e => e.ImageId)
+                .HasForeignKey<AttendanceImage>(e => e.ImageId)
                 .OnDelete(DeleteBehavior.Restrict);
             entity.HasOne<User>(e => e.User)
                 .WithOne(e => e.Avatar)

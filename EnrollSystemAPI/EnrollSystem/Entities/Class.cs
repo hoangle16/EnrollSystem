@@ -21,7 +21,6 @@ namespace EnrollSystem.Entities
         public int RoomId { get; set; }
         public virtual Room Room { get; set; }
         public virtual ICollection<StudentClass> StudentClasses { get; set; }
-        public virtual ICollection<Enrollment> Enrollments { get; set; }
-        public virtual ICollection<EnrollImage> EnrollImages { get; set; }
+        public virtual ICollection<AttendanceImage> AttendanceImages { get; set; }
     }
 }

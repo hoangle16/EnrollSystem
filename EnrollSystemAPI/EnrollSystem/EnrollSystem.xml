@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EnrollSystem</name>
+    </assembly>
+    <members>
+        <member name="M:EnrollSystem.Controllers.RoomsController.GetAll">
+            <summary>
+            Get all room
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.RoomsController.GetById(System.Int32)">
+            <summary>
+            Get room by roomId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.RoomsController.Create(EnrollSystem.Models.Room.RoomInputModel)">
+            <summary>
+            Create new Room
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.RoomsController.Update(System.Int32,EnrollSystem.Models.Room.RoomInputModel)">
+            <summary>
+            Update room 
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.RoomsController.Delete(System.Int32)">
+            <summary>
+            Delete room
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.#ctor(EnrollSystem.Interfaces.IUserRepository,EnrollSystem.Interfaces.IImageRepository,AutoMapper.IMapper,Microsoft.Extensions.Options.IOptions{EnrollSystem.Helpers.AppSettings})">
+            <summary>
+            UserController
+            </summary>
+            <param name="userService"></param>
+            <param name="imageService"></param>
+            <param name="mapper"></param>
+            <param name="appSettings"></param>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.Login(EnrollSystem.Models.User.LoginModel)">
+            <summary>
+            Login
+            </summary>
+            <param name="model"></param>
+            <returns>User's Info and token</returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.CreateAdmin(EnrollSystem.Models.User.UserRegisterModel)">
+            <summary>
+            Create admin account
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.Create(EnrollSystem.Models.User.UserRegisterModel)">
+            <summary>
+            Create new User
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.GetAll">
+            <summary>
+            Get all user info
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.Update(System.Int32,EnrollSystem.Models.User.UserUpdateModel)">
+            <summary>
+            Update user
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.Delete(System.Int32)">
+            <summary>
+            Delete user
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.Block(System.Int32)">
+            <summary>
+            Toggle IsActive user
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

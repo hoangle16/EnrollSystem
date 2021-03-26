@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace EnrollSystem.Data.EntityConfigurations
 {
-    public class EnrollImageTypeEntityConfiguration : IEntityTypeConfiguration<EnrollImage>
+    public class AttendanceImageTypeEntityConfiguration : IEntityTypeConfiguration<AttendanceImage>
     {
-        public void Configure(EntityTypeBuilder<EnrollImage> entity)
+        public void Configure(EntityTypeBuilder<AttendanceImage> entity)
         {
             entity.HasKey(entity => entity.Id);
             entity.Property(e => e.Id)
@@ -18,7 +18,7 @@ namespace EnrollSystem.Data.EntityConfigurations
                 .IsRequired();
             //Create relationship
             entity.HasOne<Class>(e => e.Class)
-                .WithMany(e => e.EnrollImages)
+                .WithMany(e => e.AttendanceImages)
                 .HasForeignKey(e => e.ClassId);
         }
     }

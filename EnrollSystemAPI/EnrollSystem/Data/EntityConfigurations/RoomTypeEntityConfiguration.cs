@@ -19,6 +19,8 @@ namespace EnrollSystem.Data.EntityConfigurations
             builder.Property(e => e.Name)
                 .HasMaxLength(16)
                 .IsRequired();
+            builder.HasIndex(e => e.Name)
+                .IsUnique();
         }
     }
 }

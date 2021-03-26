@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace EnrollSystem.Data.EntityConfigurations
 {
-    public class EnrollmentTypeEntityConfiguration : IEntityTypeConfiguration<Enrollment>
+    public class AttendanceTypeEntityConfiguration : IEntityTypeConfiguration<Attendance>
     {
-        public void Configure(EntityTypeBuilder<Enrollment> builder)
+        public void Configure(EntityTypeBuilder<Attendance> builder)
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id)
@@ -19,12 +19,9 @@ namespace EnrollSystem.Data.EntityConfigurations
             builder.Property(e => e.HasAttendance)
                 .HasDefaultValue(false);
             //create relationship
-            builder.HasOne<Student>(e => e.Student)
-                .WithMany(e => e.Enrollments)
-                .HasForeignKey(e => e.StudentId);
-            builder.HasOne<Class>(e => e.Class)
-                .WithMany(e => e.Enrollments)
-                .HasForeignKey(e => e.ClassId);
+            builder.HasOne<StudentClass>(e => e.StudentClass)
+                .WithMany(e => e.Attendances)
+                .HasForeignKey(e => e.StudentClassId);
         }
     }
 }

@@ -12,5 +12,6 @@ namespace EnrollSystem.Entities
         public virtual Student Student { get; set; }
         public int ClassId { get; set; }
         public virtual Class Class { get; set; }
+        public virtual ICollection<Attendance> Attendances { get; set; }
     }
 }

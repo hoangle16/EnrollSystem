@@ -4,14 +4,16 @@ using EnrollSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EnrollSystem.Migrations
 {
     [DbContext(typeof(EnrollContext))]
-    partial class EnrollContextModelSnapshot : ModelSnapshot
+    [Migration("20210326074926_changeTableName")]
+    partial class changeTableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +46,9 @@ namespace EnrollSystem.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -52,12 +57,14 @@ namespace EnrollSystem.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("StudentClassId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentClassId");
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Attendances");
                 });
@@ -167,9 +174,6 @@ namespace EnrollSystem.Migrations
                         .HasMaxLength(16);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Rooms");
                 });
@@ -311,9 +315,6 @@ namespace EnrollSystem.Migrations
                     b.HasIndex("AvatarId")
                         .IsUnique();
 
-                    b.HasIndex("UserName")
-                        .IsUnique();
-
                     b.ToTable("Users");
                 });
 
@@ -328,9 +329,15 @@ namespace EnrollSystem.Migrations
 
             modelBuilder.Entity("EnrollSystem.Entities.Attendance", b =>
                 {
-                    b.HasOne("EnrollSystem.Entities.StudentClass", "StudentClass")
+                    b.HasOne("EnrollSystem.Entities.Class", "Class")
                         .WithMany("Attendances")
-                        .HasForeignKey("StudentClassId")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EnrollSystem.Entities.Student", "Student")
+                        .WithMany("Attendances")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

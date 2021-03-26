@@ -11,6 +11,6 @@ namespace EnrollSystem.Entities
         public string Path { get; set; }
         public virtual User User { get; set; }
         public virtual TrainingImage TrainingImage { get; set; }
-        public virtual EnrollImage EnrollImage { get; set; }
+        public virtual AttendanceImage AttendanceImage { get; set; }
     }
 }

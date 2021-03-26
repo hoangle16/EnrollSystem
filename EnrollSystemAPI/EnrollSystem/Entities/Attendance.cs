@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 
 namespace EnrollSystem.Entities
 {
-    public class EnrollImage
+    public class Attendance
     {
         public int Id { get; set; }
-        public int ImageId { get; set; }
-        public virtual Image Image { get; set; }
-        public int ClassId { get; set; }
-        public virtual Class Class { get; set; }
+        public int StudentClassId { get; set; }
+        public virtual StudentClass StudentClass { get; set; }
         public DateTime Date { get; set; }
+        public bool HasAttendance { get; set; }
     }
 }

@@ -20,6 +20,8 @@ namespace EnrollSystem.Data.EntityConfigurations
             entity.Property(e => e.UserName)
                 .HasMaxLength(20)
                 .IsRequired();
+            entity.HasIndex(e => e.UserName)
+                .IsUnique();
             entity.Property(e => e.Name)
                 .HasMaxLength(64)
                 .IsRequired();
