@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EnrollSystem.Entities;
+using EnrollSystem.Models.Course;
 using EnrollSystem.Models.Room;
 using EnrollSystem.Models.User;
 using System;
@@ -22,6 +23,9 @@ namespace EnrollSystem.Helpers
             //room
             CreateMap<Room, RoomModel>();
             CreateMap<RoomInputModel, Room>();
+            //course
+            CreateMap<Course, CourseModel>();
+            CreateMap<CourseInputModel, Course>();
         }
     }
 }
