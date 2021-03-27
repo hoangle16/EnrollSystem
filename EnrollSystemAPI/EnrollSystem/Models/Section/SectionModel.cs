@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EnrollSystem.Entities
+namespace EnrollSystem.Models.Section
 {
-    public class Section
+    public class SectionModel
     {
         public int Id { get; set; }
         public int TeacherId { get; set; }
-        public virtual Teacher Teacher { get; set; }
+        public string TeacherName { get; set; }
         public int CourseId { get; set; }
-        public virtual Course Course { get; set; }
+        public string CourseName { get; set; }
         public DateTime StartDay { get; set; } // Ngày bắt đầu
         public DateTime EndDay { get; set; } // Ngày kết thúc
         public int StartTime { get; set; } //ex: 1 (tiết 1)
@@ -20,9 +20,6 @@ namespace EnrollSystem.Entities
         public int Slot { get; set; }
         public int MaxSlot { get; set; }
         public int RoomId { get; set; }
-        public virtual Room Room { get; set; }
-        public virtual ICollection<StudentSection> StudentSections { get; set; }
-        public virtual ICollection<AttendanceImage> AttendanceImages { get; set; }
-        public virtual ICollection<StudentSectionRegistration> StudentSectionRegistrations { get; set; }
+        public string RoomName { get; set; }
     }
 }

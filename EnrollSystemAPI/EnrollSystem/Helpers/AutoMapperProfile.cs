@@ -2,6 +2,7 @@
 using EnrollSystem.Entities;
 using EnrollSystem.Models.Course;
 using EnrollSystem.Models.Room;
+using EnrollSystem.Models.Section;
 using EnrollSystem.Models.User;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,15 @@ namespace EnrollSystem.Helpers
             //course
             CreateMap<Course, CourseModel>();
             CreateMap<CourseInputModel, Course>();
+            //Section
+            CreateMap<Section, SectionModel>()
+                .ForMember(dst => dst.TeacherName, src => src.MapFrom(src => src.Teacher.User.Name))
+                .ForMember(dst => dst.CourseName, src => src.MapFrom(src => src.Course.Name))
+                .ForMember(dst => dst.RoomName, src => src.MapFrom(src => src.Room.Name));
+            CreateMap<SectionRegisterModel, Section>();
+            CreateMap<SectionUpdateModel, Section>();
+            //Schedule
+            CreateMap<Section, ScheduleModel>();
         }
     }
 }

@@ -74,6 +74,41 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.SectionsController.GetAll">
+            <summary>
+            Get all sections
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionsController.GetById(System.Int32)">
+            <summary>
+            Get section by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionsController.Create(EnrollSystem.Models.Section.SectionRegisterModel)">
+            <summary>
+            Create new Section
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionsController.Update(System.Int32,EnrollSystem.Models.Section.SectionUpdateModel)">
+            <summary>
+            Update section
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionsController.Delete(System.Int32)">
+            <summary>
+            Delete Section by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.UsersController.#ctor(EnrollSystem.Interfaces.IUserRepository,EnrollSystem.Interfaces.IImageRepository,AutoMapper.IMapper,Microsoft.Extensions.Options.IOptions{EnrollSystem.Helpers.AppSettings})">
             <summary>
             UserController
