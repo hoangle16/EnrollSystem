@@ -16,27 +16,8 @@ namespace EnrollSystem.Data.EntityConfigurations
             builder.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .IsRequired();
-            builder.Property(e => e.Name)
-                .IsRequired();
-            builder.Property(e => e.StartDay)
-                .IsRequired();
-            builder.Property(e => e.EndDay)
-                .IsRequired();
-            builder.Property(e => e.StartTime)
-                .IsRequired();
-            builder.Property(e => e.EndTime)
-                .IsRequired();
-            builder.Property(e => e.Schedule)
-                .IsRequired();
-            builder.Property(e => e.MaxSlot)
-                .HasDefaultValue(30);
-            //create relationship
-            builder.HasOne<Room>(e => e.Room)
-                .WithMany(e => e.Courses)
-                .HasForeignKey(e => e.RoomId);
-            builder.HasOne<Teacher>(e => e.Teacher)
-                .WithMany(e => e.Courses)
-                .HasForeignKey(e => e.TeacherId);
+            builder.HasIndex(e => e.Name)
+                .IsUnique();
         }
     }
 }

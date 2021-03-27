@@ -10,6 +10,6 @@ namespace EnrollSystem.Entities
         public int Id { get; set; }
         public int UserId { get; set; }
         public virtual User User { get; set; }
-        public  virtual ICollection<Course> Courses { get; set; }
+        public  virtual ICollection<Section> Sections { get; set; }
     }
 }

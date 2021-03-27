@@ -17,9 +17,9 @@ namespace EnrollSystem.Data.EntityConfigurations
                 .ValueGeneratedOnAdd()
                 .IsRequired();
             //Create relationship
-            entity.HasOne<Course>(e => e.Course)
+            entity.HasOne<Section>(e => e.Section)
                 .WithMany(e => e.AttendanceImages)
-                .HasForeignKey(e => e.CourseId);
+                .HasForeignKey(e => e.SectionId);
         }
     }
 }

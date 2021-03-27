@@ -19,9 +19,9 @@ namespace EnrollSystem.Data.EntityConfigurations
             builder.Property(e => e.HasAttendance)
                 .HasDefaultValue(false);
             //create relationship
-            builder.HasOne<StudentCourse>(e => e.StudentCourse)
+            builder.HasOne<StudentSection>(e => e.StudentSection)
                 .WithMany(e => e.Attendances)
-                .HasForeignKey(e => e.StudentCourseId);
+                .HasForeignKey(e => e.StudentSectionId);
         }
     }
 }

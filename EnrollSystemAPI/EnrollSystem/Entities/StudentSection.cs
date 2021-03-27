@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace EnrollSystem.Entities
 {
-    public class StudentCourse
+    public class StudentSection
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
         public virtual Student Student { get; set; }
-        public int CourseId { get; set; }
-        public virtual Course Course { get; set; }
+        public int SectionId { get; set; }
+        public virtual Section Section { get; set; }
         public virtual ICollection<Attendance> Attendances { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using EnrollSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EnrollSystem.Migrations
 {
     [DbContext(typeof(EnrollContext))]
-    partial class EnrollContextModelSnapshot : ModelSnapshot
+    [Migration("20210327044315_AddNewTable")]
+    partial class AddNewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
