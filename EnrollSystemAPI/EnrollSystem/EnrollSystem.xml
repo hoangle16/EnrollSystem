@@ -74,6 +74,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.RoomsController.GetRoomsNotInUse(EnrollSystem.Models.Section.ScheduleModel)">
+            <summary>
+            Get rooms is not in use
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.SectionsController.GetAll">
             <summary>
             Get all sections

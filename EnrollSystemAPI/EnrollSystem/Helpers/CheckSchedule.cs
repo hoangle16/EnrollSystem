@@ -24,7 +24,7 @@ namespace EnrollSystem.Helpers
                     if (Array.IndexOf(DbDayOfWeek, day) > -1)
                     {
                         //check overlap startday, endday
-                        if (DateTime.Compare(current.StartDay, db.EndDay) <= 0 && DateTime.Compare(db.StartDay, current.EndDay) <= 0)
+                        if (DateTime.Compare(current.StartDay.Date, db.EndDay.Date) <= 0 && DateTime.Compare(db.StartDay.Date, current.EndDay.Date) <= 0)
                         {
                             isConflict = true;
                             break;
@@ -52,6 +52,19 @@ namespace EnrollSystem.Helpers
                 startDay = startDay.AddDays(1);
             }
             return listDay;
+        }
+        public static bool ContainsAny(string str, params string[] values)
+        {
+            if (!string.IsNullOrEmpty(str) || values.Length > 0)
+            {
+                foreach (string value in values)
+                {
+                    if (str.Contains(value))
+                        return true;
+                }
+            }
+
+            return false;
         }
     }
 }

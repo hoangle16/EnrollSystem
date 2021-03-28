@@ -4,6 +4,7 @@ using EnrollSystem.Entities;
 using EnrollSystem.Helpers;
 using EnrollSystem.Interfaces;
 using EnrollSystem.Models.Room;
+using EnrollSystem.Models.Section;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,7 +67,7 @@ namespace EnrollSystem.Controllers
                 _roomService.Create(room);
                 return Ok(new { message = "Room Created" });
             }
-            catch(AppException ex)
+            catch (AppException ex)
             {
                 return BadRequest(new { error = ex.Message });
             }
@@ -87,7 +88,7 @@ namespace EnrollSystem.Controllers
                 _roomService.Update(id, room);
                 return Ok(new { message = "Updated" });
             }
-            catch(AppException ex)
+            catch (AppException ex)
             {
                 return BadRequest(new { error = ex.Message });
             }
@@ -103,6 +104,18 @@ namespace EnrollSystem.Controllers
         {
             _roomService.Delete(id);
             return Ok(new { message = "Deleted" });
+        }
+        /// <summary>
+        /// Get rooms is not in use
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet("empty-room")]
+        public IActionResult GetRoomsNotInUse([FromQuery] ScheduleModel model)
+        {
+            var rooms = _roomService.GetRoomsNotInUse(model);
+            var _model = _mapper.Map<IList<RoomModel>>(rooms);
+            return Ok(_model);
         }
     }
 }

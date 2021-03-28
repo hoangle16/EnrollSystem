@@ -36,6 +36,11 @@ namespace EnrollSystem.Helpers
             CreateMap<SectionUpdateModel, Section>();
             //Schedule
             CreateMap<Section, ScheduleModel>();
+
+            //mapper section => room
+            CreateMap<Section, Room>()
+                .ForMember(dst => dst.Id, src => src.MapFrom(src => src.RoomId))
+                .ForMember(dst => dst.Name, src => src.MapFrom(src => src.Room.Name));
         }
     }
 }

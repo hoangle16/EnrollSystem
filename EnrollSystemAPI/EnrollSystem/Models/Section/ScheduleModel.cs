@@ -7,6 +7,7 @@ namespace EnrollSystem.Models.Section
 {
     public class ScheduleModel
     {
+        public int Id { get; set; }
         public DateTime StartDay { get; set; } // Ngày bắt đầu
         public DateTime EndDay { get; set; } // Ngày kết thúc
         public int StartTime { get; set; } //ex: 1 (tiết 1)
