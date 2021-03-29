@@ -116,6 +116,39 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.StudentsController.GetAll">
+            <summary>
+            Get stduent's list
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.StudentsController.GetById(System.Int32)">
+            <summary>
+            Get Student by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.TeachersController.GetAll">
+            <summary>
+            Get all Teacher
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.TeachersController.GetById(System.Int32)">
+            <summary>
+            Get teacher by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.TeachersController.GetTeacherReady(EnrollSystem.Models.Section.ScheduleModel)">
+            <summary>
+            Get list of available teachers at schedule
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.UsersController.#ctor(EnrollSystem.Interfaces.IUserRepository,EnrollSystem.Interfaces.IImageRepository,AutoMapper.IMapper,Microsoft.Extensions.Options.IOptions{EnrollSystem.Helpers.AppSettings})">
             <summary>
             UserController

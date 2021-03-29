@@ -75,7 +75,7 @@ namespace EnrollSystem.Services
             var dbSection = _context.Sections.Where(e => schedule.StartDay.Date <= e.EndDay.Date && e.StartDay.Date <= schedule.EndDay.Date)
                 //.Where(e => CheckSchedule.ContainsAny(e.Schedule, dayOfWeek))
                 .Where(e => schedule.StartTime <= e.EndTime && e.StartTime <= schedule.EndTime);
-            //over schedule
+            //overlap schedule
             List<Section> newSection = new List<Section>();
             foreach(var day in dayOfWeek)
             {
