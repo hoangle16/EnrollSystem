@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EnrollSystem.Constants;
 using EnrollSystem.Interfaces;
 using EnrollSystem.Models.Section;
 using EnrollSystem.Models.Teacher;
@@ -59,6 +60,35 @@ namespace EnrollSystem.Controllers
             var teaches = _teacherService.GetListTeacherFree(model);
             var _model = _mapper.Map<IList<TeacherModel>>(teaches);
             return Ok(_model);
+        }
+        /// <summary>
+        /// Get Teacher's sections by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = ROLE.Admin)]
+        [HttpGet("sections/{id}")]
+        public IActionResult GetTeacherSections(int id)
+        {
+            var sections = _teacherService.GetMySections(id);
+            if (sections == null) return NotFound();
+            var models = _mapper.Map<IList<SectionModel>>(sections);
+            return Ok(models);
+        }
+        /// <summary>
+        /// Get My Sections
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = ROLE.Teacher)]
+        [HttpGet("sections")]
+        public IActionResult GetMySections()
+        {
+            var currentUserId = int.Parse(User.Identity.Name);
+            int teacherId = _teacherService.GetTeacherIdViaUserId(currentUserId);
+            var sections = _teacherService.GetMySections(teacherId);
+            if (sections == null) return NotFound();
+            var models = _mapper.Map<IList<SectionModel>>(sections);
+            return Ok(models);
         }
     }
 }

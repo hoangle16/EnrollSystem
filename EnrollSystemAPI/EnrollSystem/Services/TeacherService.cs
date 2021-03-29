@@ -53,5 +53,14 @@ namespace EnrollSystem.Services
             }
             return teachers;
         }
+        public IEnumerable<Section> GetMySections(int teacherId)
+        {
+            var sections = _context.Sections.Where(e => e.TeacherId == teacherId);
+            return sections;
+        }
+        public int GetTeacherIdViaUserId(int userId)
+        {
+            return _context.Users.Find(userId).Teacher.Id;
+        }
     }
 }

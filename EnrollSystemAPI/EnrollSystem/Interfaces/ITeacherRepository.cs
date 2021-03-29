@@ -12,5 +12,8 @@ namespace EnrollSystem.Interfaces
         IEnumerable<Teacher> GetAll();
         Teacher GetById(int teacherId);
         IEnumerable<Teacher> GetListTeacherFree(ScheduleModel schedule);
+        IEnumerable<Section> GetMySections(int teacherId);
+
+        int GetTeacherIdViaUserId(int userId);
     }
 }
