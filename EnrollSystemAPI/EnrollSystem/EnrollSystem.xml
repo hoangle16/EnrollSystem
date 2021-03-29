@@ -174,5 +174,11 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.UsersController.GetProfile">
+            <summary>
+            Get Profile
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

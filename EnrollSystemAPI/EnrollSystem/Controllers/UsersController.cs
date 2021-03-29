@@ -252,5 +252,20 @@ namespace EnrollSystem.Controllers
             _userService.BlockUser(id);
             return Ok();
         }
+        /// <summary>
+        /// Get Profile
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("profile")]
+        public IActionResult GetProfile()
+        {
+            var currentUserId = int.Parse(User.Identity.Name);
+           
+            var user = _userService.GetById(currentUserId);
+
+            if (user == null) return NotFound();
+            var model = _mapper.Map<UserModel>(user);
+            return Ok(model);
+        }
     }
 }
