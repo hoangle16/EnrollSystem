@@ -27,6 +27,7 @@ namespace EnrollSystem.Data
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<StudentSectionRegistration> StudentSectionRegistrations { get; set; }
+        public virtual DbSet<RegistrationTime> RegistrationTimes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserTypeEntityConfiguration());
@@ -42,6 +43,7 @@ namespace EnrollSystem.Data
             modelBuilder.ApplyConfiguration(new SectionTypeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new CourseTypeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new StudentSectionRegistrationTypeEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new RegistrationTimeTypeEntityConfiguration());
         }
     }
 }
