@@ -127,6 +127,7 @@ namespace EnrollSystem
             services.AddScoped<IStudentRepository, StudentService>();
             services.AddScoped<ITeacherRepository, TeacherService>();
             services.AddScoped<IRegistrationTimeRepository, RegistrationTimeService>();
+            services.AddScoped<IStudentSectionRegistrationRepository, StudentSectionRegistrationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -100,6 +100,49 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.SectionRegistersController.GetRegisterListByStudentId(System.Int32)">
+            <summary>
+            Get Register list by studentId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionRegistersController.GetRegisterListBySectionId(System.Int32)">
+            <summary>
+            Get Register list by sectionId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionRegistersController.GetSectionForRegistration(System.Int32)">
+            <summary>
+            Get Sections for register by studentId. If studentId = 0, return all section for register.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionRegistersController.Registration(EnrollSystem.Models.StudentSectionRegistration.RegistrationModel)">
+            <summary>
+            Register section
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionRegistersController.DeleteRegister(System.Int32,System.Int32)">
+            <summary>
+            Delete student from section registration
+            </summary>
+            <param name="studentId"></param>
+            <param name="sectionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.SectionRegistersController.Approval(System.Int32)">
+            <summary>
+            Approval by sectionId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.SectionsController.GetAll">
             <summary>
             Get all sections

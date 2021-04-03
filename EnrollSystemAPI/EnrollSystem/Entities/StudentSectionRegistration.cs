@@ -13,7 +13,6 @@ namespace EnrollSystem.Entities
         public virtual Student Student { get; set; }
         public int SectionId { get; set; }
         public virtual Section Section { get; set; }
-        public DateTime Deadline { get; set; }
         public bool HasApproval { get; set; }
     }
 }

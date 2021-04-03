@@ -4,6 +4,7 @@ using EnrollSystem.Models.Course;
 using EnrollSystem.Models.Room;
 using EnrollSystem.Models.Section;
 using EnrollSystem.Models.Student;
+using EnrollSystem.Models.StudentSectionRegistration;
 using EnrollSystem.Models.Teacher;
 using EnrollSystem.Models.User;
 using System;
@@ -71,6 +72,20 @@ namespace EnrollSystem.Helpers
                 .ForMember(d => d.Address, s => s.MapFrom(s => s.User.Address))
                 .ForMember(d => d.IsActive, s => s.MapFrom(s => s.User.IsActive))
                 .ForMember(d => d.TeacherId, s => s.MapFrom(s => s.Id));
+            //StudentSectionRegistration
+            CreateMap<StudentSectionRegistration, StudentSectionRegModel>()
+                .ForMember(d => d.StudentUserName, s => s.MapFrom(s => s.Student.User.UserName))
+                .ForMember(d => d.StudentName, s => s.MapFrom(s => s.Student.User.Name))
+                .ForMember(d => d.CourseName, s => s.MapFrom(s => s.Section.Course.Name))
+                .ForMember(d => d.SectionTeacherName, s => s.MapFrom(s => s.Section.Teacher.User.Name))
+                .ForMember(d => d.StartDay, s => s.MapFrom(s => s.Section.StartDay))
+                .ForMember(d => d.EndDay, s => s.MapFrom(s => s.Section.EndDay))
+                .ForMember(d => d.StartTime, s => s.MapFrom(s => s.Section.StartTime))
+                .ForMember(d => d.EndTime, s => s.MapFrom(s => s.Section.EndTime))
+                .ForMember(d => d.Schedule, s => s.MapFrom(s => s.Section.Schedule))
+                .ForMember(d => d.Slot, s => s.MapFrom(s => s.Section.Slot))
+                .ForMember(d => d.MaxSlot, s => s.MapFrom(s => s.Section.MaxSlot))
+                .ForMember(d => d.Room, s => s.MapFrom(s => s.Section.Room.Name));
         }
     }
 }
