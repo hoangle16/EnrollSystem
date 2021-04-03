@@ -39,6 +39,25 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.RegistrationTimesController.GetRegistrationTime">
+            <summary>
+            Get Registration time
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.RegistrationTimesController.SetTime(EnrollSystem.Models.RegistrationTime.RegistrationTimeInputModel)">
+            <summary>
+            Set Registration time
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.RegistrationTimesController.Close">
+            <summary>
+            Close Registration time
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.RoomsController.GetAll">
             <summary>
             Get all room
