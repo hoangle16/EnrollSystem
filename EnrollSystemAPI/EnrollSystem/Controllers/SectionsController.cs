@@ -4,6 +4,7 @@ using EnrollSystem.Entities;
 using EnrollSystem.Helpers;
 using EnrollSystem.Interfaces;
 using EnrollSystem.Models.Section;
+using EnrollSystem.Models.Student;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,7 @@ namespace EnrollSystem.Controllers
         {
             var section = _sectionService.GetById(id);
             var model = _mapper.Map<SectionModel>(section);
+            model.Students = _mapper.Map<List<StudentModel>>(section.StudentSections.Select(e => e.Student));
             return Ok(model);
         }
         /// <summary>

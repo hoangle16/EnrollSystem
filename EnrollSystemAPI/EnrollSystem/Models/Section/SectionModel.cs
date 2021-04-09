@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnrollSystem.Models.Student;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,5 +22,6 @@ namespace EnrollSystem.Models.Section
         public int MaxSlot { get; set; }
         public int RoomId { get; set; }
         public string RoomName { get; set; }
+        public ICollection<StudentModel> Students { get; set; }
     }
 }
