@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EnrollSystem.Entities;
 using EnrollSystem.Interfaces;
+using EnrollSystem.Models.Section;
 using EnrollSystem.Models.Student;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +26,7 @@ namespace EnrollSystem.Controllers
             _mapper = mapper;
         }
         /// <summary>
-        /// Get stduent's list
+        /// Get Student's list
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -47,6 +48,18 @@ namespace EnrollSystem.Controllers
             if (student == null) return NotFound();
             var model = _mapper.Map<StudentModel>(student);
             return Ok(model);
+        }
+        /// <summary>
+        /// Get sections of Student by studentId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/section")] //studentId
+        public IActionResult GetSectionsByStudentId(int id)
+        {
+            var sections = _studentService.GetMySections(id);
+            var models = _mapper.Map<IList<SectionModel>>(sections);
+            return Ok(models);
         }
     }
 }

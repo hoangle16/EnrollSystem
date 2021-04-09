@@ -10,6 +10,6 @@ namespace EnrollSystem.Interfaces
     {
         IEnumerable<Student> GetAll();
         Student GetById(int studentId);
-        IEnumerable<StudentSection> GetMySections(int studentId);
+        IEnumerable<Section> GetMySections(int studentId);
     }
 }

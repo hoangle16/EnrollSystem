@@ -25,9 +25,9 @@ namespace EnrollSystem.Services
             return _context.Students.Find(studentId);
         }
 
-        public IEnumerable<StudentSection> GetMySections(int studentId)
+        public IEnumerable<Section> GetMySections(int studentId)
         {
-            throw new NotImplementedException();
+            return _context.Sections.Where(e => e.StudentSections.Any(e => e.StudentId == studentId));
         }
     }
 }

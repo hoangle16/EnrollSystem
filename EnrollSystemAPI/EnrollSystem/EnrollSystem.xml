@@ -180,13 +180,20 @@
         </member>
         <member name="M:EnrollSystem.Controllers.StudentsController.GetAll">
             <summary>
-            Get stduent's list
+            Get Student's list
             </summary>
             <returns></returns>
         </member>
         <member name="M:EnrollSystem.Controllers.StudentsController.GetById(System.Int32)">
             <summary>
             Get Student by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.StudentsController.GetSectionsByStudentId(System.Int32)">
+            <summary>
+            Get sections of Student by studentId
             </summary>
             <param name="id"></param>
             <returns></returns>
