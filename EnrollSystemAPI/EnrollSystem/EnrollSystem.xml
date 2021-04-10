@@ -4,6 +4,13 @@
         <name>EnrollSystem</name>
     </assembly>
     <members>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.TrainingFace(EnrollSystem.Models.Attendance.ImagesUploadModel)">
+            <summary>
+            Add Images for training
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.CoursesController.GetAll">
             <summary>
             Get All Courses
@@ -293,6 +300,15 @@
             <summary>
             Get Profile
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Services.AttendenceService.AttendanceFace(System.Int32,System.Collections.Generic.IEnumerable{EnrollSystem.Entities.Image},System.DateTime)">
+            <summary>
+            Attendance using image 
+            </summary>
+            <param name="sectionId"></param>
+            <param name="images"></param>
+            <param name="dateTime"></param>
             <returns></returns>
         </member>
     </members>
