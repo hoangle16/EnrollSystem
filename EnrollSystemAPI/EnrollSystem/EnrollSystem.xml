@@ -71,6 +71,13 @@
             <param name="sectionId"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.ExportReport(System.Int32)">
+            <summary>
+            Export attendance of section
+            </summary>
+            <param name="sectionId"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.CoursesController.GetAll">
             <summary>
             Get All Courses

@@ -3,8 +3,12 @@ using EnrollSystem.Entities;
 using EnrollSystem.Helpers;
 using EnrollSystem.IdentityFaces;
 using EnrollSystem.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -117,7 +121,10 @@ namespace EnrollSystem.Services
 
         public IEnumerable<Attendance> GetAttendanceListBySectionId(int sectionId)
         {
-            var result = _context.Attendances.Where(e => e.StudentSection.SectionId == sectionId).ToList();
+            var result = _context.Attendances.Where(e => e.StudentSection.SectionId == sectionId)
+                .OrderBy(e => e.Date.Date).ThenBy(e => e.StudentSection.Student.User.UserName).ToList();
+            //var result = _context.Attendances.Where(e => e.StudentSection.SectionId == sectionId)
+            //   .OrderBy(e => e.StudentSection.Student.User.UserName).ThenBy(e => e.Date.Date).ToList();
             return result;
         }
         public IEnumerable<Attendance> GetAttendanceListBy(int sectionId, DateTime dateTime)
@@ -174,6 +181,91 @@ namespace EnrollSystem.Services
         {
             var _images = _context.AttendanceImages.Where(e => e.SectionId == sectionId);
             return _images;
+        }
+        //export report
+        public FileContentResult ExportAttendanceReport(int sectionId)
+        {
+            //order by username and date
+            var attendanceList = _context.Attendances.Where(e => e.StudentSection.SectionId == sectionId)
+                .OrderBy(e => e.StudentSection.Student.User.UserName).ThenBy(e => e.Date.Date).ToList();
+
+            //create excel instance
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var memoryStream = new MemoryStream();
+            ExcelPackage excel = new ExcelPackage(memoryStream);
+
+            string courseName = attendanceList.First().StudentSection.Section.Course.Name;
+            var section = attendanceList.First().StudentSection.Section;
+            var attendanceDate = attendanceList.GroupBy(e => e.Date)
+                .Select(e => e.First()).Select(e => e.Date).ToList();
+            //set title 
+            excel.Workbook.Properties.Title = $"{sectionId} - {courseName}";
+
+            //name of the sheet
+            var workSheet = excel.Workbook.Worksheets.Add("Sheet1");
+            
+
+            //setting the properties of the work sheet
+            workSheet.TabColor = System.Drawing.Color.Black;
+            workSheet.DefaultRowHeight = 12;
+
+            //sheet info
+            workSheet.Cells[1, 1].Value = "Học phần";
+            workSheet.Cells[1, 2].Value = courseName;
+            workSheet.Cells[2, 1].Value = "Mã học phần";
+            workSheet.Cells[2, 2].Value = sectionId.ToString();
+            workSheet.Cells[3, 1].Value = "Giáo viên";
+            workSheet.Cells[3, 2].Value = section.Teacher.User.Name;
+            workSheet.Row(1).Style.Font.Bold = true;
+            workSheet.Row(2).Style.Font.Bold = true;
+            workSheet.Row(3).Style.Font.Bold = true;
+            workSheet.Cells["A1:B3"].Style.Font.Color.SetColor(System.Drawing.Color.Red);
+
+            workSheet.Column(1).AutoFit();
+            workSheet.Column(2).AutoFit();
+            workSheet.Column(3).AutoFit();
+
+            //sheet header
+            workSheet.Row(4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Row(4).Style.Font.Bold = true;
+            workSheet.Cells[4, 1].Value = "STT";
+            workSheet.Cells[4, 2].Value = "MSSV";
+            workSheet.Cells[4, 3].Value = "Họ tên";
+            int colIndex = 4;
+            foreach(var date in attendanceDate)
+            {
+                //workSheet.Cells[4, colIndex].Style.Numberformat.Format = "dd/MM/yyyy";
+                workSheet.Cells[4, colIndex].Value = date.ToString("dd/MM/yy");
+                colIndex++;
+            }
+
+            //insert date
+            int rowIndex = 5;
+            int stt = 1;
+            int numOfStudent = _context.Sections.Find(sectionId).Slot;
+            int numOfCol = attendanceDate.Count+3;
+            int iol = 0; //indexOfAttendanceList
+            for (int i = 0;i<numOfStudent; i++)
+            {
+                colIndex = 1;
+                workSheet.Cells[rowIndex, colIndex++].Value = stt;
+                stt++;
+                workSheet.Cells[rowIndex, colIndex++].Value = attendanceList[iol].StudentSection.Student.User.UserName;
+                workSheet.Cells[rowIndex, colIndex++].Value = attendanceList[iol].StudentSection.Student.User.Name;
+                for (int j = 3; j < numOfCol; j++)
+                {
+                    workSheet.Cells[rowIndex, colIndex++].Value = attendanceList[iol].HasAttendance ? "C" : "V";
+                    iol++;
+                }
+                rowIndex++;
+            }
+            excel.Save();
+            var result = excel.GetAsByteArray();
+            var excelFile = new FileContentResult(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "diemdanh.xlsx"
+            };
+            return excelFile;
         }
         //private
         private void CreateAttendanceImage(int sectionId, IEnumerable<Image> Images, DateTime date)

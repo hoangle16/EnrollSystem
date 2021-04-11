@@ -203,5 +203,16 @@ namespace EnrollSystem.Controllers
             var models = _mapper.Map<IList<AttendanceImageModel>>(imgs);
             return Ok(models);
         }
+        /// <summary>
+        /// Export attendance of section
+        /// </summary>
+        /// <param name="sectionId"></param>
+        /// <returns></returns>
+        [HttpGet("export/{sectionId}")]
+        public IActionResult ExportReport(int sectionId)
+        {
+            var file = _attendenceService.ExportAttendanceReport(sectionId);
+            return file;
+        }
     }
 }

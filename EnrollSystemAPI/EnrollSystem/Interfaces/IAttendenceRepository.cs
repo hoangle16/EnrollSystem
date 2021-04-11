@@ -1,6 +1,8 @@
 ﻿using EnrollSystem.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,5 +19,7 @@ namespace EnrollSystem.Interfaces
         void DeleteTrainingImage(int trainingImageId); // trainingImageId
         IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId, DateTime dateTime);
         IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId);
+        //Export Attendance report
+        FileContentResult ExportAttendanceReport(int sectionId);
     }
 }
