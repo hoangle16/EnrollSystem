@@ -27,7 +27,7 @@ namespace EnrollSystem.Services
 
             //create Image
             List<Image> imgs = new List<Image>();
-            for(int i = 0; i<trainedPath.Count; i++)
+            for (int i = 0; i < trainedPath.Count; i++)
             {
                 Image img = new Image();
                 img.Path = trainedPath[i];
@@ -37,7 +37,7 @@ namespace EnrollSystem.Services
             _context.SaveChanges();
             //create TrainingImage
             List<TrainingImage> trainingImages = new List<TrainingImage>();
-            for(int i = 0; i<imgs.Count; i++)
+            for (int i = 0; i < imgs.Count; i++)
             {
                 TrainingImage trainingImage = new TrainingImage();
                 trainingImage.ImageId = imgs[i].Id;
@@ -47,13 +47,7 @@ namespace EnrollSystem.Services
             _context.TrainingImages.AddRange(trainingImages);
             _context.SaveChanges();
         }
-        /// <summary>
-        /// Attendance using image 
-        /// </summary>
-        /// <param name="sectionId"></param>
-        /// <param name="images"></param>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+
         public IEnumerable<Attendance> AttendanceFace(int sectionId, IEnumerable<Image> images, DateTime dateTime)
         {
             //check is_dateTime in section's schedule
@@ -62,14 +56,14 @@ namespace EnrollSystem.Services
             var trainingImages = _context.TrainingImages.Where(e => e.Student.StudentSection.Any(e => e.SectionId == sectionId)).ToList();
             List<string> imagesPath = images.Select(e => e.Path).ToList();
             //recognition
-            List<string> recognitionResult =_identityFace.Recognition(trainingImages, imagesPath);
+            List<string> recognitionResult = _identityFace.Recognition(trainingImages, imagesPath);
             //create attendanceImage 
             CreateAttendanceImage(sectionId, images, dateTime);
             //attendance studentId list
             List<int> hasAttendanceList = new List<int>();
-            foreach(var item in recognitionResult)
+            foreach (var item in recognitionResult)
             {
-                if(item != "Unknown")
+                if (item != "Unknown")
                 {
                     //format recognition result: studentId_username
                     var Ar = item.Split("_");
@@ -77,29 +71,85 @@ namespace EnrollSystem.Services
                     hasAttendanceList.Add(int.Parse(Ar[0]));
                 }
             }
-            
+
             List<Attendance> attendances = new List<Attendance>();
             //find all StudentSection
             var studentSections = _context.StudentSections.Where(e => e.SectionId == sectionId);
+            if (studentSections == null)
+                throw new AppException("Not found any Student in Section!");
+            bool isCreated = _context.Attendances.Where(e => e.Date.Date == dateTime.Date).Any(e => e.StudentSectionId == studentSections.First().Id);
             //Create Attendances record for everyone in section
-            foreach(var ss in studentSections)
+
+            if (isCreated) //update
             {
-                Attendance att = new Attendance();
-                att.StudentSectionId = ss.Id;
-                att.Date = dateTime;
-                //check hasAttendance
-                if (hasAttendanceList.Any(e => e == ss.StudentId))
-                    att.HasAttendance = true;
-                else att.HasAttendance = false;
-                attendances.Add(att);
+                foreach (var ss in studentSections)
+                {
+                    var att = _context.Attendances.Where(e => e.StudentSectionId == ss.Id)
+                        .Where(e => e.Date.Date == dateTime.Date)
+                        .SingleOrDefault();
+                    if (att.HasAttendance == false && hasAttendanceList.Any(e => e == ss.StudentId))
+                    {
+                        att.HasAttendance = true;
+                        _context.Attendances.Update(att);
+                    }
+                    attendances.Add(att);
+                }
+
             }
-            _context.Attendances.AddRange(attendances);
+            else //create 
+            {
+                foreach (var ss in studentSections)
+                {
+                    Attendance att = new Attendance();
+                    att.StudentSectionId = ss.Id;
+                    att.Date = dateTime;
+                    //check hasAttendance
+                    if (hasAttendanceList.Any(e => e == ss.StudentId))
+                        att.HasAttendance = true;
+                    else att.HasAttendance = false;
+                    attendances.Add(att);
+                }
+                _context.Attendances.AddRange(attendances);
+            }
             _context.SaveChanges();
             return attendances;
         }
 
+        public IEnumerable<Attendance> GetAttendanceListBySectionId(int sectionId)
+        {
+            var result = _context.Attendances.Where(e => e.StudentSection.SectionId == sectionId).ToList();
+            return result;
+        }
+        public IEnumerable<Attendance> GetAttendanceListBy(int sectionId, DateTime dateTime)
+        {
+            var result = _context.Attendances.Where(e => e.StudentSection.SectionId == sectionId)
+                .Where(e => e.Date.Date == dateTime.Date).ToList();
+            return result;
+        }
+        public IEnumerable<Attendance> EditAttendance(int sectionId, DateTime dateTime, List<int> studentIdList)
+        {
+            List<Attendance> attendances = new List<Attendance>();
+            var attendanceList = _context.Attendances.Where(e => e.StudentSection.SectionId == sectionId)
+                .Where(e => e.Date.Date == dateTime.Date);
+            //set
+            foreach(var attendance in attendanceList)
+            {
+                attendance.HasAttendance = false;
+            }
+            foreach(var studentId in studentIdList)
+            {
+                var att = attendanceList.Where(e => e.StudentSection.StudentId == studentId).SingleOrDefault();
+                if (att != null)
+                    att.HasAttendance = true;
+                attendances.Add(att);
+            }
+            _context.Attendances.UpdateRange(attendances);
+            _context.SaveChanges();
+            return attendances;
+
+        }
         //private
-        private  void CreateAttendanceImage(int sectionId, IEnumerable<Image> Images, DateTime date)
+        private void CreateAttendanceImage(int sectionId, IEnumerable<Image> Images, DateTime date)
         {
             if (!_context.Sections.Any(e => e.Id == sectionId))
                 throw new AppException("Section not found!");

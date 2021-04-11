@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,6 +74,11 @@ namespace EnrollSystem.Controllers
             _attendenceService.TraningFace(currentUserId, imageList);
             return Ok(new { message = "Trained"});
         }
+        /// <summary>
+        /// Attendance by images
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize(Roles = ROLE.Teacher)]
         [HttpPost]
         public IActionResult Attendance([FromForm] AttendanceImagesUpload model)
@@ -105,6 +111,48 @@ namespace EnrollSystem.Controllers
             var result = _attendenceService.AttendanceFace(model.SectionId, imageList, model.DateTime);
             var respData = _mapper.Map<IList<AttendanceModel>>(result);
             return Ok(respData);
+        }
+        /// <summary>
+        /// Get attendances list by sectionId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("section/{id}")] //sectionId
+        public IActionResult GetAttendancesBySectionId(int id)
+        {
+            var attendances = _attendenceService.GetAttendanceListBySectionId(id);
+            var respData = _mapper.Map<IList<AttendanceModel>>(attendances);
+            return Ok(respData);
+        }
+        /// <summary>
+        /// Get attendance list by sectionId and Date
+        /// </summary>
+        /// <param name="id">sectionId</param>
+        /// <param name="date">Format date: yyyy-MM-dd</param>
+        /// <returns></returns>
+        [HttpGet("section/{id}/{date}")]
+        public IActionResult GetAttendencesBySectionIdAndDate(int id, string date)
+        {
+            DateTime _date = DateTime.ParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            var attendaces = _attendenceService.GetAttendanceListBy(id, _date);
+            var respDate = _mapper.Map<IList<AttendanceModel>>(attendaces);
+            return Ok(respDate);
+        }
+        /// <summary>
+        /// Update attendance
+        /// </summary>
+        /// <param name="id">sectionId</param>
+        /// <param name="date">Format date: yyyy-MM-dd</param>
+        /// <param name="studentIdList">list of studentId has attendance</param>
+        /// <returns></returns>
+        [Authorize(Roles = ROLE.Teacher)]
+        [HttpPut("section/{id}/{date}")]
+        public IActionResult UpdateAttendanceList(int id, string date,[FromBody] List<int> studentIdList)
+        {
+            DateTime _date = DateTime.ParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            var attendances = _attendenceService.EditAttendance(id, _date, studentIdList);
+            var respDate = _mapper.Map<IList<AttendanceModel>>(attendances);
+            return Ok(respDate);
         }
     }
 }

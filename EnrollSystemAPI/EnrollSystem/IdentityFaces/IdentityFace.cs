@@ -26,7 +26,8 @@ namespace EnrollSystem.IdentityFaces
 
         //Saving Jpg
         List<Image<Gray, byte>> ImagesToWrite = new List<Image<Gray, byte>>();
-        
+        #endregion
+        #region public
         public List<string> Train(List<string> filenames, int studentId, string username)
         {
             //variables

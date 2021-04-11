@@ -11,6 +11,37 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.Attendance(EnrollSystem.Models.Attendance.AttendanceImagesUpload)">
+            <summary>
+            Attendance by images
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetAttendancesBySectionId(System.Int32)">
+            <summary>
+            Get attendances list by sectionId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetAttendencesBySectionIdAndDate(System.Int32,System.String)">
+            <summary>
+            Get attendance list by sectionId and Date
+            </summary>
+            <param name="id">sectionId</param>
+            <param name="date">Format date: yyyy-MM-dd</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.UpdateAttendanceList(System.Int32,System.String,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Update attendance
+            </summary>
+            <param name="id">sectionId</param>
+            <param name="date">Format date: yyyy-MM-dd</param>
+            <param name="studentIdList">list of studentId has attendance</param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.CoursesController.GetAll">
             <summary>
             Get All Courses
@@ -300,15 +331,6 @@
             <summary>
             Get Profile
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:EnrollSystem.Services.AttendenceService.AttendanceFace(System.Int32,System.Collections.Generic.IEnumerable{EnrollSystem.Entities.Image},System.DateTime)">
-            <summary>
-            Attendance using image 
-            </summary>
-            <param name="sectionId"></param>
-            <param name="images"></param>
-            <param name="dateTime"></param>
             <returns></returns>
         </member>
     </members>
