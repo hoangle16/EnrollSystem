@@ -13,5 +13,9 @@ namespace EnrollSystem.Interfaces
         IEnumerable<Attendance> GetAttendanceListBySectionId(int sectionId);
         IEnumerable<Attendance> GetAttendanceListBy(int sectionId, DateTime dateTime);
         IEnumerable<Attendance> EditAttendance(int sectionId, DateTime dateTime, List<int> studentIdList);
+        IEnumerable<TrainingImage> GetTrainingImage(int studentId);
+        void DeleteTrainingImage(int trainingImageId); // trainingImageId
+        IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId, DateTime dateTime);
+        IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId);
     }
 }

@@ -148,6 +148,33 @@ namespace EnrollSystem.Services
             return attendances;
 
         }
+        public IEnumerable<TrainingImage> GetTrainingImage(int studentId)
+        {
+            var result = _context.TrainingImages.Where(e => e.StudentId == studentId).ToList();
+            return result;
+        }
+        public void DeleteTrainingImage(int trainingImageId)
+        {
+            var trainingImage = _context.TrainingImages.Find(trainingImageId);
+            if (trainingImage != null)
+            {
+                var _image = _context.Images.Find(trainingImage.ImageId);
+                _context.TrainingImages.Remove(trainingImage);
+                _context.Images.Remove(_image);
+                _context.SaveChanges();
+            }
+        }
+        public IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId, DateTime dateTime)
+        {
+            var _images = _context.AttendanceImages.Where(e => e.SectionId == sectionId)
+                .Where(e => e.Date.Date == dateTime.Date);
+            return _images;
+        }
+        public IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId)
+        {
+            var _images = _context.AttendanceImages.Where(e => e.SectionId == sectionId);
+            return _images;
+        }
         //private
         private void CreateAttendanceImage(int sectionId, IEnumerable<Image> Images, DateTime date)
         {
@@ -165,7 +192,6 @@ namespace EnrollSystem.Services
                 _context.AttendanceImages.Add(_img);
             }
             _context.SaveChanges();
-
         }
     }
 }

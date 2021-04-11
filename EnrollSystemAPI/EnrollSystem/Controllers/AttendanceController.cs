@@ -154,5 +154,54 @@ namespace EnrollSystem.Controllers
             var respDate = _mapper.Map<IList<AttendanceModel>>(attendances);
             return Ok(respDate);
         }
+        /// <summary>
+        /// Get training image by studentId
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        [HttpGet("training/student/{studentId}")]
+        public IActionResult GetTrainingImages(int studentId)
+        {
+            var traniningImages = _attendenceService.GetTrainingImage(studentId);
+            var models = _mapper.Map<IList<TrainingImageModel>>(traniningImages);
+            return Ok(models);
+        }
+        /// <summary>
+        /// Delete training Image
+        /// </summary>
+        /// <param name="id">trainingImageId</param>
+        /// <returns></returns>
+        [HttpGet("training/{id}")]
+        public IActionResult DeleteTrainingImage(int id)
+        {
+            _attendenceService.DeleteTrainingImage(id);
+            return Ok(new { message = "Deleted" });
+        }
+        /// <summary>
+        /// Get AttendanceImage by sectionId and date
+        /// </summary>
+        /// <param name="sectionId"></param>
+        /// <param name="date">Format date: yyyy-MM-dd</param>
+        /// <returns></returns>
+        [HttpGet("images/{sectionId}/{date}")]
+        public IActionResult GetAttendanceImages(int sectionId, string date)
+        {
+            DateTime _date = DateTime.ParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            var imgs = _attendenceService.GetAttendanceImages(sectionId, _date);
+            var models = _mapper.Map<IList<AttendanceImageModel>>(imgs);
+            return Ok(models);
+        }
+        /// <summary>
+        /// Get AttendanceImage by sectionId
+        /// </summary>
+        /// <param name="sectionId"></param>
+        /// <returns></returns>
+        [HttpGet("images/{sectionId}")]
+        public IActionResult GetAttendanceImagesBySectionId(int sectionId)
+        {
+            var imgs = _attendenceService.GetAttendanceImages(sectionId);
+            var models = _mapper.Map<IList<AttendanceImageModel>>(imgs);
+            return Ok(models);
+        }
     }
 }
