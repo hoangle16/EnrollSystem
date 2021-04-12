@@ -93,6 +93,11 @@ namespace EnrollSystem.Controllers
                     userModel.StudentId = user.Student.Id;
                     break;
             }
+            //test Identity Face
+            //IdentityFaces.IdentityFace identityFace = new IdentityFaces.IdentityFace();
+           // List<string> filenames = new List<string>();
+            //filenames.Add(@"wwwroot/avatars\\5_avatar.jpg");
+            //identityFace.Train(filenames, 1, "Hoang");
             return Ok(new 
             {
                 userInfo = userModel,

@@ -4,6 +4,80 @@
         <name>EnrollSystem</name>
     </assembly>
     <members>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.TrainingFace(EnrollSystem.Models.Attendance.ImagesUploadModel)">
+            <summary>
+            Add Images for training
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.Attendance(EnrollSystem.Models.Attendance.AttendanceImagesUpload)">
+            <summary>
+            Attendance by images
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetAttendancesBySectionId(System.Int32)">
+            <summary>
+            Get attendances list by sectionId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetAttendencesBySectionIdAndDate(System.Int32,System.String)">
+            <summary>
+            Get attendance list by sectionId and Date
+            </summary>
+            <param name="id">sectionId</param>
+            <param name="date">Format date: yyyy-MM-dd</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.UpdateAttendanceList(System.Int32,System.String,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Update attendance
+            </summary>
+            <param name="id">sectionId</param>
+            <param name="date">Format date: yyyy-MM-dd</param>
+            <param name="studentIdList">list of studentId has attendance</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetTrainingImages(System.Int32)">
+            <summary>
+            Get training image by studentId
+            </summary>
+            <param name="studentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.DeleteTrainingImage(System.Int32)">
+            <summary>
+            Delete training Image
+            </summary>
+            <param name="id">trainingImageId</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetAttendanceImages(System.Int32,System.String)">
+            <summary>
+            Get AttendanceImage by sectionId and date
+            </summary>
+            <param name="sectionId"></param>
+            <param name="date">Format date: yyyy-MM-dd</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetAttendanceImagesBySectionId(System.Int32)">
+            <summary>
+            Get AttendanceImage by sectionId
+            </summary>
+            <param name="sectionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.ExportReport(System.Int32)">
+            <summary>
+            Export attendance of section
+            </summary>
+            <param name="sectionId"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.CoursesController.GetAll">
             <summary>
             Get All Courses
