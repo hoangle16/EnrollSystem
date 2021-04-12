@@ -227,6 +227,7 @@ namespace EnrollSystem.Services
 
             //sheet header
             workSheet.Row(4).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            workSheet.Cells["A4:C4"].Style.Fill.SetBackground(System.Drawing.Color.LightGray);
             workSheet.Row(4).Style.Font.Bold = true;
             workSheet.Cells[4, 1].Value = "STT";
             workSheet.Cells[4, 2].Value = "MSSV";
@@ -235,6 +236,7 @@ namespace EnrollSystem.Services
             foreach(var date in attendanceDate)
             {
                 //workSheet.Cells[4, colIndex].Style.Numberformat.Format = "dd/MM/yyyy";
+                workSheet.Cells[4, colIndex].Style.Fill.SetBackground(System.Drawing.Color.LightGray);
                 workSheet.Cells[4, colIndex].Value = date.ToString("dd/MM/yy");
                 colIndex++;
             }
@@ -259,6 +261,51 @@ namespace EnrollSystem.Services
                 }
                 rowIndex++;
             }
+            //set boder 
+            workSheet.Cells[4, 1, rowIndex - 1, numOfCol].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+
+            //total by date
+            rowIndex++;
+            colIndex = 2;
+
+            workSheet.Row(rowIndex).Style.Font.Color.SetColor(System.Drawing.Color.DarkBlue);
+            workSheet.Row(rowIndex).Style.Font.Bold = true;
+            workSheet.Row(rowIndex+1).Style.Font.Color.SetColor(System.Drawing.Color.DarkBlue);
+            workSheet.Row(rowIndex+1).Style.Font.Bold = true;
+
+            workSheet.Cells[rowIndex, colIndex].Style.Fill.SetBackground(System.Drawing.Color.Yellow);
+            var startCell = workSheet.Cells[rowIndex, colIndex];
+            workSheet.Cells[rowIndex, colIndex++].Value = "Tổng";
+            workSheet.Cells[rowIndex, colIndex].Style.Fill.SetBackground(System.Drawing.Color.Yellow);
+            workSheet.Cells[rowIndex, colIndex].Value = "Có mặt";
+            workSheet.Cells[rowIndex+1, colIndex].Style.Fill.SetBackground(System.Drawing.Color.Yellow);
+            workSheet.Cells[rowIndex+1, colIndex++].Value = "Vắng";
+
+            foreach (var date in attendanceDate)
+            {
+                workSheet.Cells[rowIndex, colIndex].Style.Fill.SetBackground(System.Drawing.Color.Yellow);
+                workSheet.Cells[rowIndex, colIndex].Value = attendanceList.Where(e => e.Date.Date == date.Date).Where(e => e.HasAttendance).ToList().Count;
+                workSheet.Cells[rowIndex+1, colIndex].Style.Fill.SetBackground(System.Drawing.Color.Yellow);
+                workSheet.Cells[rowIndex+1, colIndex++].Value = attendanceList.Where(e => e.Date.Date == date.Date).Where(e => !e.HasAttendance).ToList().Count;
+            }
+
+            //total by student
+            colIndex = numOfCol + 2;
+            rowIndex = 4;
+            workSheet.Column(colIndex).Style.Font.Color.SetColor(System.Drawing.Color.DarkBlue);
+            workSheet.Cells[rowIndex, colIndex].Value = "Vắng";
+            workSheet.Cells[rowIndex++, colIndex].Style.Fill.SetBackground(System.Drawing.Color.Yellow);
+
+            int _col = 4;
+            for(int i =0; i<numOfStudent; i++)
+            {
+                workSheet.Cells[rowIndex, colIndex].Style.Fill.SetBackground(System.Drawing.Color.Yellow);
+                workSheet.Cells[rowIndex, colIndex].Style.Font.Bold = true;
+                workSheet.Cells[rowIndex, colIndex].Formula = $"COUNTIF({workSheet.Cells[rowIndex, _col].Address}:{workSheet.Cells[rowIndex, _col+attendanceDate.Count]}, \"V\")";
+                rowIndex++;
+
+            }
+
             excel.Save();
             var result = excel.GetAsByteArray();
             var excelFile = new FileContentResult(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
