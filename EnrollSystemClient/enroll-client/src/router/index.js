@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/auth/Login.vue'
-import Profile from '../views/user/Profile.vue'
+import Profile from '../views/share/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -20,22 +20,13 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    component: () => import('../views/user/Profile.vue')
+    component: () => import('../views/share/Profile.vue'),
+    meta: {
+      authorize: []
+    }
   },
   { path: '*', redirect: '/' }
 ]
-
-// router.beforeEach((to, from, next) => {
-//   const publicPages = ['/login'];
-//   const authRequired = !publicPages.includes(to.path);
-//   const loggedIn = localStorage.getItem('user');
-
-//   if (authRequired && !loggedIn) {
-//     next('/login');
-//   } else {
-//     next();
-//   }
-// })
 
 const router = new VueRouter({
   mode: 'history',
@@ -54,7 +45,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (authorize.length && !authorize.includes(currentUser.userInfo.role)) {
-      return next({ path: '/' });
+      return next({ path: '/login' });
     }
   }
   next();
