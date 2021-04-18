@@ -6,7 +6,7 @@
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-icon>mdi-account</v-icon>
-      <v-btn x-small @click.prevent="logout()" color="normal" class="mr-2 ml-2"><v-icon class="mr-1" small>mdi-logout</v-icon>Logout</v-btn>
+      <v-btn x-small @click.prevent="logout()" color="normal" class="mr-2 ml-2"><v-icon class="mr-1" small>mdi-logout</v-icon>Đăng xuất</v-btn>
     </v-app-bar>
     <v-navigation-drawer
       v-model="sidebarMenu"
@@ -22,7 +22,7 @@
         color="primary"
         dark
       >
-        <v-list-item>
+        <v-list-item class="align-middle h-100">
           <v-list-item-action>
             <v-icon @click.stop="sidebarMenu = !sidebarMenu"
               >mdi-chevron-left</v-icon
@@ -30,7 +30,7 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>
-              <h5 class="font-weight-thin">Dashboard</h5>
+              <h5 class="font-weight-thin mb-0">Dashboard</h5>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

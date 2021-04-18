@@ -2,7 +2,7 @@
   <v-container>
     <Navbar></Navbar>
     <v-main>
-        <router-view />
+      <router-view />
     </v-main>
   </v-container>
 </template>
