@@ -90,13 +90,19 @@ export default {
         }
         if (this.user.userName && this.user.password) {
           this.$store.dispatch("auth/login", this.user).then(
-            () => {
-              this.$router.push("/profile");
+            (response) => {
+              if (response.userInfo.role == "admin") {
+                this.$router.push("/admin/profile");
+              } else if (response.userInfo.role == "teacher") {
+                this.$router.push("/teacher/profile");
+              } else {
+                this.$$router.push("/profile");
+              }
             },
             (error) => {
               this.loading = false;
               this.message =
-                (error.response && error.response.data) ||
+                (error.response && error.response.data.error) ||
                 error.message ||
                 error.toString();
             }
