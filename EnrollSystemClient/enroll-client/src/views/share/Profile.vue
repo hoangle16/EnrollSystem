@@ -76,11 +76,8 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn
-                          color="success"
-                          @click="changePassword()"
-                        >
-                          Thay đỗi
+                        <v-btn color="success" @click="changePassword()">
+                          Thay đổi
                         </v-btn>
                         <v-btn
                           color="error"
@@ -128,9 +125,57 @@
       <v-col cols="12" md="4">
         <material-card class="v-card-profile" :avatar="avatar">
           <v-col cols="12" class="text-center">
-            <v-btn small color="success" rounded class="mr-0">
+            <!-- <v-btn small color="success" rounded class="mr-0">
               Đổi ảnh đại diện
-            </v-btn>
+            </v-btn> -->
+            <v-dialog v-model="changeAvatarDialog" max-width="500px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="success" v-bind="attrs" v-on="on">
+                  Đổi ảnh đại diện
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Đổi ảnh đại diện</span>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" class="text-center">
+                        <v-avatar
+                          v-if="newAvatar"
+                          size="128"
+                          class="mx-auto elevation-6"
+                        >
+                          <v-img :src="newAvatar" />
+                        </v-avatar>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-file-input
+                          :rules="rules"
+                          accept="image/png, image/jpeg, image/bmp"
+                          placeholder="Chọn ảnh đại diện"
+                          prepend-icon="mdi-camera"
+                          label="Chọn ảnh đại diện"
+                          :clearable="false"
+                          @change="selectFile"
+                        ></v-file-input>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="success" @click="changeAvatar()">
+                    Thay đổi
+                  </v-btn>
+                  <v-btn color="error" @click="changeAvatarDialogHide">
+                    Hủy
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
           <v-card-text class="text-center">
             <h6 class="text-h4 md-1 grey--text">
@@ -155,12 +200,21 @@ export default {
   name: "Profile",
   data() {
     return {
+      currentFile: undefined,
+      newAvatar: "",
       currentUser: {},
       items: [
         { name: "Nam", value: true },
         { name: "Nữ", value: false },
       ],
       changePasswordDialog: false,
+      changeAvatarDialog: false,
+      rules: [
+        (value) =>
+          !value ||
+          value.size < 3000000 ||
+          "Avatar size should be less than 2 MB!",
+      ],
     };
   },
   components: {
@@ -187,10 +241,19 @@ export default {
     },
   },
   methods: {
-    changePasswordModalHide() {
-      this.changePasswordModal = false;
+    selectFile(file) {
+      if (file != null) {
+        this.currentFile = file;
+        this.newAvatar = URL.createObjectURL(this.currentFile);
+      }
+    },
+    changeAvatarDialogHide() {
+      this.changeAvatarDialog = false;
+      this.newAvatar = "";
+      this.currentFile = null;
     },
     changePassword() {},
+    changeAvatar() {},
     updateProfile() {},
   },
   mounted() {
