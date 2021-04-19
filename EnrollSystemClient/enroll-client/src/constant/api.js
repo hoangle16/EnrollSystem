@@ -1,4 +1,5 @@
 export const BASE_URL = "https://localhost:44318/api";
+export const SERVER = "https://localhost:44318";
 
 //users
 export const USERS = `${BASE_URL}/users`
