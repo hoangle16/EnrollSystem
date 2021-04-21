@@ -55,20 +55,29 @@
                           <v-row>
                             <v-col cols="12">
                               <v-text-field
+                                v-model="currentPassword"
                                 label="Mật khẩu hiện tại"
                                 required
+                                type="password"
+                                name="currentPassword"
                               ></v-text-field>
                             </v-col>
                             <v-col cols="12">
                               <v-text-field
+                                v-model="newPassword"
                                 label="Mật khẩu mới"
                                 required
+                                type="password"
+                                name="newPassword"
                               ></v-text-field>
                             </v-col>
                             <v-col cols="12">
                               <v-text-field
+                                v-model="passwordConfirm"
                                 label="Xác nhận mật khẩu mới"
                                 required
+                                type="password"
+                                name="passwordConfirm"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -81,7 +90,7 @@
                         </v-btn>
                         <v-btn
                           color="error"
-                          @click="changePasswordDialog = false"
+                          @click="changePasswordDialogHide()"
                         >
                           Hủy
                         </v-btn>
@@ -100,7 +109,7 @@
                 <v-col cols="12" md="8">
                   <v-text-field
                     label="Số CMND"
-                    :value="currentUser.idNumber"
+                    v-model="currentUser.idNumber"
                     class="purple-input"
                   />
                 </v-col>
@@ -204,6 +213,9 @@ export default {
       avatar: "",
       currentFile: undefined,
       newAvatar: "",
+      currentPassword: "",
+      newPassword: "",
+      passwordConfirm: "",
       currentUser: {},
       items: [
         { name: "Nam", value: true },
@@ -251,7 +263,30 @@ export default {
       this.newAvatar = "";
       this.currentFile = null;
     },
-    changePassword() {},
+    changePasswordDialogHide() {
+      this.changePasswordDialog = false;
+      this.currentPassword = "";
+      this.newPassword = "";
+      this.passwordConfirm = "";
+    },
+    changePassword() {
+      let formData = new FormData();
+      formData.append("password", this.newPassword);
+      formData.append("confirmPassword", this.passwordConfirm);
+      formData.append("gender", this.currentUser.gender);
+      UserService.editUser(this.currentUser.id, formData).then(
+        (response) => {
+          console.log(response);
+          this.changePasswordDialog = false;
+          this.currentPassword = "";
+          this.newPassword = "";
+          this.passwordConfirm = "";
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     changeAvatar() {
       let formData = new FormData();
       if (this.currentFile != null) {
@@ -269,7 +304,21 @@ export default {
         );
       }
     },
-    updateProfile() {},
+    updateProfile() {
+      let formData = new FormData();
+      formData.append('name', this.currentUser.name);
+      formData.append('gender', this.currentUser.gender);
+      formData.append('idNumber', this.currentUser.idNumber);
+      formData.append('address', this.currentUser.address);
+      UserService.editUser(this.currentUser.id, formData).then(
+          (response) => {
+            console.log(response.data);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    },
     getProfile() {
       UserService.getProfile().then(
         (response) => {
