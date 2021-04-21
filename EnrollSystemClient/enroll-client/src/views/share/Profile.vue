@@ -123,7 +123,7 @@
       </v-col>
 
       <v-col cols="12" md="4">
-        <material-card class="v-card-profile" :avatar="avatar">
+        <material-card v-if="avatar" class="v-card-profile" :avatar="avatar">
           <v-col cols="12" class="text-center">
             <!-- <v-btn small color="success" rounded class="mr-0">
               Đổi ảnh đại diện
@@ -153,6 +153,7 @@
                       </v-col>
                       <v-col cols="12">
                         <v-file-input
+                          v-model="currentFile"
                           :rules="rules"
                           accept="image/png, image/jpeg, image/bmp"
                           placeholder="Chọn ảnh đại diện"
@@ -200,6 +201,7 @@ export default {
   name: "Profile",
   data() {
     return {
+      avatar: "",
       currentFile: undefined,
       newAvatar: "",
       currentUser: {},
@@ -213,7 +215,7 @@ export default {
         (value) =>
           !value ||
           value.size < 3000000 ||
-          "Avatar size should be less than 2 MB!",
+          "Kích thước Avatar phải nhỏ hơn 3MB",
       ],
     };
   },
@@ -221,9 +223,9 @@ export default {
     MaterialCard,
   },
   computed: {
-    avatar() {
-      return `${API.SERVER}/${this.currentUser.avatar}`;
-    },
+    // avatar() {
+    //   return `${API.SERVER}/${this.currentUser.avatar}`;
+    // },
     gender() {
       if (this.currentUser.gender) {
         return "Nam";
@@ -241,11 +243,8 @@ export default {
     },
   },
   methods: {
-    selectFile(file) {
-      if (file != null) {
-        this.currentFile = file;
-        this.newAvatar = URL.createObjectURL(this.currentFile);
-      }
+    selectFile() {
+      this.newAvatar = URL.createObjectURL(this.currentFile);
     },
     changeAvatarDialogHide() {
       this.changeAvatarDialog = false;
@@ -253,19 +252,38 @@ export default {
       this.currentFile = null;
     },
     changePassword() {},
-    changeAvatar() {},
+    changeAvatar() {
+      let formData = new FormData();
+      if (this.currentFile != null) {
+        formData.append("image", this.currentFile);
+        formData.append("gender", this.currentUser.gender);
+        UserService.editUser(this.currentUser.id, formData).then(
+          (response) => {
+            console.log(response.data);
+            this.avatar = this.newAvatar;
+            this.changeAvatarDialog = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
     updateProfile() {},
+    getProfile() {
+      UserService.getProfile().then(
+        (response) => {
+          this.currentUser = response.data;
+          this.avatar = `${API.SERVER}/${this.currentUser.avatar}`;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
   },
   mounted() {
-    UserService.getProfile().then(
-      (response) => {
-        this.currentUser = response.data;
-        //console.log(this.currentUser);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.getProfile();
   },
 };
 </script>

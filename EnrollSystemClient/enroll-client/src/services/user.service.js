@@ -1,5 +1,6 @@
 import axios from 'axios';
 import authHeader from './auth-header';
+import authHeaderMultiPart from './auth-header-multipart';
 import * as API from '../constant/api';
 
 class UserService {
@@ -26,7 +27,7 @@ class UserService {
     }
     
     editUser(id, user) {
-        console.log(id, user);
+        return axios.put(`${API.USERS}/${id}`, user, { headers: authHeaderMultiPart() });
     }
     deleteUser(id) {
         return axios.delete(`${API.USERS}/${id}`, { headers: authHeader() });
