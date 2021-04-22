@@ -5,7 +5,7 @@
         @click.stop="sidebarMenu = !sidebarMenu"
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-icon>mdi-account</v-icon>
+      <v-btn style="text-decoration: none" dark icon :href="'/'+ currentUser.userInfo.role+'/profile'"><v-icon>mdi-account</v-icon></v-btn>
       <v-btn x-small @click.prevent="logout()" color="normal" class="mr-2 ml-2"
         ><v-icon class="mr-1" small>mdi-logout</v-icon>Đăng xuất</v-btn>
     </v-app-bar>
@@ -81,9 +81,9 @@ export default {
       toggleMini: false,
       items: [
         {
-          title: "Home",
-          href: "#",
-          icon: "mdi-home-outline",
+          title: "Người dùng",
+          href: "/admin/users",
+          icon: "mdi-account-group",
           authorize: "admin",
         },
         {

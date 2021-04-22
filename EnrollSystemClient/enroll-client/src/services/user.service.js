@@ -5,7 +5,7 @@ import * as API from '../constant/api';
 
 class UserService {
     getUsers() {
-        return axios.get(API.USERS);
+        return axios.get(API.USERS, { headers: authHeader() });
     }
     createUser(user) {
         return axios.post(API.USERS, {

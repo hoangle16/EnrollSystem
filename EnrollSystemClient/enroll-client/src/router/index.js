@@ -34,6 +34,14 @@ const routes = [
         meta: {
           authorize: [ROLE.Admin]
         },
+      },
+      {
+        path: 'users',
+        name: 'admin_users',
+        component: () => import('../views/admin/users-manager/UsersManager.vue'),
+        meta: {
+          authorize: [ROLE.Admin],
+        },
       }
     ]
   },

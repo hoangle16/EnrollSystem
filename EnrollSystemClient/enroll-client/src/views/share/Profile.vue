@@ -4,7 +4,7 @@
       <v-col cols="12" md="8">
         <material-card>
           <template v-slot:heading>
-            <div class="text-h3 font-weight-light">Profile</div>
+            <div class="text-h4 font-weight-light">Profile</div>
           </template>
           <v-form>
             <v-container class="py-0">
