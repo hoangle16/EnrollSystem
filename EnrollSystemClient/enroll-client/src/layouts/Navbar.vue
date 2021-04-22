@@ -6,7 +6,8 @@
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-icon>mdi-account</v-icon>
-      <v-btn x-small @click.prevent="logout()" color="normal" class="mr-2 ml-2"><v-icon class="mr-1" small>mdi-logout</v-icon>Đăng xuất</v-btn>
+      <v-btn x-small @click.prevent="logout()" color="normal" class="mr-2 ml-2"
+        ><v-icon class="mr-1" small>mdi-logout</v-icon>Đăng xuất</v-btn>
     </v-app-bar>
     <v-navigation-drawer
       v-model="sidebarMenu"
@@ -46,24 +47,27 @@
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
       </v-list-item>
-      <v-divider style="margin-top:0"></v-divider>
+      <v-divider style="margin-top: 0"></v-divider>
       <v-list>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-          :to="item.href"
-          class="custom-list-item"
-        >
-          <v-list-item-icon>
-            <v-icon color="primary">{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title class="primary--text">{{
-              item.title
-            }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <template v-for="item in items">
+          <v-list-item
+            v-if="currentUser.userInfo.role === item.authorize"
+            :key="item.title"
+            link
+            :to="item.href"
+            class="custom-list-item"
+            :title="item.title"
+          >
+            <v-list-item-icon>
+              <v-icon color="primary">{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="primary--text">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
       </v-list>
     </v-navigation-drawer>
   </v-container>
@@ -76,19 +80,36 @@ export default {
       sidebarMenu: true,
       toggleMini: false,
       items: [
-        { title: "Home", href: "#", icon: "mdi-home-outline" },
+        {
+          title: "Home",
+          href: "#",
+          icon: "mdi-home-outline",
+          authorize: "admin",
+        },
         {
           title: "Detections",
-          href: "/detections",
+          href: "#",
           icon: "mdi-shield-account",
+          authorize: "teacher",
         },
-        { title: "Components", href: "#", icon: "mdi-palette-swatch" },
+        {
+          title: "Components",
+          href: "#",
+          icon: "mdi-palette-swatch",
+          authorize: "admin",
+        },
         {
           title: "Customers",
           href: "#",
           icon: "mdi-account-search-outline",
+          authorize: "admin",
         },
-        { title: "Orders", href: "#", icon: "mdi-bus-clock" },
+        {
+          title: "Orders",
+          href: "#",
+          icon: "mdi-bus-clock",
+          authorize: "student",
+        },
       ],
     };
   },
@@ -97,14 +118,14 @@ export default {
       return this.$store.state.auth.user;
     },
     mini() {
-      return (this.$vuetify.breakpoint.smAndDown) || this.toggleMini
+      return this.$vuetify.breakpoint.smAndDown || this.toggleMini;
     },
   },
   methods: {
     logout() {
       this.$store.dispatch("auth/logout");
-      this.$router.push('/login');
-    }
+      this.$router.push("/login");
+    },
   },
 };
 </script>
@@ -124,7 +145,6 @@ export default {
 .fade-leave-active {
   opacity: 0;
 }
-
 .theme--light.v-application ::-webkit-scrollbar {
   width: 13px;
 }

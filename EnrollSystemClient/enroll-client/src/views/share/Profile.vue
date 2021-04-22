@@ -278,6 +278,13 @@ export default {
         (response) => {
           console.log(response);
           this.changePasswordDialog = false;
+          this.$toast("Cập nhật mật khẩu thành công thành công", {
+            color: "success",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
           this.currentPassword = "";
           this.newPassword = "";
           this.passwordConfirm = "";
@@ -297,6 +304,13 @@ export default {
             console.log(response.data);
             this.avatar = this.newAvatar;
             this.changeAvatarDialog = false;
+            this.$toast("Cập nhật ảnh đại diện thành công", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
           },
           (error) => {
             console.log(error);
@@ -306,18 +320,25 @@ export default {
     },
     updateProfile() {
       let formData = new FormData();
-      formData.append('name', this.currentUser.name);
-      formData.append('gender', this.currentUser.gender);
-      formData.append('idNumber', this.currentUser.idNumber);
-      formData.append('address', this.currentUser.address);
+      formData.append("name", this.currentUser.name);
+      formData.append("gender", this.currentUser.gender);
+      formData.append("idNumber", this.currentUser.idNumber);
+      formData.append("address", this.currentUser.address);
       UserService.editUser(this.currentUser.id, formData).then(
-          (response) => {
-            console.log(response.data);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+        (response) => {
+          console.log(response.data);
+          this.$toast("Cập nhật thông tin thành công", {
+            color: "success",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     getProfile() {
       UserService.getProfile().then(
