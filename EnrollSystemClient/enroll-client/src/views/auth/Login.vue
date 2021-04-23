@@ -8,7 +8,7 @@
       />
       <form name="form" @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="userName">Username</label>
+          <label for="userName">Tên đăng nhập</label>
           <input
             v-model="user.userName"
             v-validate="'required'"
@@ -21,11 +21,11 @@
             class="alert alert-danger"
             role="alert"
           >
-            Username is required!
+            Vui lòng điền tên đăng nhập!
           </div>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Mật khẩu</label>
           <input
             v-model="user.password"
             v-validate="'required'"
@@ -38,7 +38,7 @@
             class="alert alert-danger"
             role="alert"
           >
-            Password is required!
+            Vui lòng nhập mật khẩu!
           </div>
         </div>
         <div class="form-group">

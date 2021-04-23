@@ -93,15 +93,15 @@ export default {
           authorize: "teacher",
         },
         {
-          title: "Components",
+          title: "Học phần",
           href: "#",
-          icon: "mdi-palette-swatch",
+          icon: "mdi-book-open-variant",
           authorize: "admin",
         },
         {
-          title: "Customers",
+          title: "Phòng học",
           href: "#",
-          icon: "mdi-account-search-outline",
+          icon: "mdi-home-map-marker",
           authorize: "admin",
         },
         {
