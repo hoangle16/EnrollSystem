@@ -157,7 +157,52 @@ namespace EnrollSystem.Services
             if (!string.IsNullOrWhiteSpace(userParams.Address))
                 user.Address = userParams.Address;
             //update role
-
+            if (user.Role != userParams.Role)
+            {
+                //find current role talbe
+                if (user.Role == ROLE.Admin)
+                {
+                    var _role = _context.Admins.SingleOrDefault(x => x.UserId == user.Id);
+                    _context.Admins.Remove(_role);
+                }
+                else if (user.Role == ROLE.Teacher)
+                {
+                    var _role = _context.Teachers.SingleOrDefault(x => x.UserId == user.Id);
+                    _context.Teachers.Remove(_role);
+                }
+                else
+                {
+                    var _role = _context.Students.SingleOrDefault(x => x.UserId == user.Id);
+                    _context.Students.Remove(_role);
+                }
+                if (userParams.Role != ROLE.Admin && userParams.Role != ROLE.Teacher)
+                {
+                    user.Role = ROLE.Student;
+                }else
+                {
+                    user.Role = userParams.Role;
+                }
+                //add role table
+                switch (user.Role)
+                {
+                    case ROLE.Admin:
+                        Admin admin = new Admin();
+                        admin.UserId = user.Id;
+                        _context.Admins.Add(admin);
+                        break;
+                    case ROLE.Teacher:
+                        Teacher teacher = new Teacher();
+                        teacher.UserId = user.Id;
+                        _context.Teachers.Add(teacher);
+                        break;
+                    case ROLE.Student:
+                        Student student = new Student();
+                        student.UserId = user.Id;
+                        _context.Students.Add(student);
+                        break;
+                }
+            }
+            
             _context.Users.Update(user);
             _context.SaveChanges();
         }

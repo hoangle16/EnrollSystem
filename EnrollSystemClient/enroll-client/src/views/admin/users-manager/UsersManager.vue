@@ -121,7 +121,7 @@
                               v-model="newUser.address"
                               label="Địa chỉ"
                               hint="Phường/xã, quận/huyện, tỉnh/thành phố"
-                              name="phoneNumber"
+                              name="address"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -234,7 +234,7 @@
                               v-model="selectedUser.address"
                               label="Địa chỉ"
                               hint="Phường/xã, quận/huyện, tỉnh/thành phố"
-                              name="phoneNumber"
+                              name="address"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -251,7 +251,9 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="success" @click="editUser">Cập nhật</v-btn>
+                      <v-btn color="success" @click="confirmEditUser"
+                        >Cập nhật</v-btn
+                      >
                       <v-btn color="error" @click="editUserDialogHide"
                         >Hủy</v-btn
                       >
@@ -281,6 +283,7 @@
                 dense
                 color="success"
                 v-model="item.isActive"
+                @change="blockUser(item)"
               ></v-switch>
             </template>
           </v-data-table>
@@ -396,18 +399,90 @@ export default {
       this.deleteDialog = false;
       this.selectedUser = {};
     },
-    createUser() {},
+    createUser() {
+      console.log(this.newUser);
+      this.newUser.isActive = true;
+      UserService.createUser(this.newUser).then(
+        (response) => {
+          console.log(response.data);
+          this.newUserDialog = false;
+          this.$toast("Tạo người dùng mới thành công!", {
+            color: "success",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
+          this.newUser = {};
+          this.getUsers();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     editUser(item) {
-      console.log(item);
+      console.log("edit", item);
       this.selectedUser = item;
       this.editUserDialog = true;
     },
+    confirmEditUser() {
+      if (this.selectedUser != null) {
+        console.log(this.selectedUser);
+        let formData = new FormData();
+        formData.append("password", this.selectedUser.password);
+        formData.append("confirmPassword", this.selectedUser.confirmPassword);
+        formData.append("name", this.selectedUser.name);
+        formData.append("gender", this.selectedUser.gender);
+        formData.append("idNumber", this.selectedUser.idNumber);
+        formData.append("phoneNumber", this.selectedUser.phoneNumber);
+        formData.append("address", this.selectedUser.address);
+        formData.append("role", this.selectedUser.role);
+        UserService.editUser(this.selectedUser.id, formData).then(
+          (response) => {
+            console.log(response);
+            this.$toast("Cập nhật người dùng thành công!", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
+            this.editUserDialogHide();
+            this.getUsers();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
     deleteUser(item) {
-      console.log(item);
       this.selectedUser = item;
       this.deleteDialog = true;
     },
-    confirmDelete() {},
+    confirmDelete() {
+      if (this.selectedUser != null) {
+        UserService.deleteUser(this.selectedUser.id).then(
+          (response) => {
+            console.log(response.data);
+            this.$toast("Xóa người dùng thành công", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
+            this.deleteDialogHide();
+            this.getUsers();
+            this.selectedUser = {};
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
     filterByRole() {
       if (this.roleFilter != null) {
         this.users = this.originalUsers.filter(
@@ -416,6 +491,16 @@ export default {
       } else {
         this.users = this.originalUsers;
       }
+    },
+    blockUser(item) {
+      UserService.blockUser(item.id).then(
+        (response) => {
+          console.log(response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
   mounted() {
