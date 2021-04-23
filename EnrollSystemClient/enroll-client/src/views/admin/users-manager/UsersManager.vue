@@ -26,7 +26,6 @@
                     v-model="search"
                     append-icon="mdi-magnify"
                     label="Tìm kiếm"
-                    single-line
                     hide-details
                   ></v-text-field>
                 </v-col>
