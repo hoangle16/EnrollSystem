@@ -263,10 +263,28 @@
             </template>
             <!-- custom data table columns -->
             <template v-slot:[`item.actions`]="{ item }">
-              <v-icon small class="mr-2" @click="editUser(item)"
+              <v-btn
+                style="text-decoration: none"
+                id="btn-show"
+                small
+                icon
+                :to="{
+                  name: 'admin_users_details',
+                  params: { userId: item.id },
+                }"
+              >
+                <v-icon title="Chi tiết" small class="mr-2">mdi-eye</v-icon>
+              </v-btn>
+              <v-icon
+                title="Chỉnh sửa"
+                small
+                class="mr-2"
+                @click="editUser(item)"
                 >mdi-pencil</v-icon
               >
-              <v-icon small @click="deleteUser(item)">mdi-delete</v-icon>
+              <v-icon title="Xóa" small @click="deleteUser(item)"
+                >mdi-delete</v-icon
+              >
             </template>
             <template v-slot:[`item.gender`]="{ item }">
               <div v-if="item.gender == true">Nam</div>
@@ -328,7 +346,7 @@ export default {
           value: "isActive",
           align: "start",
         },
-        { text: "", width: 90, value: "actions", sortable: false },
+        { text: "", width: 100, value: "actions", sortable: false },
       ],
       originalUsers: [],
       users: [],
@@ -511,5 +529,8 @@ export default {
 <style lang="scss" scoped>
 .v-data-table-header th {
   white-space: nowrap;
+}
+#btn-show::before {
+  background-color: transparent !important;
 }
 </style>

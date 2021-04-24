@@ -106,10 +106,17 @@
                     readonly
                   />
                 </v-col>
-                <v-col cols="12" md="8">
+                <v-col cols="12" md="4">
                   <v-text-field
                     label="Số CMND"
                     v-model="currentUser.idNumber"
+                    class="purple-input"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <v-text-field
+                    label="Số điện thoại"
+                    v-model="currentUser.phoneNumber"
                     class="purple-input"
                   />
                 </v-col>
@@ -274,6 +281,7 @@ export default {
       formData.append("password", this.newPassword);
       formData.append("confirmPassword", this.passwordConfirm);
       formData.append("gender", this.currentUser.gender);
+      formData.append("phoneNumber", this.currentUser.phoneNumber);
       UserService.editUser(this.currentUser.id, formData).then(
         (response) => {
           console.log(response);

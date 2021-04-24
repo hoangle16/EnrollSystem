@@ -6,3 +6,9 @@ export const USERS = `${BASE_URL}/users`
 export const LOGIN = `${BASE_URL}/users/login`;
 export const PROFILE = `${BASE_URL}/users/profile`;
 export const BLOCK_USER = `${BASE_URL}/users/block`;
+
+//student
+export const STUDENTS = `${BASE_URL}/students`;
+
+//teacher
+export const TEACHERS = `${BASE_URL}/teachers`;

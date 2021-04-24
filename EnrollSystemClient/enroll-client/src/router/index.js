@@ -42,6 +42,14 @@ const routes = [
         meta: {
           authorize: [ROLE.Admin],
         },
+      }, {
+        path: 'users/:userId',
+        name: 'admin_users_details',
+        component: () => import('../views/share/UserDetail.vue'),
+        props: true,
+        meta: {
+          authorize: [ROLE.Admin],
+        },
       }
     ]
   },
