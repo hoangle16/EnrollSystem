@@ -112,5 +112,14 @@ namespace EnrollSystem.Services
             }
             return -1;
         }
+        public int GetStudentIdByUserId(int userId)
+        {
+            var user = _context.Users.Find(userId);
+            if (user != null)
+            {
+                return user.Student.Id;
+            }
+            return -1;
+        }
     }
 }
