@@ -154,7 +154,11 @@ namespace EnrollSystem
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());
-
+            /*app.UseCors(x => x
+            .SetIsOriginAllowed(_ => true)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());*/
             app.UseHttpsRedirection();
 
             app.UseRouting();
