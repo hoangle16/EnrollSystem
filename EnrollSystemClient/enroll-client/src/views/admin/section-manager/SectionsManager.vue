@@ -203,6 +203,32 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                <v-dialog v-model="viewStudentsDialog" max-width="800px">
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">Danh sách học viên</span>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-data-table
+                              :headers="headersS"
+                              :items="students"
+                              :hide-default-footer="true"
+                              class="elevation-1"
+                              :footer-props="{
+                                'items-per-page-text': 'Số hàng mỗi trang',
+                              }"
+                            >
+                            </v-data-table>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
                 <!-- Edit section -->
                 <v-dialog v-model="editSectionDialog" max-width="700px">
                   <v-card>
@@ -398,6 +424,15 @@ export default {
   },
   data() {
     return {
+      headersS: [
+        { text: "MSSV", value: "userName" },
+        { text: "Họ tên", value: "name", width: 100 },
+        { text: "Giới tính", value: "gender", width: 100 },
+        { text: "CMND", value: "idNumber" },
+        { text: "SĐT", value: "phoneNumber" },
+        { text: "Địa chỉ", value: "address" },
+      ],
+      students: [],
       headers: [
         {
           text: "Mã lớp",
@@ -437,6 +472,7 @@ export default {
         },
         { text: "", width: 100, value: "actions", sortable: false },
       ],
+      viewStudentsDialog: false,
       sections: [],
       newSection: {},
       selectedSection: {},
@@ -500,7 +536,6 @@ export default {
             );
           }
           this.isLoading = false;
-          //console.log(this.sections);
         },
         (error) => {
           console.log(error);
@@ -547,6 +582,19 @@ export default {
         }
       );
     },
+    getStudentList() {
+      SectionService.getSectionById(this.selectedSection.id).then(
+        (response) => {
+          this.students = response.data.students;
+          this.students.forEach((el) => {
+            el.gender = el.gender ? "Nam" : "Nữ";
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     scheduleChange() {
       if (
         this.newSection.startDay != null &&
@@ -560,7 +608,6 @@ export default {
       }
     },
     scheduleChangeEdit() {
-      console.log(this.selectedSection, "change");
       if (
         this.selectedSection.startDay != null &&
         this.selectedSection.endDay != null &&
@@ -573,7 +620,6 @@ export default {
       }
     },
     createSection() {
-      //console.log(this.newSection);
       SectionService.createSection(this.newSection).then(
         (response) => {
           console.log(response.data);
@@ -618,13 +664,10 @@ export default {
         text: this.selectedSection.roomName,
         value: this.selectedSection.roomId,
       });
-      console.log(this.teacherItems, this.roomItems);
-      console.log(this.selectedSection);
       this.editSectionDialog = true;
     },
     confirmEditSection() {
       if (this.selectedSection != null) {
-        console.log(this.selectedSection);
         SectionService.editSection(
           this.selectedSection.id,
           this.selectedSection
@@ -649,7 +692,6 @@ export default {
     },
     deleteSection(item) {
       this.selectedSection = item;
-      console.log("aaa", this.selectedSection);
       this.deleteDialog = true;
     },
     confirmDelete() {
@@ -674,7 +716,9 @@ export default {
       }
     },
     viewStudentList(item) {
-      console.log(item);
+      this.selectedSection = item;
+      this.getStudentList();
+      this.viewStudentsDialog = true;
     },
     checkIsItemDisabled(item) {
       return item.value < this.newSection.startTime;

@@ -6,6 +6,9 @@ class SectionService {
     getSections() {
         return axios.get(`${API.SECTIONS}`, { headers: authHeader() });
     }
+    getSectionById(id) {
+        return axios.get(`${API.SECTIONS}/${id}`, { headers: authHeader() });
+    }
     createSection(data) {
 
         return axios.post(`${API.SECTIONS}`,
