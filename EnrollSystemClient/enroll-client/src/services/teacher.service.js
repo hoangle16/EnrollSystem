@@ -6,6 +6,10 @@ class TeacherService {
     getTeacherSchedule(teacherId) {
         return axios.get(`${API.TEACHERS}/sections/${teacherId}`, { headers: authHeader() });
     }
+    getTeachersAvailable(model) {
+        return axios.get(`${API.TEACHERS}/ready?StartDay=${model.startDay}&EndDay=${model.endDay}&StartTime=${model.startTime}&EndTime=${model.endTime}&Schedule=${model.schedule}`, { headers: authHeader() });
+
+    }
 }
 
 export default new TeacherService();

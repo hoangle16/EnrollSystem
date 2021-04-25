@@ -94,7 +94,7 @@ export default {
         },
         {
           title: "Học phần",
-          href: "#",
+          href: "/admin/sections",
           icon: "mdi-book-open-variant",
           authorize: "admin",
         },

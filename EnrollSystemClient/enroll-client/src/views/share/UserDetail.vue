@@ -96,7 +96,7 @@
                       :items-per-page="15"
                       class="elevation-1"
                       :footer-props="{
-                        'items-per-page-text': 'Số cột mỗi trang',
+                        'items-per-page-text': 'Số hàng mỗi trang',
                       }"
                     >
                       <template v-slot:[`item.genaralSchedule`]="{ item }">

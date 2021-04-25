@@ -12,3 +12,12 @@ export const STUDENTS = `${BASE_URL}/students`;
 
 //teacher
 export const TEACHERS = `${BASE_URL}/teachers`;
+
+//sections
+export const SECTIONS = `${BASE_URL}/sections`;
+
+//rooms
+export const ROOMS = `${BASE_URL}/rooms`;
+
+//courses
+export const COURSES =`${BASE_URL}/courses`;

@@ -42,7 +42,8 @@ const routes = [
         meta: {
           authorize: [ROLE.Admin],
         },
-      }, {
+      }, 
+      {
         path: 'users/:userId',
         name: 'admin_users_details',
         component: () => import('../views/share/UserDetail.vue'),
@@ -50,7 +51,15 @@ const routes = [
         meta: {
           authorize: [ROLE.Admin],
         },
-      }
+      },
+      {
+        path: 'sections',
+        name: 'admin_sections',
+        component: () => import('../views/admin/section-manager/SectionsManager.vue'),
+        meta: {
+          authorize: [ROLE.Admin],
+        },
+      },
     ]
   },
   { path: '*', redirect: '/' }
@@ -67,7 +76,7 @@ router.beforeEach((to, from, next) => {
   const { authorize } = to.meta;
   const currentUser = JSON.parse(localStorage.getItem('user'));
 
-  if (authorize){
+  if (authorize) {
     if (!currentUser) {
       return next({ path: '/login', query: { returnUrl: to.path } });
     }

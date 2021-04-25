@@ -39,7 +39,7 @@ namespace EnrollSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EnrollContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DevConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
             services.AddSwaggerGen(c =>
             {

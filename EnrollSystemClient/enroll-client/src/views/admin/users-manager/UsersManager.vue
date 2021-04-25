@@ -15,7 +15,7 @@
             :loading="isLoading"
             loading-text="Đang tải dữ liệu..."
             :footer-props="{
-              'items-per-page-text': 'Số cột mỗi trang',
+              'items-per-page-text': 'Số hàng mỗi trang',
             }"
           >
             <template v-slot:top>
@@ -273,16 +273,17 @@
                   params: { userId: item.id },
                 }"
               >
-                <v-icon title="Chi tiết" small class="mr-2">mdi-eye</v-icon>
+                <v-icon color="blue lighten-2" title="Chi tiết" small class="mr-2">mdi-eye</v-icon>
               </v-btn>
               <v-icon
                 title="Chỉnh sửa"
                 small
+                color="primary"
                 class="mr-2"
                 @click="editUser(item)"
                 >mdi-pencil</v-icon
               >
-              <v-icon title="Xóa" small @click="deleteUser(item)"
+              <v-icon color="red" title="Xóa" small @click="deleteUser(item)"
                 >mdi-delete</v-icon
               >
             </template>
@@ -315,7 +316,7 @@ import MaterialCard from "../../../components/base/MaterialCard.vue";
 //import * as API from '../../../constant/api';
 import UserService from "../../../services/user.service.js";
 export default {
-  name: "UserManager",
+  name: "UsersManager",
   components: {
     MaterialCard,
   },
