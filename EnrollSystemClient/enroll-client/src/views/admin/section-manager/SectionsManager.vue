@@ -30,7 +30,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-spacer></v-spacer>
-                <v-dialog v-model="newSectionDialog" max-width="600px">
+                <v-dialog v-model="newSectionDialog" max-width="700px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       small
@@ -185,6 +185,169 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                <!--delete confirm dialog -->
+                <v-dialog persistent v-model="deleteDialog" max-width="500px">
+                  <v-card>
+                    <v-card-title class="headline"
+                      >Bạn có chắc muốn xóa học phần này</v-card-title
+                    >
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="success" @click="confirmDelete()"
+                        >Xóa</v-btn
+                      >
+                      <v-btn color="error" @click="deleteDialog = false">
+                        Hủy</v-btn
+                      >
+                      <v-spacer></v-spacer>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+                <!-- Edit section -->
+                <v-dialog v-model="editSectionDialog" max-width="700px">
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">Cập nhật học phần</span>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-autocomplete
+                              dense
+                              clearable
+                              v-model="selectedSection.courseId"
+                              :items="courseItems"
+                              label="Tên môn học"
+                            ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-menu
+                              v-model="startDayMenu1"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              min-width="auto"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                  v-model="selectedSection.startDay"
+                                  label="Ngày bắt đầu"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
+                                v-model="selectedSection.startDay"
+                                @input="startDayMenu1 = false"
+                                :min="dateNow"
+                                @change="scheduleChangeEdit"
+                              ></v-date-picker>
+                            </v-menu>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-menu
+                              v-model="endDayMenu1"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              min-width="auto"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                  v-model="selectedSection.endDay"
+                                  label="Ngày kết thúc"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
+                                v-model="selectedSection.endDay"
+                                @input="endDayMenu1 = false"
+                                @change="scheduleChangeEdit"
+                                :min="dateNow"
+                              ></v-date-picker>
+                            </v-menu>
+                          </v-col>
+                          <v-col cols="12" md="12">
+                            <v-select
+                              v-model="selectedSection.schedule"
+                              :items="scheduleItems"
+                              label="Ngày học"
+                              dense
+                              chips
+                              multiple
+                              clearable
+                              @change="scheduleChangeEdit"
+                            ></v-select>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-select
+                              v-model="selectedSection.startTime"
+                              :items="timeItems"
+                              label="Thời gian bắt đầu"
+                              clearable
+                              dense
+                              @change="scheduleChangeEdit"
+                            >
+                            </v-select>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-select
+                              v-model="selectedSection.endTime"
+                              :items="timeItems"
+                              label="Thời gian kết thúc"
+                              clearable
+                              :item-disabled="checkIsItemDisabled"
+                              dense
+                              @change="scheduleChangeEdit"
+                            >
+                            </v-select>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-select
+                              v-model="selectedSection.teacherId"
+                              :items="teacherItems"
+                              label="Giáo viên"
+                              clearable
+                              dense
+                            ></v-select>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-select
+                              v-model="selectedSection.roomId"
+                              :items="roomItems"
+                              label="Phòng học"
+                              dense
+                              clearable
+                            ></v-select>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-text-field
+                              v-model="selectedSection.maxSlot"
+                              label="Số lượng"
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="success" @click="confirmEditSection"
+                        >Cập nhật</v-btn
+                      >
+                      <v-btn color="error" @click="editSectionDialog = false"
+                        >Hủy</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </v-row>
             </template>
             <template v-slot:[`item.genaralSchedule`]="{ item }">
@@ -280,11 +443,15 @@ export default {
       search: "",
       isLoading: false,
       newSectionDialog: false,
+      editSectionDialog: false,
       courseItems: [],
       teacherItems: [],
       roomItems: [],
       startDayMenu: false,
       endDayMenu: false,
+      startDayMenu1: false,
+      endDayMenu1: false,
+      deleteDialog: false,
       scheduleItems: [
         { text: "Thứ 2", value: 1 },
         { text: "Thứ 3", value: 2 },
@@ -333,7 +500,7 @@ export default {
             );
           }
           this.isLoading = false;
-          console.log(this.sections);
+          //console.log(this.sections);
         },
         (error) => {
           console.log(error);
@@ -354,9 +521,10 @@ export default {
       );
     },
 
-    getTeacherAvailable() {
-      TeacherService.getTeachersAvailable(this.newSection).then(
+    getTeacherAvailable(data) {
+      TeacherService.getTeachersAvailable(data).then(
         (response) => {
+          this.teacherItems = [];
           response.data.forEach((el) => {
             this.teacherItems.push({ text: el.name, value: el.teacherId });
           });
@@ -366,9 +534,10 @@ export default {
         }
       );
     },
-    getRoomAvailable() {
-      RoomService.getEmptyRoom(this.newSection).then(
+    getRoomAvailable(data) {
+      RoomService.getEmptyRoom(data).then(
         (response) => {
+          this.roomItems = [];
           response.data.forEach((el) => {
             this.roomItems.push({ text: el.name, value: el.id });
           });
@@ -386,12 +555,25 @@ export default {
         this.newSection.startTime != null &&
         this.newSection.endTime != null
       ) {
-        this.getTeacherAvailable();
-        this.getRoomAvailable();
+        this.getTeacherAvailable(this.newSection);
+        this.getRoomAvailable(this.newSection);
+      }
+    },
+    scheduleChangeEdit() {
+      console.log(this.selectedSection, "change");
+      if (
+        this.selectedSection.startDay != null &&
+        this.selectedSection.endDay != null &&
+        this.selectedSection.schedule != null &&
+        this.selectedSection.startTime != null &&
+        this.selectedSection.endTime != null
+      ) {
+        this.getTeacherAvailable(this.selectedSection);
+        this.getRoomAvailable(this.selectedSection);
       }
     },
     createSection() {
-      console.log(this.newSection);
+      //console.log(this.newSection);
       SectionService.createSection(this.newSection).then(
         (response) => {
           console.log(response.data);
@@ -411,10 +593,85 @@ export default {
       );
     },
     editSection(item) {
-      console.log(item);
+      this.selectedSection = { ...item };
+      this.selectedSection.startDay = this.selectedSection.startDay
+        .split("-")
+        .reverse()
+        .join("-");
+      this.selectedSection.endDay = this.selectedSection.endDay
+        .split("-")
+        .reverse()
+        .join("-");
+      this.selectedSection.schedule = this.selectedSection.schedule
+        .replace(/[^0-9,-]/g, "")
+        .split(",")
+        .map((x) => --x);
+      this.selectedSection.schedule.splice(
+        this.selectedSection.schedule.length - 1,
+        1
+      );
+      this.teacherItems.push({
+        text: this.selectedSection.teacherName,
+        value: this.selectedSection.teacherId,
+      });
+      this.roomItems.push({
+        text: this.selectedSection.roomName,
+        value: this.selectedSection.roomId,
+      });
+      console.log(this.teacherItems, this.roomItems);
+      console.log(this.selectedSection);
+      this.editSectionDialog = true;
+    },
+    confirmEditSection() {
+      if (this.selectedSection != null) {
+        console.log(this.selectedSection);
+        SectionService.editSection(
+          this.selectedSection.id,
+          this.selectedSection
+        ).then(
+          (response) => {
+            console.log(response.data);
+            this.$toast("Cập nhật học phần thành công!", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
+            this.editSectionDialog = false;
+            this.getSectionList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     },
     deleteSection(item) {
-      console.log(item);
+      this.selectedSection = item;
+      console.log("aaa", this.selectedSection);
+      this.deleteDialog = true;
+    },
+    confirmDelete() {
+      if (this.selectedSection != null) {
+        SectionService.deleteSection(this.selectedSection.id).then(
+          (response) => {
+            console.log(response.data);
+            this.$toast("Xóa học phần thành công", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
+            this.deleteDialog = false;
+            this.getSectionList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     },
     viewStudentList(item) {
       console.log(item);
