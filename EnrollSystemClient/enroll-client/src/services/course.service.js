@@ -6,6 +6,9 @@ class CourseService {
     getCourse() {
         return axios.get(`${API.COURSES}`, { headers: authHeader() });
     }
+    createCourse(courseName){
+        return axios.post(`${API.COURSES}`, { name: courseName }, { headers: authHeader() });
+    }
 }
 
 export default new CourseService();

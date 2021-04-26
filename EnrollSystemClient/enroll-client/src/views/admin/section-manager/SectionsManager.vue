@@ -30,6 +30,46 @@
                   ></v-text-field>
                 </v-col>
                 <v-spacer></v-spacer>
+                <v-btn
+                  @click="newCourseDialog = true"
+                  small
+                  color="success"
+                  dark
+                  class="mb-2 mr-2"
+                  ><v-icon dark class="mr-2">mdi-plus-circle-outline</v-icon>Môn
+                  học</v-btn
+                >
+                <v-dialog v-model="newCourseDialog" max-width="500px">
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline"> Môn học mới </span>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-text-field
+                              dense
+                              label="Tên môn học"
+                              v-model="newCourseName"
+                            ></v-text-field>
+                            <div v-if="errorMsg" class="alert alert-danger" role="alert">
+                              {{ errorMsg }}
+                            </div>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="success" @click="createCourse">Thêm</v-btn>
+                      <v-btn color="error" @click="newCourseDialog = false"
+                        >Hủy</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
                 <v-dialog v-model="newSectionDialog" max-width="700px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -41,7 +81,7 @@
                       v-on="on"
                     >
                       <v-icon dark class="mr-2">mdi-plus-circle-outline</v-icon>
-                      Thêm
+                      Học phần
                     </v-btn>
                   </template>
                   <v-card>
@@ -472,14 +512,17 @@ export default {
         },
         { text: "", width: 100, value: "actions", sortable: false },
       ],
+      newCourseName: "",
       viewStudentsDialog: false,
       sections: [],
       newSection: {},
       selectedSection: {},
       search: "",
+      errorMsg: "",
       isLoading: false,
       newSectionDialog: false,
       editSectionDialog: false,
+      newCourseDialog: false,
       courseItems: [],
       teacherItems: [],
       roomItems: [],
@@ -554,6 +597,25 @@ export default {
           console.log(error);
         }
       );
+    },
+    createCourse() {
+      console.log(this.newCourseName);
+      CourseService.createCourse(this.newCourseName).then(
+        () => {
+          this.$toast("Tạo môn học mới thành công!", {
+            color: "success",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
+          this.newCourseDialog = false;
+          this.getCourses();
+        },
+        (err) => {
+          this.errorMsg = err.response.data.error;
+        }
+      )
     },
 
     getTeacherAvailable(data) {

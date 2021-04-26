@@ -18,7 +18,7 @@ namespace EnrollSystem.Services
         }
         public Course Create(Course course)
         {
-            if (_context.Courses.Any(x => x.Name == course.Name))
+            if (_context.Courses.Any(x => x.Name.ToLower() == course.Name.ToLower()))
                 throw new AppException("Course name \"" + course.Name + "\" is already exist");
 
             _context.Courses.Add(course);
