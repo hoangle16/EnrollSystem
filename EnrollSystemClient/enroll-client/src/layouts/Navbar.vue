@@ -5,9 +5,36 @@
         @click.stop="sidebarMenu = !sidebarMenu"
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-btn style="text-decoration: none" dark icon :to="'/'+ currentUser.userInfo.role+'/profile'"><v-icon>mdi-account</v-icon></v-btn>
+      <!-- <v-btn style="text-decoration: none" dark icon :to="'/'+ currentUser.userInfo.role+'/profile'"><v-icon>mdi-account</v-icon></v-btn>
       <v-btn x-small @click.prevent="logout()" color="normal" class="mr-2 ml-2"
-        ><v-icon class="mr-1" small>mdi-logout</v-icon>Đăng xuất</v-btn>
+        ><v-icon class="mr-1" small>mdi-logout</v-icon>Đăng xuất</v-btn> -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            style="text-decoration: none"
+            dark
+            icon
+            v-bind="attrs"
+            v-on="on"
+            ><v-icon>mdi-account</v-icon></v-btn
+          >
+        </template>
+        <v-list dense light nav>
+          <v-list-item style="text-decoration: none" :to="'/' + currentUser.userInfo.role + '/profile'">
+            <v-row class="d-flex align-center justify-center">
+              <v-btn text x-small  class="mr-3 btn-custom"
+                ><v-icon class="mr-3">mdi-account</v-icon>
+                <span>{{ currentUser.userInfo.name }}</span>
+              </v-btn>
+            </v-row>
+          </v-list-item>
+          <v-list-item @click.prevent="logout()">
+            <v-btn text  x-small class="mr-3 btn-custom"
+              ><v-icon class="mr-1">mdi-logout</v-icon>Đăng xuất</v-btn
+            >
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-navigation-drawer
       v-model="sidebarMenu"
@@ -184,5 +211,8 @@ export default {
 }
 .custom-list-item:hover {
   text-decoration: none;
+}
+.btn-custom::before {
+  background-color: transparent;
 }
 </style>
