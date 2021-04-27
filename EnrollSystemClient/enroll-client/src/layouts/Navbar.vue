@@ -127,7 +127,7 @@ export default {
         },
         {
           title: "Phòng học",
-          href: "#",
+          href: "/admin/rooms",
           icon: "mdi-home-map-marker",
           authorize: "admin",
         },

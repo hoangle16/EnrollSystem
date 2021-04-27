@@ -42,7 +42,7 @@ const routes = [
         meta: {
           authorize: [ROLE.Admin],
         },
-      }, 
+      },
       {
         path: 'users/:userId',
         name: 'admin_users_details',
@@ -56,6 +56,14 @@ const routes = [
         path: 'sections',
         name: 'admin_sections',
         component: () => import('../views/admin/section-manager/SectionsManager.vue'),
+        meta: {
+          authorize: [ROLE.Admin],
+        },
+      },
+      {
+        path: 'rooms',
+        name: 'admin_rooms',
+        component: () => import('../views/admin/rooms-manager/RoomsManager.vue'),
         meta: {
           authorize: [ROLE.Admin],
         },

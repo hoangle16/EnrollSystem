@@ -229,7 +229,7 @@
                 <v-dialog persistent v-model="deleteDialog" max-width="500px">
                   <v-card>
                     <v-card-title class="headline"
-                      >Bạn có chắc muốn xóa học phần này</v-card-title
+                      >Bạn có chắc muốn xóa học phần này?</v-card-title
                     >
                     <v-card-actions>
                       <v-spacer></v-spacer>
