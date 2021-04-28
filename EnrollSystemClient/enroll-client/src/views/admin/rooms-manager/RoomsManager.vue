@@ -93,9 +93,52 @@
                     </v-dialog>
                   </v-card>
                 </v-dialog>
+                <v-dialog v-model="roomSectionDialog" max-width="900px">
+                  <v-card>
+                    <v-card-title class="headline"
+                      >Tình trạng sử dụng</v-card-title
+                    >
+                    <v-divider></v-divider>
+                    <v-card-text>
+                      <v-container>
+                        <v-data-table
+                          :headers="headerS"
+                          :items="currentSections"
+                          :items-per-page="15"
+                          class="elevation-1"
+                          :footer-props="{
+                            'items-per-page-text': 'Số hàng mỗi trang',
+                          }"
+                        >
+                          <template v-slot:[`item.genaralSchedule`]="{ item }">
+                            <span>
+                              {{ item.schedule }} {{ item.startTime }} -
+                              {{ item.endTime }}, {{ item.roomName }}
+                            </span>
+                          </template></v-data-table
+                        >
+                      </v-container>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
               </v-row>
             </template>
             <template v-slot:[`item.actions`]="{ item }">
+              <v-btn
+                style="text-decoration: none"
+                id="btn-show"
+                small
+                icon
+                @click="viewSections(item)"
+              >
+                <v-icon
+                  color="blue lighten-2"
+                  title="Tình trạng sử dụng"
+                  small
+                  class="mr-2"
+                  >mdi-calendar</v-icon
+                >
+              </v-btn>
               <v-icon
                 title="Chỉnh sửa"
                 small
@@ -118,6 +161,8 @@
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
 import RoomService from "../../../services/room.service.js";
+import datetimeHelper from "../../../helper/datetimeHelper";
+
 export default {
   name: "RoomsManger",
   components: {
@@ -125,10 +170,49 @@ export default {
   },
   data() {
     return {
+      roomSectionDialog: false,
       headers: [
         { text: "STT", value: "serial", sortable: false },
         { text: "Phòng", value: "name" },
         { text: "", value: "actions", sortable: false, align: "right" },
+      ],
+      headerS: [
+        {
+          text: "Mã lớp",
+          align: "start",
+          sortable: false,
+          value: "id",
+        },
+        {
+          text: "Tên môn học",
+          align: "start",
+          sortable: false,
+          value: "courseName",
+        },
+        {
+          text: "Giáo viên",
+          align: "start",
+          sortable: false,
+          value: "teacherName",
+        },
+        {
+          text: "Thời khóa biểu",
+          align: "start",
+          sortable: false,
+          value: "genaralSchedule",
+        },
+        {
+          text: "Bắt đầu",
+          align: "start",
+          sortable: false,
+          value: "startDay",
+        },
+        {
+          text: "Kết thúc",
+          align: "start",
+          sortable: false,
+          value: "endDay",
+        },
       ],
       selectedRoom: null,
       rooms: [],
@@ -136,6 +220,7 @@ export default {
       roomDialog: false,
       roomName: "",
       deleteDialog: false,
+      currentSections: {},
     };
   },
   methods: {
@@ -182,6 +267,34 @@ export default {
           }
         );
       }
+    },
+    viewSections(item) {
+      RoomService.getRoomSections(item.id).then(
+        (response) => {
+          this.currentSections = response.data.sectionList;
+          for (let i = 0; i < this.currentSections.length; i++) {
+            //schedule
+            let schedule = this.currentSections[i].schedule.split(",");
+            this.currentSections[i].schedule = "";
+            schedule.forEach((element) => {
+              let num = parseInt(element) + 1;
+              this.currentSections[i].schedule += "Thứ " + num + ", ";
+            });
+            // day
+            this.currentSections[i].startDay = datetimeHelper.getDateFormat(
+              this.currentSections[i].startDay
+            );
+            this.currentSections[i].endDay = datetimeHelper.getDateFormat(
+              this.currentSections[i].endDay
+            );
+          }
+          console.log(this.currentSections);
+          this.roomSectionDialog = true;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
     },
     createOrUpdateRoom() {
       //update

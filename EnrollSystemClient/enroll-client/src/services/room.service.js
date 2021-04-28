@@ -18,6 +18,9 @@ class RoomService {
     deleteRoom(id) {
         return axios.delete(`${API.ROOMS}/${id}`, { headers: authHeader() });
     }
+    getRoomSections(roomId) {
+        return axios.get(`${API.ROOMS}/${roomId}/sections`, { headers: authHeader() });
+    } 
 }
 
 export default new RoomService();

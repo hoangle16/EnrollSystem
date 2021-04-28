@@ -28,6 +28,7 @@ namespace EnrollSystem.Helpers
             //room
             CreateMap<Room, RoomModel>();
             CreateMap<RoomInputModel, Room>();
+            CreateMap<Room, RoomSectionsModel>();
             //course
             CreateMap<Course, CourseModel>();
             CreateMap<CourseInputModel, Course>();
