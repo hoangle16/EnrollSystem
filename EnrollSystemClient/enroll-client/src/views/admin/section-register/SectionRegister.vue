@@ -112,6 +112,66 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                <v-dialog v-model="detailDialog" max-width="800px">
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline"> Danh sách đăng ký học phần </span>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                      <v-container>
+                        <v-row v-if="selectedItem != null">
+                          <v-col class="text-dark" cols="12" sm="6" md="4">
+                            Mã học phần: {{ selectedItem.id }}
+                          </v-col>
+                          <v-col class="text-dark" cols="12" sm="6" md="4">
+                            Môn học: {{ selectedItem.courseName }}
+                          </v-col>
+                          <v-col class="text-dark" cols="12" sm="6" md="4">
+                            Giáo viên: {{ selectedItem.teacherName }}
+                          </v-col>
+                          <v-col cols="12">
+                            <v-divider></v-divider>
+                            <v-data-table
+                              :headers="headersS"
+                              :items="registrationList"
+                              class="elevation"
+                              :loading="isLoading"
+                              loading-text="Đang tải dữ liệu..."
+                              :hide-default-footer="true"
+                            >
+                              <template v-slot:[`item.actions`]="{ item }">
+                                <v-icon
+                                  v-if="
+                                    registrationList.length != 0 &&
+                                    registrationList[0].hasApproval == false
+                                  "
+                                  color="red"
+                                  title="Xóa"
+                                  small
+                                  @click="deleteItem(item)"
+                                  >mdi-delete</v-icon
+                                >
+                              </template>
+                            </v-data-table>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        v-if="
+                          registrationList.length != 0 &&
+                          registrationList[0].hasApproval == false
+                        "
+                        color="success"
+                        @click="approval"
+                        >Duyệt</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </v-row>
             </template>
             <template v-slot:[`item.genaralSchedule`]="{ item }">
@@ -144,6 +204,7 @@
 import MaterialCard from "../../../components/base/MaterialCard";
 import datetimeHelper from "../../../helper/datetimeHelper";
 import RegistrationTimeService from "../../../services/registration-time.service";
+import sectionRegisterService from "../../../services/section-register.service";
 import SectionRegisterService from "../../../services/section-register.service";
 export default {
   name: "section-register",
@@ -152,12 +213,26 @@ export default {
   },
   data() {
     return {
+      selectedItem: null,
       startDayMenu: false,
       endDayMenu: false,
       registrationTimeDialog: false,
       registerItem: [],
+      detailDialog: false,
       registrationTime: {},
+      registrationList: [],
       isLoading: false,
+      headersS: [
+        { text: "MSSV", value: "studentUserName", align: "start" },
+        { text: "Họ tên", value: "studentName", align: "start" },
+        {
+          text: "Số điện thoại",
+          value: "studentPhoneNumber",
+          align: "start",
+          sortable: false,
+        },
+        { text: "", value: "actions", sortable: false, align: "right" },
+      ],
       headers: [
         {
           text: "Mã lớp",
@@ -271,8 +346,64 @@ export default {
         }
       );
     },
+    getDetai() {
+      sectionRegisterService
+        .getRegisterListBySectionId(this.selectedItem.id)
+        .then(
+          (response) => {
+            console.log(response.data);
+            this.registrationList = response.data;
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    },
     regDetail(item) {
       console.log(item);
+      this.selectedItem = item;
+      this.detailDialog = true;
+      this.getDetai();
+    },
+    deleteItem(item) {
+      console.log(item);
+      SectionRegisterService.deleteStudentRegistration(
+        item.studentId,
+        item.sectionId
+      ).then(
+        () => {
+          this.$toast("Xóa đăng ký thành công!", {
+            color: "success",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
+          this.getDetai();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    approval() {
+      SectionRegisterService.approvalReg(this.selectedItem.id).then(
+        (response) => {
+          console.log(response);
+          this.$toast("Duyệt đăng ký thành công!", {
+            color: "success",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
+          this.detailDialog = false;
+          this.selectedItem = null;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
     },
   },
   mounted() {

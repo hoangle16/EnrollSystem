@@ -78,6 +78,7 @@ namespace EnrollSystem.Helpers
             CreateMap<StudentSectionRegistration, StudentSectionRegModel>()
                 .ForMember(d => d.StudentUserName, s => s.MapFrom(s => s.Student.User.UserName))
                 .ForMember(d => d.StudentName, s => s.MapFrom(s => s.Student.User.Name))
+                .ForMember(d => d.StudentPhoneNumber, s => s.MapFrom(s => s.Student.User.PhoneNumber))
                 .ForMember(d => d.CourseName, s => s.MapFrom(s => s.Section.Course.Name))
                 .ForMember(d => d.SectionTeacherName, s => s.MapFrom(s => s.Section.Teacher.User.Name))
                 .ForMember(d => d.StartDay, s => s.MapFrom(s => s.Section.StartDay))

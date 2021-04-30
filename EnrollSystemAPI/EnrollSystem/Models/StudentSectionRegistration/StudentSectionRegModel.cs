@@ -11,6 +11,7 @@ namespace EnrollSystem.Models.StudentSectionRegistration
         public int StudentId { get; set; }
         public string StudentUserName { get; set; }
         public string StudentName { get; set; }
+        public string StudentPhoneNumber { get; set; }
         public int SectionId { get; set; }
         public string CourseName { get; set; }
         public string SectionTeacherName { get; set; }
