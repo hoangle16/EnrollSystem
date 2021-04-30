@@ -21,3 +21,9 @@ export const ROOMS = `${BASE_URL}/rooms`;
 
 //courses
 export const COURSES =`${BASE_URL}/courses`;
+
+//Section Register
+export const SECTION_REGISTER = `${BASE_URL}/sectionRegisters`;
+
+//Registration time
+export const REGISTRATION_TIME = `${BASE_URL}/registrationTimes`;

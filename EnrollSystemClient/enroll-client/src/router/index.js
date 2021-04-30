@@ -68,6 +68,14 @@ const routes = [
           authorize: [ROLE.Admin],
         },
       },
+      {
+        path: 'section-register',
+        name: 'admin_section_register',
+        component: () => import('../views/admin/section-register/SectionRegister.vue'),
+        meta: {
+          authorize: [ROLE.Admin],
+        },
+      },
     ]
   },
   { path: '*', redirect: '/' }

@@ -20,16 +20,19 @@
           >
         </template>
         <v-list dense light nav>
-          <v-list-item style="text-decoration: none" :to="'/' + currentUser.userInfo.role + '/profile'">
+          <v-list-item
+            style="text-decoration: none"
+            :to="'/' + currentUser.userInfo.role + '/profile'"
+          >
             <v-row class="d-flex align-center justify-center">
-              <v-btn text x-small  class="mr-3 btn-custom"
+              <v-btn text x-small class="mr-3 btn-custom"
                 ><v-icon class="mr-3">mdi-account</v-icon>
                 <span>{{ currentUser.userInfo.name }}</span>
               </v-btn>
             </v-row>
           </v-list-item>
           <v-list-item @click.prevent="logout()">
-            <v-btn text  x-small class="mr-3 btn-custom"
+            <v-btn text x-small class="mr-3 btn-custom"
               ><v-icon class="mr-1">mdi-logout</v-icon>Đăng xuất</v-btn
             >
           </v-list-item>
@@ -123,6 +126,12 @@ export default {
           title: "Học phần",
           href: "/admin/sections",
           icon: "mdi-book-open-variant",
+          authorize: "admin",
+        },
+        {
+          title: "Đăng ký học phần",
+          href: "/admin/section-register",
+          icon: "mdi-book-plus",
           authorize: "admin",
         },
         {
