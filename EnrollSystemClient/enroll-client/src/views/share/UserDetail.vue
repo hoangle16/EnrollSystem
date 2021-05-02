@@ -95,9 +95,7 @@
                       :items="currentSchedule"
                       :items-per-page="15"
                       class="elevation-1"
-                      :footer-props="{
-                        'items-per-page-text': 'Số hàng mỗi trang',
-                      }"
+                      :hide-default-footer="true"
                     >
                       <template v-slot:[`item.genaralSchedule`]="{ item }">
                         <span>

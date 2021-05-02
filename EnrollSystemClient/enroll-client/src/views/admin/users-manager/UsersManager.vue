@@ -47,6 +47,7 @@
                       color="success"
                       dark
                       class="mb-2"
+                      title="Thêm người dùng mới"
                       v-bind="attrs"
                       v-on="on"
                     >

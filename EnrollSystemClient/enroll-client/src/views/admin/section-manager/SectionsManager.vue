@@ -36,6 +36,7 @@
                   color="success"
                   dark
                   class="mb-2 mr-2"
+                  title="Thêm môn học mới"
                   ><v-icon dark class="mr-2">mdi-plus-circle-outline</v-icon>Môn
                   học</v-btn
                 >
@@ -79,6 +80,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      title="Thêm học phần mới"
                     >
                       <v-icon dark class="mr-2">mdi-plus-circle-outline</v-icon>
                       Học phần
@@ -258,9 +260,6 @@
                               :items="students"
                               :hide-default-footer="true"
                               class="elevation-1"
-                              :footer-props="{
-                                'items-per-page-text': 'Số hàng mỗi trang',
-                              }"
                             >
                             </v-data-table>
                           </v-col>
@@ -510,6 +509,7 @@ export default {
           sortable: true,
           value: "endDay",
         },
+        { text:"Số lượng", value: "slot", sortable: false, width: 90, align: "center" },
         { text: "", width: 100, value: "actions", sortable: false },
       ],
       newCourseName: "",
@@ -564,6 +564,7 @@ export default {
       SectionService.getSections().then(
         (response) => {
           this.sections = response.data;
+          console.log(this.sections);
           for (let i = 0; i < this.sections.length; i++) {
             let schedule = this.sections[i].schedule.split(",");
             this.sections[i].schedule = "";

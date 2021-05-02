@@ -29,6 +29,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      title="Thêm phòng học mới"
                     >
                       <v-icon dark class="mr-2">mdi-plus-circle-outline</v-icon>
                       Thêm

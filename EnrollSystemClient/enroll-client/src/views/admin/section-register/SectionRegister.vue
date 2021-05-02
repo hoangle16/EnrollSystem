@@ -31,9 +31,10 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      title="Thiết lặp thời gian đăng ký"
                     >
                       <v-icon dark class="mr-2">mdi-timetable</v-icon>
-                      Thiết lặp thời gian đăng ký
+                      Thời gian đăng ký
                     </v-btn>
                   </template>
                   <v-card>
