@@ -78,6 +78,40 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/teacher',
+    name: "teacher",
+    component: () => import('../views/teacher/Index.vue'),
+    meta: {
+      authorize: [ROLE.Teacher],
+    },
+    children: [
+      {
+        path: 'profile',
+        name: 'teacher_profile',
+        component: () => import('../views/share/Profile.vue'),
+        meta: {
+          authorize: [ROLE.Teacher]
+        },
+      },
+      {
+        path: 'schedule',
+        name: 'teacher_schedule',
+        component: () => import('../views/teacher/schedule/Schedule.vue'),
+        meta: {
+          authorize: [ROLE.Teacher]
+        },
+      },
+      {
+        path: 'calendar',
+        name: 'teacher_calendar',
+        component: () => import('../views/teacher/calendar/Calendar.vue'),
+        meta: {
+          authorize: [ROLE.Teacher]
+        },
+      },
+    ],
+  },
   { path: '*', redirect: '/' }
 ]
 

@@ -25,9 +25,9 @@
             :to="'/' + currentUser.userInfo.role + '/profile'"
           >
             <v-row class="d-flex align-center justify-center">
-              <v-btn text x-small class="mr-3 btn-custom"
+              <v-btn text x-small class="mr-6 btn-custom"
                 ><v-icon class="mr-3">mdi-account</v-icon>
-                <span>{{ currentUser.userInfo.name }}</span>
+                <span> Profile </span>
               </v-btn>
             </v-row>
           </v-list-item>
@@ -44,7 +44,7 @@
       app
       floating
       :permanent="sidebarMenu"
-      :mini-variant.sync="mini"
+      :mini-variant="mini"
     >
       <v-list
         height="56px"
@@ -108,19 +108,13 @@ export default {
   data() {
     return {
       sidebarMenu: true,
-      toggleMini: false,
+      toggleMini: true,
       items: [
         {
           title: "Người dùng",
           href: "/admin/users",
           icon: "mdi-account-group",
           authorize: "admin",
-        },
-        {
-          title: "Detections",
-          href: "#",
-          icon: "mdi-shield-account",
-          authorize: "teacher",
         },
         {
           title: "Học phần",
@@ -139,6 +133,18 @@ export default {
           href: "/admin/rooms",
           icon: "mdi-home-map-marker",
           authorize: "admin",
+        },
+        {
+          title: "Danh sách lớp",
+          href: "/teacher/schedule",
+          icon: "mdi-book-open-variant",
+          authorize: "teacher",
+        },
+        {
+          title: "Lịch dạy",
+          href: "/teacher/caldendar",
+          icon: "mdi-calendar-clock",
+          authorize: "teacher",
         },
         {
           title: "Orders",
