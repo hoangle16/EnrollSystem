@@ -312,6 +312,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.TeachersController.GetCalendar">
+            <summary>
+            Get calendar item 
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.UsersController.#ctor(EnrollSystem.Interfaces.IUserRepository,EnrollSystem.Interfaces.IImageRepository,AutoMapper.IMapper,Microsoft.Extensions.Options.IOptions{EnrollSystem.Helpers.AppSettings})">
             <summary>
             UserController

@@ -695,6 +695,7 @@ export default {
           });
           this.newSectionDialog = false;
           this.getSectionList();
+          this.newSection = {};
         },
         (error) => {
           console.log(error);

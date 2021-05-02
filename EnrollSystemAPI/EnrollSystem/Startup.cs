@@ -102,8 +102,8 @@ namespace EnrollSystem
                              var user = userService.GetById(userId);
                              if (user == null)
                              {
-                                // return unauthorized if user no longer exists
-                                context.Fail("Unauthorized");
+                                 // return unauthorized if user no longer exists
+                                 context.Fail("Unauthorized");
                              }
                              return Task.CompletedTask;
                          }
@@ -149,17 +149,19 @@ namespace EnrollSystem
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(o => o
+            /*app.UseCors(o => o
             .WithOrigins("http://localhost:8080")
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials());
-            /*app.UseCors(x => x
-            .SetIsOriginAllowed(_ => true)
+            .AllowCredentials());*/
+
+            //app.UseHttpsRedirection();
+
+            app.UseCors(x => x
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials());*/
-            app.UseHttpsRedirection();
+            .SetIsOriginAllowed(origin => true) // allow any origin
+            .AllowCredentials()); // allow credentials
 
             app.UseRouting();
 

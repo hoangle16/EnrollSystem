@@ -142,7 +142,7 @@ export default {
         },
         {
           title: "Lịch dạy",
-          href: "/teacher/caldendar",
+          href: "/teacher/calendar",
           icon: "mdi-calendar-clock",
           authorize: "teacher",
         },

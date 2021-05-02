@@ -100,6 +100,10 @@ namespace EnrollSystem.Helpers
                 .ForMember(d => d.StudentUserName, s => s.MapFrom(s => s.Student.User.UserName));
             CreateMap<AttendanceImage, AttendanceImageModel>()
                 .ForMember(d => d.Path, s => s.MapFrom(s => s.Image.Path));
+            //Calendar item
+            CreateMap<Section, CalendarModel>()
+                .ForMember(d => d.CourseName, s => s.MapFrom(s => s.Course.Name))
+                .ForMember(d => d.RoomName, s => s.MapFrom(s => s.Room.Name));
         }
     }
 }

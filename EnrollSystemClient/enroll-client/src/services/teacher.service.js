@@ -12,6 +12,9 @@ class TeacherService {
     getMySection() {
         return axios.get(`${API.TEACHERS}/sections`, { headers: authHeader() });
     }
+    getCalendar() {
+        return axios.get(`${API.TEACHERS}/calendar`, { headers: authHeader() });
+    }
 }
 
 export default new TeacherService();
