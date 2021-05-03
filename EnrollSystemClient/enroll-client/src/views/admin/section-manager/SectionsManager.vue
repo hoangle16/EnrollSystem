@@ -126,6 +126,7 @@
                                 @input="startDayMenu = false"
                                 :min="dateNow"
                                 @change="scheduleChange"
+                                locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
@@ -152,6 +153,7 @@
                                 @input="endDayMenu = false"
                                 :min="newSection.startDay"
                                 @change="scheduleChange"
+                                 locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
@@ -310,6 +312,7 @@
                                 @input="startDayMenu1 = false"
                                 :min="dateNow"
                                 @change="scheduleChangeEdit"
+                                 locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
@@ -336,6 +339,7 @@
                                 @input="endDayMenu1 = false"
                                 @change="scheduleChangeEdit"
                                 :min="dateNow"
+                                 locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>

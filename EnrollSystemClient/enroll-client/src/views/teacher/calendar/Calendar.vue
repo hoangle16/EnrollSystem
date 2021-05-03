@@ -66,7 +66,6 @@ export default {
   },
   data() {
     return {
-      show: false,
       sections: [],
       type: "month",
       types: [

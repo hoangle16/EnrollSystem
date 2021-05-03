@@ -69,6 +69,7 @@
                                 v-model="registrationTime.startDateTime"
                                 @input="startDayMenu = false"
                                 :min="new Date().toISOString().substr(0, 10)"
+                                 locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
@@ -94,6 +95,7 @@
                                 v-model="registrationTime.endDateTime"
                                 @input="endDayMenu = false"
                                 :min="minDate"
+                                 locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
