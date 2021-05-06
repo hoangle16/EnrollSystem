@@ -95,6 +95,14 @@ namespace EnrollSystem.Helpers
                 .ForMember(d => d.StudentId, s => s.MapFrom(s => s.StudentSection.StudentId))
                 .ForMember(d => d.UserId, s => s.MapFrom(s => s.StudentSection.Student.UserId))
                 .ForMember(d => d.Name, s => s.MapFrom(s => s.StudentSection.Student.User.Name));
+            CreateMap<Attendance, AttendanceNewModel>()
+                .ForMember(d => d.SectionId, s => s.MapFrom(s => s.StudentSection.SectionId));
+            CreateMap<Attendance, AttendanceItem>()
+                .ForMember(d => d.StudentId, s => s.MapFrom(s => s.StudentSection.StudentId))
+                .ForMember(d => d.UserId, s => s.MapFrom(s => s.StudentSection.Student.UserId))
+                .ForMember(d => d.Name, s => s.MapFrom(s => s.StudentSection.Student.User.Name))
+                .ForMember(d => d.Username, s => s.MapFrom(s => s.StudentSection.Student.User.UserName))
+                .ForMember(d => d.PhoneNumber, s => s.MapFrom(s => s.StudentSection.Student.User.PhoneNumber));
             CreateMap<TrainingImage, TrainingImageModel>()
                 .ForMember(d => d.Path, s => s.MapFrom(s => s.Image.Path))
                 .ForMember(d => d.StudentUserName, s => s.MapFrom(s => s.Student.User.UserName));

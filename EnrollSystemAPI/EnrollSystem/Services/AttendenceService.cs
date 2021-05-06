@@ -182,6 +182,16 @@ namespace EnrollSystem.Services
             var _images = _context.AttendanceImages.Where(e => e.SectionId == sectionId);
             return _images;
         }
+        public Attendance ChangeAttendance(int attendanceId)
+        {
+            var attendance = _context.Attendances.Find(attendanceId);
+            if (attendance == null)
+                throw new AppException("Not Found!");
+            attendance.HasAttendance = !attendance.HasAttendance;
+            _context.Attendances.Update(attendance);
+            _context.SaveChanges();
+            return attendance;
+        }
         //export report
         public FileContentResult ExportAttendanceReport(int sectionId)
         {

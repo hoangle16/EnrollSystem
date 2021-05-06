@@ -78,6 +78,13 @@
             <param name="sectionId"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.ChangeAttendance(System.Int32)">
+            <summary>
+            Change hasAttendance
+            </summary>
+            <param name="attendanceId"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.CoursesController.GetAll">
             <summary>
             Get All Courses

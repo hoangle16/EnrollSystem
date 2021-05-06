@@ -147,6 +147,12 @@ export default {
           authorize: "teacher",
         },
         {
+          title: "Điểm danh",
+          href: "/teacher/attendance",
+          icon: "mdi-account-multiple-check",
+          authorize: "teacher",
+        },
+        {
           title: "Orders",
           href: "#",
           icon: "mdi-bus-clock",

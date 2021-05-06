@@ -110,6 +110,23 @@ const routes = [
           authorize: [ROLE.Teacher]
         },
       },
+      {
+        path: 'attendance',
+        name: 'teacher_attendance',
+        component: () => import('../views/teacher/attendance/Attendance.vue'),
+        meta: {
+          authorize: [ROLE.Teacher]
+        },
+      },
+      {
+        path: 'attendance/:sectionId',
+        name: 'admin_attendance_details',
+        component: () => import('../views/teacher/attendance/AttendanceDetail.vue'),
+        props: true,
+        meta: {
+          authorize: [ROLE.Teacher],
+        },
+      },
     ],
   },
   { path: '*', redirect: '/' }

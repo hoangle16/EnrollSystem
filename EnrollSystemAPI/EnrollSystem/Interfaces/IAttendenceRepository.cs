@@ -19,6 +19,7 @@ namespace EnrollSystem.Interfaces
         void DeleteTrainingImage(int trainingImageId); // trainingImageId
         IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId, DateTime dateTime);
         IEnumerable<AttendanceImage> GetAttendanceImages(int sectionId);
+        Attendance ChangeAttendance(int attendanceId);
         //Export Attendance report
         FileContentResult ExportAttendanceReport(int sectionId);
     }

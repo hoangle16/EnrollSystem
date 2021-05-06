@@ -25,5 +25,8 @@ export const COURSES =`${BASE_URL}/courses`;
 //Section Register
 export const SECTION_REGISTER = `${BASE_URL}/sectionRegisters`;
 
-//Registration time
+//registration time
 export const REGISTRATION_TIME = `${BASE_URL}/registrationTimes`;
+
+//attendance
+export const ATTENDANCE = `${BASE_URL}/attendance`;

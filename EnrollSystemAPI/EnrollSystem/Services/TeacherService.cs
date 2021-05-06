@@ -55,7 +55,7 @@ namespace EnrollSystem.Services
         }
         public IEnumerable<Section> GetMySections(int teacherId)
         {
-            var sections = _context.Sections.Where(e => e.TeacherId == teacherId);
+            var sections = _context.Sections.Where(e => e.TeacherId == teacherId && e.EndDay.Date >= DateTime.Now.Date);
             return sections;
         }
         public int GetTeacherIdViaUserId(int userId)

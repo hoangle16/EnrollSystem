@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       sections: [],
-      type: "month",
+      type: "week",
       types: [
         { text: "Ngày", value: "day" },
         { text: "Tuần", value: "week" },
