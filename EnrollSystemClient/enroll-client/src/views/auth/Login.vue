@@ -96,7 +96,7 @@ export default {
               } else if (response.userInfo.role == "teacher") {
                 this.$router.push("/teacher/profile");
               } else {
-                this.$$router.push("/profile");
+                this.$router.push("user/profile");
               }
             },
             (error) => {

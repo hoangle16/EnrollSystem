@@ -129,6 +129,24 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/user/Index.vue'),
+    meta: {
+      authorize: [ROLE.Student],
+    },
+    children: [
+      {
+        path: 'profile',
+        name: 'user_profile',
+        component: () => import('../views/share/Profile.vue'),
+        meta: {
+          authorize: [ROLE.Student]
+        },
+      },
+    ]
+  },
   { path: '*', redirect: '/' }
 ]
 
