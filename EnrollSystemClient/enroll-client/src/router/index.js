@@ -145,6 +145,14 @@ const routes = [
           authorize: [ROLE.Student]
         },
       },
+      {
+        path: 'schedule',
+        name: 'user_schedule',
+        component: () => import('../views/user/sections/SectionList.vue'),
+        meta: {
+          authorize: [ROLE.Student]
+        },
+      },
     ]
   },
   { path: '*', redirect: '/' }

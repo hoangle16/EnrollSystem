@@ -153,9 +153,9 @@ export default {
           authorize: "teacher",
         },
         {
-          title: "Orders",
-          href: "#",
-          icon: "mdi-bus-clock",
+          title: "Lịch học",
+          href: "/user/schedule",
+          icon: "mdi-book-open-variant",
           authorize: "student",
         },
       ],
