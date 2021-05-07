@@ -28,7 +28,69 @@
                     <span class="headline"> Điểm danh </span>
                   </v-card-title>
                   <v-divider></v-divider>
-                  <v-card-text> </v-card-text>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12">
+                          <v-menu
+                            v-model="attendanceDateMenu"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="newAttendance.dateTime"
+                                label="Ngày điểm danh"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="newAttendance.dateTime"
+                              @input="attendanceDateMenu = false"
+                              locale="vi-vn"
+                            ></v-date-picker>
+                          </v-menu>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-file-input
+                            v-model="newAttendance.images"
+                            small-chips
+                            accept="image/png, image/jpeg, image/bmp"
+                            placeholder="Chọn ảnh đại diện"
+                            prepend-icon="mdi-camera"
+                            label="Chọn ảnh điểm danh"
+                            clearable
+                            multiple
+                            @change="inputChanged"
+                          >
+                            <template v-slot:selection="{ text, index }">
+                              <v-chip
+                                small
+                                text-color="white"
+                                color="#295671"
+                                close
+                                @click:close="remove(index)"
+                              >
+                                {{ text }}
+                              </v-chip>
+                            </template></v-file-input
+                          >
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="success" @click="attendance">Xác nhận</v-btn>
+                    <v-btn color="error" @click="attendanceDialogHide"
+                      >Hủy</v-btn
+                    >
+                  </v-card-actions>
                 </v-card>
               </v-dialog>
             </v-col>
@@ -66,7 +128,7 @@
                           cols="4"
                         >
                           <v-img
-                            @click.stop="imageDialog = true"
+                            @click.stop="chooseImage(img)"
                             :src="img.path"
                             :lazy-src="img.path"
                             :aspect-ratio="16 / 9"
@@ -89,7 +151,7 @@
                             <v-card>
                               <v-card-text class="p-0">
                                 <v-img
-                                  :src="img.path"
+                                  :src="currentImg.path"
                                   :aspect-ratio="16 / 9"
                                   max-width="720"
                                   class="grey lighten-2"
@@ -145,6 +207,11 @@ export default {
   },
   data() {
     return {
+      // currImages: [],
+      currentImg: {},
+      newAttendance: { dateTime: new Date().toISOString().substring(0, 10) },
+      attendanceDateMenu: false,
+      attendanceDialog: false,
       imageDialog: false,
       attendanceList: [],
       isLoading: false,
@@ -164,7 +231,7 @@ export default {
       this.isLoading = true;
       AttendanceService.getAttendanceListBySectionId(this.sectionId).then(
         (response) => {
-          this.attendanceList = response.data;
+          this.attendanceList = response.data.reverse();
           this.isLoading = false;
         },
         (err) => {
@@ -175,7 +242,7 @@ export default {
     changeAttendance(item) {
       AttendanceService.changeAttendance(item.id).then(
         (response) => {
-          console.log(response.data);
+          //console.log(response.data);
           item.hasAttendance = response.data.hasAttendance;
         },
         (err) => {
@@ -201,9 +268,54 @@ export default {
         }
       );
     },
+    remove(index) {
+      this.newAttendance.images.splice(index, 1);
+    },
+    inputChanged() {
+      // this.newAttendance.images = [
+      //   ...this.currImages,
+      //   ...this.newAttendance.images,
+      // ];
+      console.log(this.newAttendance.images);
+    },
+    attendanceDialogHide() {
+      this.attendanceDialog = false;
+      this.newAttendance = {};
+    },
+    attendance() {
+      //console.log(this.newAttendance);
+      let formData = new FormData();
+      formData.append("sectionId", this.sectionId);
+      //formData.append("images[]", this.newAttendance.images);
+      this.newAttendance.images.forEach((el) => {
+        formData.append("images", el);
+      });
+      formData.append("dateTime", this.newAttendance.dateTime);
+      AttendanceService.addAttendanceImages(formData).then(
+        () => {
+          this.$toast("Điểm danh hoàn thành!", {
+            color: "success",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
+          this.getAttendanceList();
+          this.attendanceDialogHide();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    chooseImage(img) {
+      this.currentImg = img;
+      this.imageDialog = true;
+    },
   },
   mounted() {
     this.getAttendanceList();
+    this.newAttendance.images;
   },
 };
 </script>
