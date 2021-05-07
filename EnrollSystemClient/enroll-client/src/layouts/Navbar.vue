@@ -154,7 +154,7 @@ export default {
         },
         {
           title: "Lịch học",
-          href: "/user/schedule",
+          href: "/student/schedule",
           icon: "mdi-book-open-variant",
           authorize: "student",
         },

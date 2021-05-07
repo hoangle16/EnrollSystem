@@ -130,7 +130,7 @@ const routes = [
     ],
   },
   {
-    path: '/user',
+    path: '/student',
     name: 'user',
     component: () => import('../views/user/Index.vue'),
     meta: {
@@ -139,7 +139,7 @@ const routes = [
     children: [
       {
         path: 'profile',
-        name: 'user_profile',
+        name: 'student_profile',
         component: () => import('../views/share/Profile.vue'),
         meta: {
           authorize: [ROLE.Student]
@@ -147,7 +147,7 @@ const routes = [
       },
       {
         path: 'schedule',
-        name: 'user_schedule',
+        name: 'student_schedule',
         component: () => import('../views/user/sections/SectionList.vue'),
         meta: {
           authorize: [ROLE.Student]
