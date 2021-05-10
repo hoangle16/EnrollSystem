@@ -153,6 +153,14 @@ const routes = [
           authorize: [ROLE.Student]
         },
       },
+      {
+        path: 'register',
+        name: 'student_register',
+        component: () => import('../views/user/section-register/SectionRegister.vue'),
+        meta: {
+          authorize: [ROLE.Student]
+        },
+      },
     ]
   },
   { path: '*', redirect: '/' }

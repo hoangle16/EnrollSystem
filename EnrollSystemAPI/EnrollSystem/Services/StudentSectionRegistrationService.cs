@@ -35,7 +35,8 @@ namespace EnrollSystem.Services
 
         public void DeleteRegister(int studentId, int sectionId)
         {
-            var reg = _context.StudentSectionRegistrations.SingleOrDefault(e => e.StudentId == studentId && e.SectionId == sectionId);
+            //var reg = _context.StudentSectionRegistrations.Where(e => e.StudentId == studentId && e.SectionId == sectionId).SingleOrDefault();
+            var reg = _context.StudentSectionRegistrations.Where(e => e.StudentId == studentId && e.SectionId == sectionId).SingleOrDefault();
             if (reg != null)
                 _context.StudentSectionRegistrations.Remove(reg);
             var section = _context.Sections.Find(sectionId);
@@ -62,7 +63,7 @@ namespace EnrollSystem.Services
 
         public IEnumerable<StudentSectionRegistration> GetListByStudentId(int studentId)
         {
-            return _context.StudentSectionRegistrations.Where(e => e.StudentId == studentId);
+            return _context.StudentSectionRegistrations.Where(e => e.StudentId == studentId && e.HasApproval == false);
         }
         public StudentSectionRegistration Registration(int studentId, int sectionId)
         {
@@ -70,7 +71,7 @@ namespace EnrollSystem.Services
             var registrationTime = _context.RegistrationTimes.FirstOrDefault();
             if (registrationTime == null || DateTime.Compare(DateTime.Now, registrationTime.StartDateTime)<0 || DateTime.Compare(DateTime.Now, registrationTime.EndDateTime)>0)
             {
-                throw new AppException("Now is not the time to enroll!");
+                throw new AppException("Không phải thời gian đăng ký học!");
             }
             //
             if (!_context.Students.Any(e => e.Id == studentId))
@@ -81,7 +82,7 @@ namespace EnrollSystem.Services
             if (_context.StudentSectionRegistrations.Where(e => e.StudentId == studentId && e.SectionId == sectionId).Any())
                 throw new AppException("Section already registered");
             if (section.MaxSlot == section.Slot)
-                throw new AppException("Section has full!!!");
+                throw new AppException("Số lượng đăng ký đã đầy!!!");
             //check overlap schedule
 
             string[] dayOfWeek = section.Schedule.Split(",");
@@ -90,7 +91,7 @@ namespace EnrollSystem.Services
             foreach(var day in dayOfWeek)
             {
                 if (dbRegistrationList.Any(e => e.Section.Schedule.Contains(day)))
-                    throw new AppException("Schedule Confilict!");
+                    throw new AppException("Trùng lịch học!!!");
             }
             //registration
             StudentSectionRegistration newReg = new StudentSectionRegistration();

@@ -18,6 +18,12 @@ class SectionRegisterService {
     approvalReg(sectionId) {
         return axios.put(`${API.SECTION_REGISTER}/approval/${sectionId}`, {}, { headers: authHeader() });
     }
+    registerSection(studentId, sectionId) {
+        return axios.post(`${API.SECTION_REGISTER}`, {
+            studentId: studentId,
+            sectionId: sectionId
+        }, { headers: authHeader() });
+    }
 }
 
 export default new SectionRegisterService();

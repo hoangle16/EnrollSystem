@@ -158,6 +158,12 @@ export default {
           icon: "mdi-book-open-variant",
           authorize: "student",
         },
+        {
+          title: "Đăng ký học",
+          href: "/student/register",
+          icon: "mdi-book-plus",
+          authorize: "student",
+        },
       ],
     };
   },

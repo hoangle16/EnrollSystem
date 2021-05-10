@@ -14,7 +14,7 @@ namespace EnrollSystem.Models.StudentSectionRegistration
         public string StudentPhoneNumber { get; set; }
         public int SectionId { get; set; }
         public string CourseName { get; set; }
-        public string SectionTeacherName { get; set; }
+        public string TeacherName { get; set; }
         public DateTime StartDay { get; set; } // Ngày bắt đầu
         public DateTime EndDay { get; set; } // Ngày kết thúc
         public int StartTime { get; set; } //ex: 1 (tiết 1)
