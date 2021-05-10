@@ -52,6 +52,24 @@
                 @click="viewStudentList(item)"
                 >mdi-text-account</v-icon
               >
+              <v-btn
+                style="text-decoration: none"
+                id="btn-show"
+                small
+                icon
+                :to="{
+                  name: 'student_attendance',
+                  params: { sectionId: item.id },
+                }"
+              >
+                <v-icon
+                  color="primary"
+                  title="Kết quả điểm danh"
+                  small
+                  class="mr-2"
+                  >mdi-eye</v-icon
+                >
+              </v-btn>
             </template>
           </v-data-table>
         </material-card>

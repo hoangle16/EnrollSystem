@@ -120,7 +120,7 @@ const routes = [
       },
       {
         path: 'attendance/:sectionId',
-        name: 'admin_attendance_details',
+        name: 'teacher_attendance_details',
         component: () => import('../views/teacher/attendance/AttendanceDetail.vue'),
         props: true,
         meta: {
@@ -154,6 +154,15 @@ const routes = [
         },
       },
       {
+        path: 'attendance/:sectionId',
+        name: 'student_attendance',
+        component: () => import('../views/user/sections/attendance/Attendance.vue'),
+        props: true,
+        meta: {
+          authorize: [ROLE.Student],
+        },
+      },
+      {
         path: 'register',
         name: 'student_register',
         component: () => import('../views/user/section-register/SectionRegister.vue'),
@@ -176,7 +185,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const { authorize } = to.meta;
   const currentUser = JSON.parse(localStorage.getItem('user'));
-
+  if (currentUser && to.path == '/') {
+    return next({ path: `${currentUser.userInfo.role}/profile` })
+  }
   if (authorize) {
     if (!currentUser) {
       return next({ path: '/login', query: { returnUrl: to.path } });

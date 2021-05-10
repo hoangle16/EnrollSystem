@@ -27,7 +27,7 @@
                 small
                 icon
                 :to="{
-                  name: 'admin_attendance_details',
+                  name: 'teacher_attendance_details',
                   params: { sectionId: item.id },
                 }"
               >
