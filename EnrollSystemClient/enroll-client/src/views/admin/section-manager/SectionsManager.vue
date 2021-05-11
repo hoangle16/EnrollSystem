@@ -29,6 +29,16 @@
                     hide-details
                   ></v-text-field>
                 </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <v-select
+                    v-model="sectionFilter"
+                    :items="sectionFilterItems"
+                    label="Hiển thị học phần"
+                    dense
+                    @change="filterSection"
+                  >
+                  </v-select>
+                </v-col>
                 <v-spacer></v-spacer>
                 <v-btn
                   @click="newCourseDialog = true"
@@ -55,7 +65,11 @@
                               label="Tên môn học"
                               v-model="newCourseName"
                             ></v-text-field>
-                            <div v-if="errorMsg" class="alert alert-danger" role="alert">
+                            <div
+                              v-if="errorMsg"
+                              class="alert alert-danger"
+                              role="alert"
+                            >
                               {{ errorMsg }}
                             </div>
                           </v-col>
@@ -153,7 +167,7 @@
                                 @input="endDayMenu = false"
                                 :min="newSection.startDay"
                                 @change="scheduleChange"
-                                 locale="vi-vn"
+                                locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
@@ -312,7 +326,7 @@
                                 @input="startDayMenu1 = false"
                                 :min="dateNow"
                                 @change="scheduleChangeEdit"
-                                 locale="vi-vn"
+                                locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
@@ -339,7 +353,7 @@
                                 @input="endDayMenu1 = false"
                                 @change="scheduleChangeEdit"
                                 :min="dateNow"
-                                 locale="vi-vn"
+                                locale="vi-vn"
                               ></v-date-picker>
                             </v-menu>
                           </v-col>
@@ -513,7 +527,13 @@ export default {
           sortable: true,
           value: "endDay",
         },
-        { text:"Số lượng", value: "slot", sortable: false, width: 90, align: "center" },
+        {
+          text: "Số lượng",
+          value: "slot",
+          sortable: false,
+          width: 90,
+          align: "center",
+        },
         { text: "", width: 100, value: "actions", sortable: false },
       ],
       newCourseName: "",
@@ -555,6 +575,12 @@ export default {
         { text: "Tiết 9", value: 9 },
         { text: "Tiết 10", value: 10 },
       ],
+      oriSection: [],
+      sectionFilter: "all",
+      sectionFilterItems: [
+        { text: "Tất cả", value: "all" },
+        { text: "Hiện tại", value: "now" },
+      ],
     };
   },
   computed: {
@@ -584,12 +610,24 @@ export default {
             );
           }
           this.isLoading = false;
+          this.oriSection = this.sections;
         },
         (error) => {
           console.log(error);
           this.isLoading = false;
         }
       );
+    },
+    filterSection() {
+      if (this.sectionFilter == "now") {
+        this.sections = this.oriSection.filter((section) => {
+          let dateNow = new Date();
+          let endDay = new Date(section.endDay.split("-").reverse().join("-"));
+          return dateNow <= endDay;
+        });
+      } else {
+        this.sections = this.oriSection;
+      }
     },
     getCourses() {
       CourseService.getCourse().then(
@@ -604,7 +642,7 @@ export default {
       );
     },
     createCourse() {
-      console.log(this.newCourseName);
+      //console.log(this.newCourseName);
       CourseService.createCourse(this.newCourseName).then(
         () => {
           this.$toast("Tạo môn học mới thành công!", {
@@ -620,7 +658,7 @@ export default {
         (err) => {
           this.errorMsg = err.response.data.error;
         }
-      )
+      );
     },
 
     getTeacherAvailable(data) {

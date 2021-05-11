@@ -14,6 +14,20 @@
             loading-text="Đang tải dữ liệu..."
             :hide-default-footer="true"
           >
+            <template v-slot:top>
+              <v-row class="p-3">
+                <v-col cols="12" sm="6" md="4">
+                  <v-select
+                    v-model="sectionFilter"
+                    :items="sectionFilterItems"
+                    label="Hiển thị học phần"
+                    dense
+                    @change="filterSection"
+                  >
+                  </v-select>
+                </v-col>
+              </v-row>
+            </template>
             <template v-slot:[`item.genaralSchedule`]="{ item }">
               <span>
                 {{ item.schedule }} {{ item.startTime }} - {{ item.endTime }},
@@ -109,6 +123,12 @@ export default {
         { text: "", width: 100, value: "actions", sortable: false },
       ],
       sections: [],
+      oriSection: [],
+      sectionFilter: "all",
+      sectionFilterItems: [
+        { text: "Tất cả", value: "all" },
+        { text: "Hiện tại", value: "now" },
+      ],
     };
   },
   computed: {},
@@ -133,6 +153,7 @@ export default {
             );
           }
           this.isLoading = false;
+          this.oriSection = this.sections;
         },
         (err) => {
           console.log(err);
@@ -144,7 +165,10 @@ export default {
       AttendanceService.exportAttendanceReport(item.id).then(
         (response) => {
           console.log(response.data);
-          const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+          const blob = new Blob([response.data], {
+            type:
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
           link.download = `${item.id}-baocao-diemdanh`;
@@ -162,6 +186,17 @@ export default {
           console.log(err);
         }
       );
+    },
+    filterSection() {
+      if (this.sectionFilter == "now") {
+        this.sections = this.oriSection.filter((section) => {
+          let dateNow = new Date();
+          let endDay = new Date(section.endDay.split("-").reverse().join("-"));
+          return dateNow <= endDay;
+        });
+      } else {
+        this.sections = this.oriSection;
+      }
     },
   },
   mounted() {
