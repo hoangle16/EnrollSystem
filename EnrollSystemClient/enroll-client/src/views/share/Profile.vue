@@ -284,7 +284,7 @@
                                   </v-icon>
                                   <v-img
                                     :src="img.path"
-                                    :aspect-ratio="16 / 9"
+                                    :aspect-ratio="1"
                                     class="grey lighten-2"
                                   >
                                     <template v-slot:placeholder>

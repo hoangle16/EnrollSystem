@@ -86,7 +86,13 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="success" @click="attendance">Xác nhận</v-btn>
+                    <v-btn
+                      color="success"
+                      @click="attendance"
+                      :disabled="loading"
+                    >
+                      <span>Xác nhận</span></v-btn
+                    >
                     <v-btn color="error" @click="attendanceDialogHide"
                       >Hủy</v-btn
                     >
@@ -125,13 +131,15 @@
                           v-for="img in images"
                           :key="img.id"
                           class="d-flex child-flex"
-                          cols="4"
+                          cols="12"
+                          sm="6"
+                          md="4"
                         >
                           <v-img
                             @click.stop="chooseImage(img)"
                             :src="img.path"
                             :lazy-src="img.path"
-                            :aspect-ratio="16 / 9"
+                            aspect-ratio="1"
                             class="grey lighten-2"
                           >
                             <template v-slot:placeholder>
@@ -152,7 +160,7 @@
                               <v-card-text class="p-0">
                                 <v-img
                                   :src="currentImg.path"
-                                  :aspect-ratio="16 / 9"
+                                  :aspect-ratio="1"
                                   max-width="720"
                                   class="grey lighten-2"
                                 ></v-img>
@@ -208,6 +216,7 @@ export default {
   data() {
     return {
       // currImages: [],
+      loading: false,
       currentImg: {},
       newAttendance: { dateTime: new Date().toISOString().substring(0, 10) },
       attendanceDateMenu: false,
@@ -283,6 +292,7 @@ export default {
       this.newAttendance = {};
     },
     attendance() {
+      this.loading = true;
       //console.log(this.newAttendance);
       let formData = new FormData();
       formData.append("sectionId", this.sectionId);
@@ -307,6 +317,7 @@ export default {
           console.log(err);
         }
       );
+      this.loading = false;
     },
     chooseImage(img) {
       this.currentImg = img;

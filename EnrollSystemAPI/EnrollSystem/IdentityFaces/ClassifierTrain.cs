@@ -133,7 +133,7 @@ namespace EnrollSystem.IdentityFaces
                             //load image
                             trainingImages.Add(new Image<Gray, byte>(trainingImage.Image.Path));
                             Names_list_ID.Add(trainingImage.StudentId);
-                            Names_List.Add(trainingImage.Student.User.Name);
+                            Names_List.Add(trainingImage.Student.User.UserName);
                             NumLabels += 1;
                         }
                     }
