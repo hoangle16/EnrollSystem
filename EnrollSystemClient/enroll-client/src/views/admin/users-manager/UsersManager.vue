@@ -68,6 +68,7 @@
                               v-model="newUser.userName"
                               label="Tên đăng nhập"
                               name="userName"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -76,6 +77,7 @@
                               label="Mật khẩu"
                               name="password"
                               type="password"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -84,6 +86,7 @@
                               label="Nhập lại mật khẩu"
                               name="confirmPassword"
                               type="password"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -91,6 +94,7 @@
                               v-model="newUser.name"
                               label="Họ tên"
                               name="name"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -100,6 +104,7 @@
                               label="Giới tính"
                               dense
                               clearable
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                           <v-col cols="12">
@@ -107,6 +112,7 @@
                               v-model="newUser.idNumber"
                               label="CMND"
                               name="idNumber"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -114,6 +120,7 @@
                               v-model="newUser.phoneNumber"
                               label="Số điện thoại"
                               name="phoneNumber"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -122,6 +129,7 @@
                               label="Địa chỉ"
                               hint="Phường/xã, quận/huyện, tỉnh/thành phố"
                               name="address"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -131,6 +139,7 @@
                               label="Vai trò"
                               dense
                               clearable
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                         </v-row>
@@ -204,6 +213,7 @@
                               v-model="selectedUser.name"
                               label="Họ tên"
                               name="name"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -220,6 +230,7 @@
                               v-model="selectedUser.idNumber"
                               label="CMND"
                               name="idNumber"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -227,6 +238,7 @@
                               v-model="selectedUser.phoneNumber"
                               label="Số điện thoại"
                               name="phoneNumber"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -235,6 +247,7 @@
                               label="Địa chỉ"
                               hint="Phường/xã, quận/huyện, tỉnh/thành phố"
                               name="address"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12">
@@ -244,6 +257,7 @@
                               label="Vai trò"
                               dense
                               clearable
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                         </v-row>
@@ -274,7 +288,13 @@
                   params: { userId: item.id },
                 }"
               >
-                <v-icon color="blue lighten-2" title="Chi tiết" small class="mr-2">mdi-eye</v-icon>
+                <v-icon
+                  color="blue lighten-2"
+                  title="Chi tiết"
+                  small
+                  class="mr-2"
+                  >mdi-eye</v-icon
+                >
               </v-btn>
               <v-icon
                 title="Chỉnh sửa"
@@ -388,6 +408,9 @@ export default {
           value: "student",
         },
       ],
+      rules: {
+        required: (v) => !!v || "Vui lòng điền thông tin",
+      },
     };
   },
   computed: {},
@@ -442,7 +465,7 @@ export default {
     },
     editUser(item) {
       console.log("edit", item);
-      this.selectedUser = item;
+      this.selectedUser = {...item};
       this.editUserDialog = true;
     },
     confirmEditUser() {

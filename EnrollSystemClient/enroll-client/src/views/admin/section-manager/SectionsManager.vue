@@ -64,6 +64,7 @@
                               dense
                               label="Tên môn học"
                               v-model="newCourseName"
+                              :rules="[rules.required]"
                             ></v-text-field>
                             <div
                               v-if="errorMsg"
@@ -115,6 +116,7 @@
                               v-model="newSection.courseId"
                               :items="courseItems"
                               label="Tên môn học"
+                              :rules="[rules.required]"
                             ></v-autocomplete>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -133,6 +135,7 @@
                                   readonly
                                   v-bind="attrs"
                                   v-on="on"
+                                  :rules="[rules.required]"
                                 ></v-text-field>
                               </template>
                               <v-date-picker
@@ -160,6 +163,7 @@
                                   readonly
                                   v-bind="attrs"
                                   v-on="on"
+                                  :rules="[rules.required]"
                                 ></v-text-field>
                               </template>
                               <v-date-picker
@@ -181,6 +185,7 @@
                               multiple
                               clearable
                               @change="scheduleChange"
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -191,6 +196,7 @@
                               clearable
                               dense
                               @change="scheduleChange"
+                              :rules="[rules.required]"
                             >
                             </v-select>
                           </v-col>
@@ -203,6 +209,7 @@
                               :item-disabled="checkIsItemDisabled"
                               dense
                               @change="scheduleChange"
+                              :rules="[rules.required]"
                             >
                             </v-select>
                           </v-col>
@@ -213,6 +220,7 @@
                               label="Giáo viên"
                               clearable
                               dense
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -222,6 +230,7 @@
                               label="Phòng học"
                               dense
                               clearable
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                           <v-col cols="12">
@@ -229,6 +238,7 @@
                               v-model="newSection.maxSlot"
                               label="Số lượng"
                               type="number"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                         </v-row>
@@ -301,6 +311,7 @@
                               v-model="selectedSection.courseId"
                               :items="courseItems"
                               label="Tên môn học"
+                              :rules="[rules.required]"
                             ></v-autocomplete>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -319,6 +330,7 @@
                                   readonly
                                   v-bind="attrs"
                                   v-on="on"
+                                  :rules="[rules.required]"
                                 ></v-text-field>
                               </template>
                               <v-date-picker
@@ -346,6 +358,7 @@
                                   readonly
                                   v-bind="attrs"
                                   v-on="on"
+                                  :rules="[rules.required]"
                                 ></v-text-field>
                               </template>
                               <v-date-picker
@@ -367,6 +380,7 @@
                               multiple
                               clearable
                               @change="scheduleChangeEdit"
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -377,6 +391,7 @@
                               clearable
                               dense
                               @change="scheduleChangeEdit"
+                              :rules="[rules.required]"
                             >
                             </v-select>
                           </v-col>
@@ -389,6 +404,7 @@
                               :item-disabled="checkIsItemDisabled"
                               dense
                               @change="scheduleChangeEdit"
+                              :rules="[rules.required]"
                             >
                             </v-select>
                           </v-col>
@@ -399,6 +415,7 @@
                               label="Giáo viên"
                               clearable
                               dense
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -408,6 +425,7 @@
                               label="Phòng học"
                               dense
                               clearable
+                              :rules="[rules.required]"
                             ></v-select>
                           </v-col>
                           <v-col cols="12">
@@ -415,6 +433,7 @@
                               v-model="selectedSection.maxSlot"
                               label="Số lượng"
                               type="number"
+                              :rules="[rules.required]"
                             ></v-text-field>
                           </v-col>
                         </v-row>
@@ -539,7 +558,7 @@ export default {
       newCourseName: "",
       viewStudentsDialog: false,
       sections: [],
-      newSection: {},
+      newSection: { maxSlot: 30 },
       selectedSection: {},
       search: "",
       errorMsg: "",
@@ -581,6 +600,7 @@ export default {
         { text: "Tất cả", value: "all" },
         { text: "Hiện tại", value: "now" },
       ],
+      rules: { required: (v) => !!v || "Vui lòng điền thông tin" },
     };
   },
   computed: {

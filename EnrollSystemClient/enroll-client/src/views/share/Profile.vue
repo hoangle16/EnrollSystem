@@ -28,6 +28,7 @@
                     v-model="currentUser.name"
                     class="purple-input"
                     label="Họ và tên"
+                    :rules="nameRules"
                   />
                 </v-col>
                 <v-col cols="12" md="8">
@@ -55,6 +56,7 @@
                           <v-row>
                             <v-col cols="12">
                               <v-text-field
+                                :rules="[PasswordRules.required]"
                                 v-model="currentPassword"
                                 label="Mật khẩu hiện tại"
                                 required
@@ -64,6 +66,7 @@
                             </v-col>
                             <v-col cols="12">
                               <v-text-field
+                                :rules="[PasswordRules.required]"
                                 v-model="newPassword"
                                 label="Mật khẩu mới"
                                 required
@@ -73,6 +76,7 @@
                             </v-col>
                             <v-col cols="12">
                               <v-text-field
+                                :rules="[PasswordRules.required]"
                                 v-model="passwordConfirm"
                                 label="Xác nhận mật khẩu mới"
                                 required
@@ -111,6 +115,7 @@
                     label="Số CMND"
                     v-model="currentUser.idNumber"
                     class="purple-input"
+                    :rules="idNumberRules"
                   />
                 </v-col>
                 <v-col cols="12" md="4">
@@ -118,6 +123,7 @@
                     label="Số điện thoại"
                     v-model="currentUser.phoneNumber"
                     class="purple-input"
+                    :rules="phoneNumberRules"
                   />
                 </v-col>
                 <v-col cols="12" md="12">
@@ -125,6 +131,7 @@
                     label="Địa chỉ"
                     v-model="currentUser.address"
                     class="purple-input"
+                    :rules="addressRules"
                   />
                 </v-col>
                 <v-col cols="12" class="text-right">
@@ -359,6 +366,13 @@ export default {
       imgsUpload: [],
       trainingImgs: [],
       imageDialog: false,
+      PasswordRules: {
+        required: (v) => !!v || "Vui lòng điền mật khẩu",
+      },
+      nameRules: [(v) => !!v || "Vui lòng điền họ tên"],
+      idNumberRules: [(v) => !!v || "Vui lòng điền số CMND"],
+      phoneNumberRules: [(v) => !!v || "Vui lòng điền SĐT"],
+      addressRules: [(v) => !!v || "Vui lòng điền địa chỉ"],
     };
   },
   components: {

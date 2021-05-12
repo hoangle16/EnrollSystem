@@ -51,12 +51,14 @@
                               v-if="!selectedRoom"
                               v-model="roomName"
                               label="Phòng học"
+                              :rules="[rules.required]"
                               hint="Gợi ý: F101 - Tòa nhà F, tầng 1, phòng 01"
                             ></v-text-field>
                             <v-text-field
                               v-else
                               v-model="selectedRoom.name"
                               label="Phòng học"
+                              :rules="[rules.required]"
                               hint="Gợi ý: F101 - Tòa nhà F, tầng 1, phòng 01"
                             ></v-text-field>
                           </v-col>
@@ -222,6 +224,7 @@ export default {
       roomName: "",
       deleteDialog: false,
       currentSections: {},
+      rules: { required: (v) => !!v || "Vui lòng nhập thông tin" },
     };
   },
   methods: {
@@ -239,7 +242,7 @@ export default {
       );
     },
     editRoom(item) {
-      this.selectedRoom = item;
+      this.selectedRoom = {...item};
       console.log(item);
       this.roomDialog = true;
     },
@@ -316,6 +319,7 @@ export default {
             });
             this.selectedRoom = null;
             this.roomDialog = false;
+            this.getRooms();
           },
           (error) => {
             console.log(error);
