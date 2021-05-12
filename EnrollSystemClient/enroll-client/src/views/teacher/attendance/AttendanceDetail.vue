@@ -67,6 +67,7 @@
                             clearable
                             multiple
                             @change="inputChanged"
+                            :rules="[rules.required]"
                           >
                             <template v-slot:selection="{ text, index }">
                               <v-chip
@@ -232,6 +233,7 @@ export default {
         { text: "Điểm danh", value: "hasAttendance", sortable: false },
         { text: "", value: "actions", sortable: false },
       ],
+      rules: { required: (v) => !!v || "Vui lòng chọn ít nhất 1 ảnh" },
     };
   },
   computed: {},
