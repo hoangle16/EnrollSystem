@@ -8,14 +8,13 @@
       />
       <form name="form" @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="userName">Tên đăng nhập</label>
-          <input
+          <v-text-field
             v-model="user.userName"
             v-validate="'required'"
             type="text"
-            class="form-control"
+            label="Tên đăng nhập"
             name="userName"
-          />
+          ></v-text-field>
           <div
             v-if="errors.has('userName')"
             class="alert alert-danger"
@@ -25,14 +24,13 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="password">Mật khẩu</label>
-          <input
+          <v-text-field
+            label="Mật khẩu"
             v-model="user.password"
             v-validate="'required'"
             type="password"
-            class="form-control"
             name="password"
-          />
+          ></v-text-field>
           <div
             v-if="errors.has('password')"
             class="alert alert-danger"
