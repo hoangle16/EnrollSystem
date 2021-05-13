@@ -61,7 +61,8 @@ namespace EnrollSystem.IdentityFaces
                         facesDetected[i].Width -= (int)(facesDetected[i].Width * 0.35);
                         */
                         result = currentImage.Copy(facesDetected[i]).Convert<Gray, byte>().Resize(100, 100, Inter.Cubic);
-                        result._EqualizeHist();
+                        //result._EqualizeHist();
+                        //result._SmoothGaussian(7);
 
                         //draw the face detected in the 0th (gray) channel with red color
                         currentImage.Draw(facesDetected[i], new Bgr(Color.Red), 2);
@@ -91,7 +92,7 @@ namespace EnrollSystem.IdentityFaces
             Eigen_Recog = new ClassifierTrain(trainingImages);
             List<string> attendanceStudentList = new List<string>();
 
-            Random rand = new Random();
+            //Random rand = new Random();
 
             Face = new CascadeClassifier(@"./Resources/Cascades/haarcascade_frontalface_default.xml");
             foreach (var filename in filenames)
@@ -105,19 +106,20 @@ namespace EnrollSystem.IdentityFaces
                     gray_frame = currentImage.Convert<Gray, Byte>();
 
                     //Face Detector 
-                    Rectangle[] facesDetected = Face.DetectMultiScale(gray_frame, 1.05, 5, new Size(50, 50), Size.Empty);
+                    Rectangle[] facesDetected = Face.DetectMultiScale(gray_frame, 1.2, 5, new Size(50, 50), Size.Empty);
 
                     for (int i = 0; i < facesDetected.Length; i++)
                     {
                         result = currentImage.Copy(facesDetected[i]).Convert<Gray, byte>().Resize(100, 100, Inter.Cubic);
-                        result._EqualizeHist();
+                        //result._EqualizeHist();
+                        //result._SmoothGaussian(7);
 
                         //draw the face detected in the 0th (gray) channel with red color
                         currentImage.Draw(facesDetected[i], new Bgr(Color.Red), 2);
 
                         if (Eigen_Recog.IsTrained)
                         {
-                            string name = Eigen_Recog.Recognise(result);
+                            string name = Eigen_Recog.Recognise(result, 100);
                             //int matchValue = (int)Eigen_Recog.Get_Eigen_Distance;
 
                             //Draw the label for each face detected and recognized

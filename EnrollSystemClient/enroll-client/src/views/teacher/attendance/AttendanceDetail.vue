@@ -61,7 +61,7 @@
                             v-model="newAttendance.images"
                             small-chips
                             accept="image/png, image/jpeg, image/bmp"
-                            placeholder="Chọn ảnh đại diện"
+                            placeholder="Chọn ảnh để điểm danh"
                             prepend-icon="mdi-camera"
                             label="Chọn ảnh điểm danh"
                             clearable
@@ -222,6 +222,7 @@ export default {
       newAttendance: { dateTime: new Date().toISOString().substring(0, 10) },
       attendanceDateMenu: false,
       attendanceDialog: false,
+      selectedAttendance: null,
       imageDialog: false,
       attendanceList: [],
       isLoading: false,
@@ -262,6 +263,7 @@ export default {
       );
     },
     loadAttendanceImage(attendance) {
+      this.selectedAttendance = attendance;
       AttendanceService.getAttendanceImagesBySectionIdAndDate(
         attendance.sectionId,
         attendance.date.substring(0, 10)
@@ -313,6 +315,9 @@ export default {
             closeIcon: "mdi-close",
           });
           this.getAttendanceList();
+          if (this.selectedAttendance != null) {
+            this.loadAttendanceImage(this.selectedAttendance);
+          }
           this.attendanceDialogHide();
         },
         (err) => {

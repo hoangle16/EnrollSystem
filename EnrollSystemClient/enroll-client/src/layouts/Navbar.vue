@@ -61,7 +61,7 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>
-              <h5 class="font-weight-thin mb-0">Dashboard</h5>
+              <h5 class="font-weight-light mb-0">HSchool</h5>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
