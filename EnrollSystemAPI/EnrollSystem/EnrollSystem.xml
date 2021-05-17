@@ -85,6 +85,13 @@
             <param name="attendanceId"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetMyAttendances(System.Int32)">
+            <summary>
+            Get my attendacne list by sectionId
+            </summary>
+            <param name="sectionId"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.CoursesController.GetAll">
             <summary>
             Get All Courses

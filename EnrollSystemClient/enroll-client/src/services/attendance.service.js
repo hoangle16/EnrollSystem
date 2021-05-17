@@ -37,6 +37,9 @@ class AttendanceService {
     changeAttendance(attendanceId) {
         return axios.put(`${API.ATTENDANCE}/${attendanceId}`, {}, { headers: authHeader() });
     }
+    getMyAttendanceList(sectionId) {
+        return axios.get(`${API.ATTENDANCE}/student/${sectionId}`, { headers: authHeader() });
+    }
 }
 
 export default new AttendanceService();

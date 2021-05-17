@@ -14,13 +14,13 @@
                     v-if="currentUser.role === 'admin'"
                     :value="currentUser.userName"
                     label="Tên đăng nhập"
-                    readonly
+                    disabled
                   />
                   <v-text-field
                     v-else
                     :value="currentUser.userName"
                     label="MSSV"
-                    readonly
+                    disabled
                   />
                 </v-col>
                 <v-col cols="12" md="8">

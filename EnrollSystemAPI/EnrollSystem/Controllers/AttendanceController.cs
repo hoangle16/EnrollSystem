@@ -250,5 +250,18 @@ namespace EnrollSystem.Controllers
             var model = _mapper.Map<AttendanceModel>(att);
             return Ok(model);
         }
+        /// <summary>
+        /// Get my attendacne list by sectionId
+        /// </summary>
+        /// <param name="sectionId"></param>
+        /// <returns></returns>
+        [HttpGet("student/{sectionId}")]
+        public IActionResult GetMyAttendances(int sectionId)
+        {
+            var currentUserId = int.Parse(User.Identity.Name);
+            var att = _attendenceService.GetMyAttendanceList(currentUserId, sectionId);
+            var models = _mapper.Map<IList<AttendanceModel>>(att);
+            return Ok(models);
+        }
     }
 }

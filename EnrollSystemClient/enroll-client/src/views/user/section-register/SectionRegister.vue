@@ -22,6 +22,7 @@
               :loading="isLoading"
               loading-text="Đang tải dữ liệu..."
               :hide-default-footer="true"
+              :disable-pagination="true"
             >
               <template v-slot:top>
                 <div class="font-weight-bold ml-3">

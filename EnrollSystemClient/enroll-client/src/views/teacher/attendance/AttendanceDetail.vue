@@ -180,6 +180,7 @@
                   :loading="isLoading"
                   loading-text="Đang tải dữ liệu..."
                   :hide-default-footer="true"
+                  :disable-pagination="true"
                   max-height="600px"
                 >
                   <template v-slot:[`item.hasAttendance`]="{ item }">

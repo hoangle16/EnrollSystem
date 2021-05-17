@@ -142,6 +142,7 @@
                               :loading="isLoading"
                               loading-text="Đang tải dữ liệu..."
                               :hide-default-footer="true"
+                              :disable-pagination="true"
                             >
                               <template v-slot:[`item.actions`]="{ item }">
                                 <v-icon

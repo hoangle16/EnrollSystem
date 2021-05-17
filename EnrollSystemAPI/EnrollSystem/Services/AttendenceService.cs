@@ -192,6 +192,11 @@ namespace EnrollSystem.Services
             _context.SaveChanges();
             return attendance;
         }
+        public IEnumerable<Attendance> GetMyAttendanceList(int userId, int sectionId)
+        {
+            var attendances = _context.Attendances.Where(e => e.StudentSection.Student.UserId == userId && e.StudentSection.SectionId == sectionId).OrderByDescending(e => e.Date);
+            return attendances;
+        }
         //export report
         public FileContentResult ExportAttendanceReport(int sectionId)
         {

@@ -96,6 +96,7 @@
                       :items-per-page="15"
                       class="elevation-1"
                       :hide-default-footer="true"
+                      :disable-pagination="true"
                     >
                       <template v-slot:[`item.genaralSchedule`]="{ item }">
                         <span>

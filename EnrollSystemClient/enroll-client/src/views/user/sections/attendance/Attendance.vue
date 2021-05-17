@@ -6,43 +6,34 @@
           <template v-slot:heading>
             <div class="text-h4 font-weight-light">Danh sách điểm danh</div>
           </template>
-          <v-expansion-panels focusable>
-            <v-expansion-panel
-              v-for="attendance in attendanceList"
-              :key="attendance.date"
-            >
-              <v-expansion-panel-header>
-                <span class="font-weight-bold">
-                  Ngày
-                  {{
-                    attendance.date
-                      .substring(0, 10)
-                      .split("-")
-                      .reverse()
-                      .join("-")
-                  }}
-                </span>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-data-table
-                  :headers="headers"
-                  :items="attendance.items"
-                  class="elevation-1 mt-1"
-                  :loading="isLoading"
-                  loading-text="Đang tải dữ liệu..."
-                  :hide-default-footer="true"
-                  max-height="600px"
-                >
-                  <template v-slot:[`item.hasAttendance`]="{ item }">
-                    <v-chip v-if="item.hasAttendance" color="success">
-                      Có
-                    </v-chip>
-                    <v-chip v-else color="red"> Vắng </v-chip>
-                  </template>
-                </v-data-table>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+          <v-data-table
+            :headers="headers"
+            :items="attendanceList"
+            class="elevation-1 mt-1"
+            :loading="isLoading"
+            loading-text="Đang tải dữ liệu..."
+            :footer-props="{
+              'items-per-page-text': 'Số hàng mỗi trang',
+            }"
+          >
+          <template v-slot:top>
+            <v-row class="px-3">
+              <v-col cols="12" class="pb-0">
+                <span class="font-weight-bold"> Học phần: {{ section.courseName }} </span>
+              </v-col>
+              <v-col cols="12">
+                <span class="font-weight-bold"> Giáo viên: {{ section.teacherName }} </span>
+              </v-col>
+            </v-row>
+          </template>
+          <template v-slot:[`item.date`]="{ item }">
+            <span> {{ item.date.substr(0,10).split("-").reverse().join("-") }} </span>
+          </template>
+            <template v-slot:[`item.hasAttendance`]="{ item }">
+              <v-chip dark v-if="item.hasAttendance" color="success"> Có </v-chip>
+              <v-chip dark v-else color="red"> Vắng </v-chip>
+            </template>
+          </v-data-table>
         </material-card>
       </v-col>
     </v-row>
@@ -52,6 +43,7 @@
 <script>
 import MaterialCard from "../../../../components/base/MaterialCard.vue";
 import attendanceService from "../../../../services/attendance.service";
+import sectionService from '../../../../services/section.service';
 export default {
   name: "attendance",
   props: ["sectionId"],
@@ -60,23 +52,31 @@ export default {
   },
   data() {
     return {
+      section: {},
       attendanceList: [],
       isLoading: false,
       headers: [
-        { text: "MSSV", value: "username", sortable: false },
-        { text: "Họ tên", value: "name", sortable: false },
-        { text: "SĐT", value: "phoneNumber", sortable: false },
+        { text: "Ngày", value: "date", sortable: true },
         { text: "Điểm danh", value: "hasAttendance", sortable: false },
-        { text: "", value: "actions", sortable: false },
       ],
     };
   },
   methods: {
+    getSectionInfo() {
+      sectionService.getSectionById(this.sectionId).then(
+        (response) => {
+          this.section = response.data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      )
+    },
     getAttendanceList() {
       this.isLoading = true;
-      attendanceService.getAttendanceListBySectionId(this.sectionId).then(
+      attendanceService.getMyAttendanceList(this.sectionId).then(
         (response) => {
-          this.attendanceList = response.data.reverse();
+          this.attendanceList = response.data;
           this.isLoading = false;
         },
         (err) => {
@@ -86,6 +86,7 @@ export default {
     },
   },
   mounted() {
+    this.getSectionInfo();
     this.getAttendanceList();
   },
 };

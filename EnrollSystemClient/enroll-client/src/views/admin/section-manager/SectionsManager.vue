@@ -285,6 +285,7 @@
                               :headers="headersS"
                               :items="students"
                               :hide-default-footer="true"
+                              :disable-pagination="true"
                               class="elevation-1"
                             >
                             </v-data-table>
