@@ -90,8 +90,11 @@
                     <v-btn
                       color="success"
                       @click="attendance"
-                      :disabled="loading"
+                      :loading="loading"
                     >
+                      <!-- <v-progress-circular v-if="loading"
+                        indeterminate
+                      ></v-progress-circular> -->
                       <span>Xác nhận</span></v-btn
                     >
                     <v-btn color="error" @click="attendanceDialogHide"
@@ -320,12 +323,13 @@ export default {
             this.loadAttendanceImage(this.selectedAttendance);
           }
           this.attendanceDialogHide();
+          this.loading = false;
         },
         (err) => {
           console.log(err);
+          this.loading = false;
         }
       );
-      this.loading = false;
     },
     chooseImage(img) {
       this.currentImg = img;

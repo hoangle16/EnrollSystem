@@ -157,7 +157,7 @@ namespace EnrollSystem.Services
             if (!string.IsNullOrWhiteSpace(userParams.Address))
                 user.Address = userParams.Address;
             //update role
-            if (user.Role != userParams.Role)
+            if (userParams.Role != null && user.Role != userParams.Role)
             {
                 //find current role talbe
                 if (user.Role == ROLE.Admin)

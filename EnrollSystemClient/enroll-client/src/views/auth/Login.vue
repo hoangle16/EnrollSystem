@@ -45,7 +45,7 @@
               v-show="loading"
               class="spinner-border spinner-border-sm"
             ></span>
-            <span>Login</span>
+            <span>Đăng nhập</span>
           </button>
         </div>
         <div class="form-group">

@@ -148,9 +148,6 @@
       <v-col cols="12" md="4">
         <material-card v-if="avatar" class="v-card-profile" :avatar="avatar">
           <v-col cols="12" class="text-center">
-            <!-- <v-btn small color="success" rounded class="mr-0">
-              Đổi ảnh đại diện
-            </v-btn> -->
             <v-dialog v-model="changeAvatarDialog" max-width="500px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="success" v-bind="attrs" v-on="on">
@@ -191,7 +188,11 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="success" @click="changeAvatar()">
+                  <v-btn
+                    :loading="loading"
+                    color="success"
+                    @click="changeAvatar()"
+                  >
                     Thay đổi
                   </v-btn>
                   <v-btn color="error" @click="changeAvatarDialogHide">
@@ -260,6 +261,7 @@
                               <v-col cols="12" class="d-flex">
                                 <v-spacer></v-spacer>
                                 <v-btn
+                                  :loading="loading"
                                   color="success"
                                   @click="uploadTrainingImages"
                                   >Tải lên</v-btn
@@ -343,6 +345,7 @@ export default {
   name: "Profile",
   data() {
     return {
+      loading: false,
       trainingImageDialog: false,
       avatar: "",
       currentFile: undefined,
@@ -414,32 +417,35 @@ export default {
       this.passwordConfirm = "";
     },
     changePassword() {
-      let formData = new FormData();
-      formData.append("password", this.newPassword);
-      formData.append("confirmPassword", this.passwordConfirm);
-      formData.append("gender", this.currentUser.gender);
-      formData.append("phoneNumber", this.currentUser.phoneNumber);
-      UserService.editUser(this.currentUser.id, formData).then(
-        (response) => {
-          console.log(response);
-          this.changePasswordDialog = false;
-          this.$toast("Cập nhật mật khẩu thành công thành công", {
-            color: "success",
-            x: "right",
-            y: "top",
-            showClose: true,
-            closeIcon: "mdi-close",
-          });
-          this.currentPassword = "";
-          this.newPassword = "";
-          this.passwordConfirm = "";
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      if (this.newPassword && this.passwordConfirm) {
+        let formData = new FormData();
+        formData.append("password", this.newPassword);
+        formData.append("confirmPassword", this.passwordConfirm);
+        formData.append("gender", this.currentUser.gender);
+        formData.append("phoneNumber", this.currentUser.phoneNumber);
+        UserService.editUser(this.currentUser.id, formData).then(
+          (response) => {
+            console.log(response);
+            this.changePasswordDialog = false;
+            this.$toast("Cập nhật mật khẩu thành công thành công", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
+            this.currentPassword = "";
+            this.newPassword = "";
+            this.passwordConfirm = "";
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     },
     changeAvatar() {
+      this.loading = true;
       let formData = new FormData();
       if (this.currentFile != null) {
         formData.append("image", this.currentFile);
@@ -455,9 +461,11 @@ export default {
               showClose: true,
               closeIcon: "mdi-close",
             });
+            this.loading = false;
           },
           (error) => {
             console.log(error);
+            this.loading = false;
           }
         );
       }
@@ -503,7 +511,7 @@ export default {
       console.log(this.imgsUpload);
     },
     uploadTrainingImages() {
-      console.log(this.imgsUpload);
+      this.loading = true;
       if (this.imgsUpload.length > 0) {
         let formData = new FormData();
         this.imgsUpload.forEach((el) => {
@@ -520,9 +528,11 @@ export default {
             });
             this.getTrainingImgs();
             this.imgsUpload = [];
+            this.loading = false;
           },
           (err) => {
             console.log(err);
+            this.loading = false;
           }
         );
       }

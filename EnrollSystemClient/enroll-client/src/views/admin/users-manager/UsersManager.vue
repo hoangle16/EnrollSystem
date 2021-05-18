@@ -44,6 +44,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       small
+                      :loading="loading"
                       color="success"
                       dark
                       class="mb-2"
@@ -147,7 +148,12 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="success" @click="createUser">Thêm</v-btn>
+                      <v-btn
+                        :loading="loading"
+                        color="success"
+                        @click="createUser"
+                        >Thêm</v-btn
+                      >
                       <v-btn color="error" @click="newUserDialogHide"
                         >Hủy</v-btn
                       >
@@ -164,7 +170,10 @@
                     </v-card-title>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="success" @click="confirmDelete()"
+                      <v-btn
+                        :loading="loading"
+                        color="success"
+                        @click="confirmDelete()"
                         >Xóa</v-btn
                       >
                       <v-btn color="error" @click="deleteDialogHide()">
@@ -265,7 +274,10 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="success" @click="confirmEditUser"
+                      <v-btn
+                        :loading="loading"
+                        color="success"
+                        @click="confirmEditUser"
                         >Cập nhật</v-btn
                       >
                       <v-btn color="error" @click="editUserDialogHide"
@@ -411,6 +423,7 @@ export default {
       rules: {
         required: (v) => !!v || "Vui lòng điền thông tin",
       },
+      loading: false,
     };
   },
   computed: {},
@@ -442,7 +455,7 @@ export default {
       this.selectedUser = {};
     },
     createUser() {
-      console.log(this.newUser);
+      this.loading = true;
       this.newUser.isActive = true;
       UserService.createUser(this.newUser).then(
         (response) => {
@@ -457,29 +470,45 @@ export default {
           });
           this.newUser = {};
           this.getUsers();
+          this.loading = false;
         },
         (error) => {
           console.log(error);
+          let message =
+            (error.response && error.response.data.error) ||
+            error.message ||
+            error.toString();
+          this.$toast(`${message}`, {
+            color: "error",
+            x: "right",
+            y: "top",
+            showClose: true,
+            closeIcon: "mdi-close",
+          });
+          this.loading = false;
         }
       );
     },
     editUser(item) {
       console.log("edit", item);
-      this.selectedUser = {...item};
+      this.selectedUser = { ...item };
       this.editUserDialog = true;
     },
     confirmEditUser() {
       if (this.selectedUser != null) {
         console.log(this.selectedUser);
         let formData = new FormData();
-        formData.append("password", this.selectedUser.password);
-        formData.append("confirmPassword", this.selectedUser.confirmPassword);
+        if (this.selectedUser.password && this.selectedUser.confirmPassword) {
+          formData.append("password", this.selectedUser.password);
+          formData.append("confirmPassword", this.selectedUser.confirmPassword);
+        }
         formData.append("name", this.selectedUser.name);
         formData.append("gender", this.selectedUser.gender);
         formData.append("idNumber", this.selectedUser.idNumber);
         formData.append("phoneNumber", this.selectedUser.phoneNumber);
         formData.append("address", this.selectedUser.address);
         formData.append("role", this.selectedUser.role);
+        this.loading = true;
         UserService.editUser(this.selectedUser.id, formData).then(
           (response) => {
             console.log(response);
@@ -492,9 +521,11 @@ export default {
             });
             this.editUserDialogHide();
             this.getUsers();
+            this.loading = false;
           },
           (error) => {
             console.log(error);
+            this.loading = false;
           }
         );
       }
@@ -505,6 +536,7 @@ export default {
     },
     confirmDelete() {
       if (this.selectedUser != null) {
+        this.loading = true;
         UserService.deleteUser(this.selectedUser.id).then(
           (response) => {
             console.log(response.data);
@@ -518,9 +550,11 @@ export default {
             this.deleteDialogHide();
             this.getUsers();
             this.selectedUser = {};
+            this.loading = false;
           },
           (error) => {
             console.log(error);
+            this.loading = false;
           }
         );
       }
