@@ -224,7 +224,7 @@
                   <v-divider></v-divider>
                   <v-card-text>
                     <v-row>
-                      <v-expansion-panels focusable>
+                      <v-expansion-panels multiple focusable>
                         <v-expansion-panel>
                           <v-expansion-panel-header>
                             <span class="font-weight-bold">
@@ -511,8 +511,8 @@ export default {
       console.log(this.imgsUpload);
     },
     uploadTrainingImages() {
-      this.loading = true;
       if (this.imgsUpload.length > 0) {
+        this.loading = true;
         let formData = new FormData();
         this.imgsUpload.forEach((el) => {
           formData.append("images", el);
