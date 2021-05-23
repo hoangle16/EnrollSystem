@@ -242,7 +242,7 @@ export default {
       );
     },
     editRoom(item) {
-      this.selectedRoom = {...item};
+      this.selectedRoom = { ...item };
       console.log(item);
       this.roomDialog = true;
     },
