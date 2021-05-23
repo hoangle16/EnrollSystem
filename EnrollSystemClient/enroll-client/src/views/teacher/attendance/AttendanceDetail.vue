@@ -32,55 +32,60 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12">
-                          <v-menu
-                            v-model="attendanceDateMenu"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="auto"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="newAttendance.dateTime"
-                                label="Ngày điểm danh"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
-                              v-model="newAttendance.dateTime"
-                              @input="attendanceDateMenu = false"
-                              locale="vi-vn"
-                            ></v-date-picker>
-                          </v-menu>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-file-input
-                            v-model="newAttendance.images"
-                            small-chips
-                            accept="image/png, image/jpeg, image/bmp"
-                            placeholder="Chọn ảnh để điểm danh"
-                            prepend-icon="mdi-camera"
-                            label="Chọn ảnh điểm danh"
-                            clearable
-                            multiple
-                            @change="inputChanged"
-                            :rules="[rules.required]"
-                          >
-                            <template v-slot:selection="{ text, index }">
-                              <v-chip
-                                small
-                                text-color="white"
-                                color="#295671"
-                                close
-                                @click:close="remove(index)"
+                          <v-form class="row" ref="imageForm">
+                            <v-col cols="12">
+                              <v-menu
+                                v-model="attendanceDateMenu"
+                                :close-on-content-click="false"
+                                :nudge-right="40"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="auto"
                               >
-                                {{ text }}
-                              </v-chip>
-                            </template></v-file-input
-                          >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-text-field
+                                    v-model="newAttendance.dateTime"
+                                    label="Ngày điểm danh"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    :rules="[rules.requiredDate]"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker
+                                  v-model="newAttendance.dateTime"
+                                  @input="attendanceDateMenu = false"
+                                  locale="vi-vn"
+                                ></v-date-picker>
+                              </v-menu>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-file-input
+                                v-model="newAttendance.images"
+                                small-chips
+                                accept="image/png, image/jpeg, image/bmp"
+                                placeholder="Chọn ảnh để điểm danh"
+                                prepend-icon="mdi-camera"
+                                label="Chọn ảnh điểm danh"
+                                clearable
+                                multiple
+                                @change="inputChanged"
+                                :rules="[rules.required]"
+                              >
+                                <template v-slot:selection="{ text, index }">
+                                  <v-chip
+                                    small
+                                    text-color="white"
+                                    color="#295671"
+                                    close
+                                    @click:close="remove(index)"
+                                  >
+                                    {{ text }}
+                                  </v-chip>
+                                </template></v-file-input
+                              >
+                            </v-col>
+                          </v-form>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -238,7 +243,10 @@ export default {
         { text: "Điểm danh", value: "hasAttendance", sortable: false },
         { text: "", value: "actions", sortable: false },
       ],
-      rules: { required: (v) => !!v || "Vui lòng chọn ít nhất 1 ảnh" },
+      rules: {
+        required: (v) => !!v || "Vui lòng chọn ít nhất 1 ảnh",
+        requiredDate: (v) => !!v || "Vui lòng chọn ngày điểm danh",
+      },
     };
   },
   computed: {},
@@ -300,36 +308,38 @@ export default {
       this.newAttendance = {};
     },
     attendance() {
-      this.loading = true;
-      //console.log(this.newAttendance);
-      let formData = new FormData();
-      formData.append("sectionId", this.sectionId);
-      //formData.append("images[]", this.newAttendance.images);
-      this.newAttendance.images.forEach((el) => {
-        formData.append("images", el);
-      });
-      formData.append("dateTime", this.newAttendance.dateTime);
-      AttendanceService.addAttendanceImages(formData).then(
-        () => {
-          this.$toast("Điểm danh hoàn thành!", {
-            color: "success",
-            x: "right",
-            y: "top",
-            showClose: true,
-            closeIcon: "mdi-close",
-          });
-          this.getAttendanceList();
-          if (this.selectedAttendance != null) {
-            this.loadAttendanceImage(this.selectedAttendance);
+      if (this.$refs.imageForm.validate()) {
+        this.loading = true;
+        //console.log(this.newAttendance);
+        let formData = new FormData();
+        formData.append("sectionId", this.sectionId);
+        //formData.append("images[]", this.newAttendance.images);
+        this.newAttendance.images.forEach((el) => {
+          formData.append("images", el);
+        });
+        formData.append("dateTime", this.newAttendance.dateTime);
+        AttendanceService.addAttendanceImages(formData).then(
+          () => {
+            this.$toast("Điểm danh hoàn thành!", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
+            this.getAttendanceList();
+            if (this.selectedAttendance != null) {
+              this.loadAttendanceImage(this.selectedAttendance);
+            }
+            this.attendanceDialogHide();
+            this.loading = false;
+          },
+          (err) => {
+            console.log(err);
+            this.loading = false;
           }
-          this.attendanceDialogHide();
-          this.loading = false;
-        },
-        (err) => {
-          console.log(err);
-          this.loading = false;
-        }
-      );
+        );
+      }
     },
     chooseImage(img) {
       this.currentImg = img;
