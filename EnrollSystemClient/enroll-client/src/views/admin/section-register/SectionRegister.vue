@@ -47,58 +47,61 @@
                     <v-card-text>
                       <v-container>
                         <v-row>
-                          <v-col cols="12">
-                            <v-menu
-                              v-model="startDayMenu"
-                              :close-on-content-click="false"
-                              :nudge-right="40"
-                              transition="scale-transition"
-                              offset-y
-                              min-width="auto"
-                            >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
+                          <v-form class="col-12" ref="updateTimeForm">
+                            <v-col cols="12">
+                              <v-menu
+                                v-model="startDayMenu"
+                                :close-on-content-click="false"
+                                :nudge-right="40"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="auto"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-text-field
+                                    v-model="registrationTime.startDateTime"
+                                    label="Ngày bắt đầu"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    :rules="rules"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker
                                   v-model="registrationTime.startDateTime"
-                                  label="Ngày bắt đầu"
-                                  readonly
-                                  v-bind="attrs"
-                                  v-on="on"
-                                ></v-text-field>
-                              </template>
-                              <v-date-picker
-                                v-model="registrationTime.startDateTime"
-                                @input="startDayMenu = false"
-                                :min="new Date().toISOString().substr(0, 10)"
-                                 locale="vi-vn"
-                              ></v-date-picker>
-                            </v-menu>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-menu
-                              v-model="endDayMenu"
-                              :close-on-content-click="false"
-                              :nudge-right="40"
-                              transition="scale-transition"
-                              offset-y
-                              min-width="auto"
-                            >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
+                                  @input="startDayMenu = false"
+                                  :min="new Date().toISOString().substr(0, 10)"
+                                  locale="vi-vn"
+                                ></v-date-picker>
+                              </v-menu>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-menu
+                                v-model="endDayMenu"
+                                :close-on-content-click="false"
+                                :nudge-right="40"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="auto"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-text-field
+                                    v-model="registrationTime.endDateTime"
+                                    label="Ngày bắt đầu"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker
                                   v-model="registrationTime.endDateTime"
-                                  label="Ngày bắt đầu"
-                                  readonly
-                                  v-bind="attrs"
-                                  v-on="on"
-                                ></v-text-field>
-                              </template>
-                              <v-date-picker
-                                v-model="registrationTime.endDateTime"
-                                @input="endDayMenu = false"
-                                :min="minDate"
-                                 locale="vi-vn"
-                              ></v-date-picker>
-                            </v-menu>
-                          </v-col>
+                                  @input="endDayMenu = false"
+                                  :min="minDate"
+                                  locale="vi-vn"
+                                ></v-date-picker>
+                              </v-menu>
+                            </v-col>
+                          </v-form>
                         </v-row>
                       </v-container>
                     </v-card-text>
@@ -277,6 +280,7 @@ export default {
         { text: "Đăng ký", value: "registerSlot", sortable: false },
         { text: "", width: 100, value: "actions", sortable: false },
       ],
+      rules: [(v) => new Date(v) < new Date(this.registrationTime.endDateTime) || "Thời gian không hợp lệ"],
     };
   },
   computed: {
@@ -334,21 +338,25 @@ export default {
       );
     },
     updateRegistrationTime() {
-      RegistrationTimeService.setRegistrationTime(this.registrationTime).then(
-        () => {
-          this.$toast("Thiết lặp thời gian đăng ký học phần thành công!", {
-            color: "success",
-            x: "right",
-            y: "top",
-            showClose: true,
-            closeIcon: "mdi-close",
-          });
-          this.registrationTimeDialog = false;
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+      console.log(this.$refs.updateTimeForm.validate());
+      if (this.$refs.updateTimeForm.validate()) {
+        console.log(this.registrationTime);
+        RegistrationTimeService.setRegistrationTime(this.registrationTime).then(
+          () => {
+            this.$toast("Thiết lặp thời gian đăng ký học phần thành công!", {
+              color: "success",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
+            this.registrationTimeDialog = false;
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      }
     },
     getDetai() {
       sectionRegisterService

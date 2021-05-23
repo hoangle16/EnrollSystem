@@ -303,7 +303,7 @@ export default {
     createOrUpdateRoom() {
       //update
       if (this.selectedRoom != null) {
-        console.log(this.selectedRoom);
+        if (this.selectedRoom.name == "") return;
         RoomService.updateRoom(
           this.selectedRoom.id,
           this.selectedRoom.name
@@ -326,6 +326,7 @@ export default {
           }
         );
       } else {
+        if (this.roomName == "") return;
         //create
         RoomService.createRoom(this.roomName).then(
           () => {

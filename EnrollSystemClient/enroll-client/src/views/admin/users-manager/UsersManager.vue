@@ -64,85 +64,87 @@
                     <v-card-text>
                       <v-container>
                         <v-row>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="newUser.userName"
-                              label="Tên đăng nhập"
-                              name="userName"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="newUser.password"
-                              label="Mật khẩu"
-                              name="password"
-                              type="password"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="newUser.confirmPassword"
-                              label="Nhập lại mật khẩu"
-                              name="confirmPassword"
-                              type="password"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="newUser.name"
-                              label="Họ tên"
-                              name="name"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-select
-                              v-model="newUser.gender"
-                              :items="genderItems"
-                              label="Giới tính"
-                              dense
-                              clearable
-                              :rules="[rules.required]"
-                            ></v-select>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="newUser.idNumber"
-                              label="CMND"
-                              name="idNumber"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="newUser.phoneNumber"
-                              label="Số điện thoại"
-                              name="phoneNumber"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="newUser.address"
-                              label="Địa chỉ"
-                              hint="Phường/xã, quận/huyện, tỉnh/thành phố"
-                              name="address"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-select
-                              v-model="newUser.role"
-                              :items="roleItems"
-                              label="Vai trò"
-                              dense
-                              clearable
-                              :rules="[rules.required]"
-                            ></v-select>
-                          </v-col>
+                          <v-form class="col-12" ref="newUserForm">
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="newUser.userName"
+                                label="Tên đăng nhập"
+                                name="userName"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="newUser.password"
+                                label="Mật khẩu"
+                                name="password"
+                                type="password"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="newUser.confirmPassword"
+                                label="Nhập lại mật khẩu"
+                                name="confirmPassword"
+                                type="password"
+                                :rules="[rules.required, rules.confirm]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="newUser.name"
+                                label="Họ tên"
+                                name="name"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-select
+                                v-model="newUser.gender"
+                                :items="genderItems"
+                                label="Giới tính"
+                                dense
+                                clearable
+                                :rules="[rules.required]"
+                              ></v-select>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="newUser.idNumber"
+                                label="CMND"
+                                name="idNumber"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="newUser.phoneNumber"
+                                label="Số điện thoại"
+                                name="phoneNumber"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="newUser.address"
+                                label="Địa chỉ"
+                                hint="Phường/xã, quận/huyện, tỉnh/thành phố"
+                                name="address"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-select
+                                v-model="newUser.role"
+                                :items="roleItems"
+                                label="Vai trò"
+                                dense
+                                clearable
+                                :rules="[rules.required]"
+                              ></v-select>
+                            </v-col>
+                          </v-form>
                         </v-row>
                       </v-container>
                     </v-card-text>
@@ -193,82 +195,84 @@
                     <v-card-text>
                       <v-container>
                         <v-row>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="selectedUser.userName"
-                              label="Tên đăng nhập"
-                              name="userName"
-                              disabled
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="selectedUser.password"
-                              label="Mật khẩu"
-                              name="password"
-                              type="password"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="selectedUser.confirmPassword"
-                              label="Nhập lại mật khẩu"
-                              name="confirmPassword"
-                              type="password"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="selectedUser.name"
-                              label="Họ tên"
-                              name="name"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-select
-                              v-model="selectedUser.gender"
-                              :items="genderItems"
-                              label="Giới tính"
-                              dense
-                              clearable
-                            ></v-select>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="selectedUser.idNumber"
-                              label="CMND"
-                              name="idNumber"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="selectedUser.phoneNumber"
-                              label="Số điện thoại"
-                              name="phoneNumber"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="selectedUser.address"
-                              label="Địa chỉ"
-                              hint="Phường/xã, quận/huyện, tỉnh/thành phố"
-                              name="address"
-                              :rules="[rules.required]"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-select
-                              v-model="selectedUser.role"
-                              :items="roleItems"
-                              label="Vai trò"
-                              dense
-                              clearable
-                              :rules="[rules.required]"
-                            ></v-select>
-                          </v-col>
+                          <v-form class="col-12" ref="editUserForm">
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="selectedUser.userName"
+                                label="Tên đăng nhập"
+                                name="userName"
+                                disabled
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="selectedUser.password"
+                                label="Mật khẩu"
+                                name="password"
+                                type="password"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="selectedUser.confirmPassword"
+                                label="Nhập lại mật khẩu"
+                                name="confirmPassword"
+                                type="password"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="selectedUser.name"
+                                label="Họ tên"
+                                name="name"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-select
+                                v-model="selectedUser.gender"
+                                :items="genderItems"
+                                label="Giới tính"
+                                dense
+                                clearable
+                              ></v-select>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="selectedUser.idNumber"
+                                label="CMND"
+                                name="idNumber"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="selectedUser.phoneNumber"
+                                label="Số điện thoại"
+                                name="phoneNumber"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field
+                                v-model="selectedUser.address"
+                                label="Địa chỉ"
+                                hint="Phường/xã, quận/huyện, tỉnh/thành phố"
+                                name="address"
+                                :rules="[rules.required]"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-select
+                                v-model="selectedUser.role"
+                                :items="roleItems"
+                                label="Vai trò"
+                                dense
+                                clearable
+                                :rules="[rules.required]"
+                              ></v-select>
+                            </v-col>
+                          </v-form>
                         </v-row>
                       </v-container>
                     </v-card-text>
@@ -422,6 +426,9 @@ export default {
       ],
       rules: {
         required: (v) => !!v || "Vui lòng điền thông tin",
+        confirm: (v) =>
+          (!!v && v) === this.newUser.password ||
+          "Xác nhận mật khẩu không khớp",
       },
       loading: false,
     };
@@ -455,79 +462,82 @@ export default {
       this.selectedUser = {};
     },
     createUser() {
-      this.loading = true;
-      this.newUser.isActive = true;
-      UserService.createUser(this.newUser).then(
-        (response) => {
-          console.log(response.data);
-          this.newUserDialog = false;
-          this.$toast("Tạo người dùng mới thành công!", {
-            color: "success",
-            x: "right",
-            y: "top",
-            showClose: true,
-            closeIcon: "mdi-close",
-          });
-          this.newUser = {};
-          this.getUsers();
-          this.loading = false;
-        },
-        (error) => {
-          console.log(error);
-          let message =
-            (error.response && error.response.data.error) ||
-            error.message ||
-            error.toString();
-          this.$toast(`${message}`, {
-            color: "error",
-            x: "right",
-            y: "top",
-            showClose: true,
-            closeIcon: "mdi-close",
-          });
-          this.loading = false;
-        }
-      );
-    },
-    editUser(item) {
-      console.log("edit", item);
-      this.selectedUser = { ...item };
-      this.editUserDialog = true;
-    },
-    confirmEditUser() {
-      if (this.selectedUser != null) {
-        console.log(this.selectedUser);
-        let formData = new FormData();
-        if (this.selectedUser.password && this.selectedUser.confirmPassword) {
-          formData.append("password", this.selectedUser.password);
-          formData.append("confirmPassword", this.selectedUser.confirmPassword);
-        }
-        formData.append("name", this.selectedUser.name);
-        formData.append("gender", this.selectedUser.gender);
-        formData.append("idNumber", this.selectedUser.idNumber);
-        formData.append("phoneNumber", this.selectedUser.phoneNumber);
-        formData.append("address", this.selectedUser.address);
-        formData.append("role", this.selectedUser.role);
+      if (this.$refs.newUserForm.validate()) {
         this.loading = true;
-        UserService.editUser(this.selectedUser.id, formData).then(
-          (response) => {
-            console.log(response);
-            this.$toast("Cập nhật người dùng thành công!", {
+        this.newUser.isActive = true;
+        UserService.createUser(this.newUser).then(
+          () => {
+            this.newUserDialog = false;
+            this.$toast("Tạo người dùng mới thành công!", {
               color: "success",
               x: "right",
               y: "top",
               showClose: true,
               closeIcon: "mdi-close",
             });
-            this.editUserDialogHide();
+            this.newUser = {};
             this.getUsers();
             this.loading = false;
           },
           (error) => {
             console.log(error);
+            let message =
+              (error.response && error.response.data.error) ||
+              error.message ||
+              error.toString();
+            this.$toast(`${message}`, {
+              color: "error",
+              x: "right",
+              y: "top",
+              showClose: true,
+              closeIcon: "mdi-close",
+            });
             this.loading = false;
           }
         );
+      }
+    },
+    editUser(item) {
+      this.selectedUser = { ...item };
+      this.editUserDialog = true;
+    },
+    confirmEditUser() {
+      if (this.$refs.editUserForm.validate()) {
+        if (this.selectedUser != null) {
+          let formData = new FormData();
+          if (this.selectedUser.password && this.selectedUser.confirmPassword) {
+            formData.append("password", this.selectedUser.password);
+            formData.append(
+              "confirmPassword",
+              this.selectedUser.confirmPassword
+            );
+          }
+          formData.append("name", this.selectedUser.name);
+          formData.append("gender", this.selectedUser.gender);
+          formData.append("idNumber", this.selectedUser.idNumber);
+          formData.append("phoneNumber", this.selectedUser.phoneNumber);
+          formData.append("address", this.selectedUser.address);
+          formData.append("role", this.selectedUser.role);
+          this.loading = true;
+          UserService.editUser(this.selectedUser.id, formData).then(
+            () => {
+              this.$toast("Cập nhật người dùng thành công!", {
+                color: "success",
+                x: "right",
+                y: "top",
+                showClose: true,
+                closeIcon: "mdi-close",
+              });
+              this.editUserDialogHide();
+              this.getUsers();
+              this.loading = false;
+            },
+            (error) => {
+              console.log(error);
+              this.loading = false;
+            }
+          );
+        }
       }
     },
     deleteUser(item) {
@@ -538,8 +548,8 @@ export default {
       if (this.selectedUser != null) {
         this.loading = true;
         UserService.deleteUser(this.selectedUser.id).then(
-          (response) => {
-            console.log(response.data);
+          () => {
+            console.log();
             this.$toast("Xóa người dùng thành công", {
               color: "success",
               x: "right",
