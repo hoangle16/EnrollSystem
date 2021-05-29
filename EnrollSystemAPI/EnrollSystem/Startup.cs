@@ -39,7 +39,7 @@ namespace EnrollSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EnrollContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DevConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
             services.AddSwaggerGen(c =>
             {
@@ -102,8 +102,8 @@ namespace EnrollSystem
                              var user = userService.GetById(userId);
                              if (user == null)
                              {
-                                // return unauthorized if user no longer exists
-                                context.Fail("Unauthorized");
+                                 // return unauthorized if user no longer exists
+                                 context.Fail("Unauthorized");
                              }
                              return Task.CompletedTask;
                          }
@@ -149,13 +149,19 @@ namespace EnrollSystem
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(o => o
+            /*app.UseCors(o => o
             .WithOrigins("http://localhost:8080")
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials());
+            .AllowCredentials());*/
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+
+            app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true) // allow any origin
+            .AllowCredentials()); // allow credentials
 
             app.UseRouting();
 

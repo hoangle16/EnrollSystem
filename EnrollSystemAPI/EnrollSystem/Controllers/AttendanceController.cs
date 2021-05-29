@@ -120,8 +120,31 @@ namespace EnrollSystem.Controllers
         [HttpGet("section/{id}")] //sectionId
         public IActionResult GetAttendancesBySectionId(int id)
         {
-            var attendances = _attendenceService.GetAttendanceListBySectionId(id);
-            var respData = _mapper.Map<IList<AttendanceModel>>(attendances);
+            var attendances = _attendenceService.GetAttendanceListBySectionId(id).ToList();
+            var respData = _mapper.Map<IList<AttendanceNewModel>>(attendances.GroupBy(e => e.Date).Select(g => g.First()));
+            int index = 0;
+            int _index = 0;
+            foreach(var _date in respData)
+            {
+                List<AttendanceItem> items = new List<AttendanceItem>();
+                for(int i = index; i<attendances.Count; i++)
+                {
+                    if (attendances[i].Date == respData[_index].Date)
+                    {
+                        var item = _mapper.Map<AttendanceItem>(attendances[i]);
+                        items.Add(item);
+                        index = i;
+                    }
+                    else
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                respData[_index].Items = items;
+                _index++;
+
+            }
             return Ok(respData);
         }
         /// <summary>
@@ -171,7 +194,7 @@ namespace EnrollSystem.Controllers
         /// </summary>
         /// <param name="id">trainingImageId</param>
         /// <returns></returns>
-        [HttpGet("training/{id}")]
+        [HttpDelete("training/{id}")]
         public IActionResult DeleteTrainingImage(int id)
         {
             _attendenceService.DeleteTrainingImage(id);
@@ -213,6 +236,32 @@ namespace EnrollSystem.Controllers
         {
             var file = _attendenceService.ExportAttendanceReport(sectionId);
             return file;
+        }
+
+        /// <summary>
+        /// Change hasAttendance
+        /// </summary>
+        /// <param name="attendanceId"></param>
+        /// <returns></returns>
+        [HttpPut("{attendanceId}")]
+        public IActionResult ChangeAttendance(int attendanceId)
+        {
+            var att = _attendenceService.ChangeAttendance(attendanceId);
+            var model = _mapper.Map<AttendanceModel>(att);
+            return Ok(model);
+        }
+        /// <summary>
+        /// Get my attendacne list by sectionId
+        /// </summary>
+        /// <param name="sectionId"></param>
+        /// <returns></returns>
+        [HttpGet("student/{sectionId}")]
+        public IActionResult GetMyAttendances(int sectionId)
+        {
+            var currentUserId = int.Parse(User.Identity.Name);
+            var att = _attendenceService.GetMyAttendanceList(currentUserId, sectionId);
+            var models = _mapper.Map<IList<AttendanceModel>>(att);
+            return Ok(models);
         }
     }
 }

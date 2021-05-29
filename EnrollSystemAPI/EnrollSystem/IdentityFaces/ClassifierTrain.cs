@@ -16,17 +16,18 @@ namespace EnrollSystem.IdentityFaces
         #region Variables
         //Eigen
         //EigenObjectRecognizer recognizer;
+        //MCvTermCriteria termCrit;
         FaceRecognizer recognizer;
+        //EigenFaceRecognizer recognizer;
 
         //training variables
         List<Image<Gray, byte>> trainingImages = new List<Image<Gray, byte>>(); //Images
-        IInputArray MyIInputArray;
         List<string> Names_List = new List<string>(); //labels
         List<int> Names_list_ID = new List<int>();
         int ContTrain, NumLabels;
         float Eigen_Distance = 0;
         string Eigen_label;
-        int Eigen_threshold = 2000;
+        int Eigen_threshold = 100;
 
         //Class Variables
         string Error;
@@ -37,6 +38,7 @@ namespace EnrollSystem.IdentityFaces
         #region Constructors
         public ClassifierTrain(ICollection<TrainingImage> trainingImg)
         {
+            //termCrit = new MCvTermCriteria(ContTrain, 0.001);
             _IsTrained = LoadTrainingData(trainingImg);
         }
         #endregion
@@ -63,6 +65,7 @@ namespace EnrollSystem.IdentityFaces
         {
             if (_IsTrained)
             {
+                //EigenFaceRecognizer.PredictionResult ER = recognizer.Predict(Input_image);
                 FaceRecognizer.PredictionResult ER = recognizer.Predict(Input_image);
 
                 if (ER.Label == -1)
@@ -133,7 +136,7 @@ namespace EnrollSystem.IdentityFaces
                             //load image
                             trainingImages.Add(new Image<Gray, byte>(trainingImage.Image.Path));
                             Names_list_ID.Add(trainingImage.StudentId);
-                            Names_List.Add(trainingImage.Student.User.Name);
+                            Names_List.Add(trainingImage.Student.User.UserName);
                             NumLabels += 1;
                         }
                     }

@@ -16,5 +16,6 @@ namespace EnrollSystem.Interfaces
         void DeleteRegister(int studentId, int sectionId);
         //helper
         int GetUserIdByStudentId(int studentId);
+        int GetStudentIdByUserId(int userId);
     }
 }

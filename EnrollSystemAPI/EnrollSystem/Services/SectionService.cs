@@ -104,6 +104,10 @@ namespace EnrollSystem.Services
                 section.Schedule = sectionParams.Schedule;
             if (sectionParams.RoomId != 0)
                 section.RoomId = sectionParams.RoomId;
+            if (sectionParams.MaxSlot != 0 && section.Slot < sectionParams.MaxSlot)
+            {
+                section.MaxSlot = sectionParams.MaxSlot;
+            }
 
             _context.Sections.Update(section);
             _context.SaveChanges();

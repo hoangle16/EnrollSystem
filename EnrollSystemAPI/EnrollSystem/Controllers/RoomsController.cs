@@ -117,5 +117,22 @@ namespace EnrollSystem.Controllers
             var _model = _mapper.Map<IList<RoomModel>>(rooms);
             return Ok(_model);
         }
+
+        /// <summary>
+        /// Get room include Sections
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/sections")]
+        public IActionResult GetRoomWithSections(int id)
+        {
+            var room = _roomService.GetById(id);
+            if (room == null)
+                return NotFound();
+            var roomModel = _mapper.Map<RoomSectionsModel>(room);
+            var sectionsModel = _mapper.Map<IList<SectionModel>>(room.Sections.Where(x => x.EndDay.Date >= DateTime.Now.Date).ToList());
+            roomModel.SectionList = sectionsModel;
+            return Ok(roomModel);
+        }
     }
 }

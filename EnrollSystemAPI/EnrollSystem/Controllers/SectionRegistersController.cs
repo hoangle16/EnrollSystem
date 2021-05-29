@@ -73,7 +73,7 @@ namespace EnrollSystem.Controllers
             if (User.IsInRole(ROLE.Student))
             {
                 var currentUserId = int.Parse(User.Identity.Name);
-                var studentId = _service.GetUserIdByStudentId(currentUserId);
+                var studentId = _service.GetStudentIdByUserId(currentUserId);
                 model.StudentId = studentId;
             }
             try

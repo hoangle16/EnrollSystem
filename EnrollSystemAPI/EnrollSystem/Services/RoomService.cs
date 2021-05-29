@@ -52,7 +52,7 @@ namespace EnrollSystem.Services
 
         public void Update(int roomId, Room roomParams)
         {
-            if (_context.Rooms.Any(x => x.Name == roomParams.Name))
+            if (_context.Rooms.Any(x => x.Name == roomParams.Name && x.Id != roomId))
                 throw new AppException("Room name \"" + roomParams.Name + "\" is already exist");
             var room = _context.Rooms.Find(roomId);
             if (room == null)

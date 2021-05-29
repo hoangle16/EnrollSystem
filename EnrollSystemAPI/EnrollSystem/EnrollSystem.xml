@@ -78,6 +78,20 @@
             <param name="sectionId"></param>
             <returns></returns>
         </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.ChangeAttendance(System.Int32)">
+            <summary>
+            Change hasAttendance
+            </summary>
+            <param name="attendanceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.AttendanceController.GetMyAttendances(System.Int32)">
+            <summary>
+            Get my attendacne list by sectionId
+            </summary>
+            <param name="sectionId"></param>
+            <returns></returns>
+        </member>
         <member name="M:EnrollSystem.Controllers.CoursesController.GetAll">
             <summary>
             Get All Courses
@@ -172,6 +186,13 @@
             Get rooms is not in use
             </summary>
             <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.RoomsController.GetRoomWithSections(System.Int32)">
+            <summary>
+            Get room include Sections
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:EnrollSystem.Controllers.SectionRegistersController.GetRegisterListByStudentId(System.Int32)">
@@ -302,6 +323,12 @@
         <member name="M:EnrollSystem.Controllers.TeachersController.GetMySections">
             <summary>
             Get My Sections
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EnrollSystem.Controllers.TeachersController.GetCalendar">
+            <summary>
+            Get calendar item 
             </summary>
             <returns></returns>
         </member>

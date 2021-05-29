@@ -28,6 +28,7 @@ namespace EnrollSystem.Helpers
             //room
             CreateMap<Room, RoomModel>();
             CreateMap<RoomInputModel, Room>();
+            CreateMap<Room, RoomSectionsModel>();
             //course
             CreateMap<Course, CourseModel>();
             CreateMap<CourseInputModel, Course>();
@@ -77,8 +78,9 @@ namespace EnrollSystem.Helpers
             CreateMap<StudentSectionRegistration, StudentSectionRegModel>()
                 .ForMember(d => d.StudentUserName, s => s.MapFrom(s => s.Student.User.UserName))
                 .ForMember(d => d.StudentName, s => s.MapFrom(s => s.Student.User.Name))
+                .ForMember(d => d.StudentPhoneNumber, s => s.MapFrom(s => s.Student.User.PhoneNumber))
                 .ForMember(d => d.CourseName, s => s.MapFrom(s => s.Section.Course.Name))
-                .ForMember(d => d.SectionTeacherName, s => s.MapFrom(s => s.Section.Teacher.User.Name))
+                .ForMember(d => d.TeacherName, s => s.MapFrom(s => s.Section.Teacher.User.Name))
                 .ForMember(d => d.StartDay, s => s.MapFrom(s => s.Section.StartDay))
                 .ForMember(d => d.EndDay, s => s.MapFrom(s => s.Section.EndDay))
                 .ForMember(d => d.StartTime, s => s.MapFrom(s => s.Section.StartTime))
@@ -93,11 +95,23 @@ namespace EnrollSystem.Helpers
                 .ForMember(d => d.StudentId, s => s.MapFrom(s => s.StudentSection.StudentId))
                 .ForMember(d => d.UserId, s => s.MapFrom(s => s.StudentSection.Student.UserId))
                 .ForMember(d => d.Name, s => s.MapFrom(s => s.StudentSection.Student.User.Name));
+            CreateMap<Attendance, AttendanceNewModel>()
+                .ForMember(d => d.SectionId, s => s.MapFrom(s => s.StudentSection.SectionId));
+            CreateMap<Attendance, AttendanceItem>()
+                .ForMember(d => d.StudentId, s => s.MapFrom(s => s.StudentSection.StudentId))
+                .ForMember(d => d.UserId, s => s.MapFrom(s => s.StudentSection.Student.UserId))
+                .ForMember(d => d.Name, s => s.MapFrom(s => s.StudentSection.Student.User.Name))
+                .ForMember(d => d.Username, s => s.MapFrom(s => s.StudentSection.Student.User.UserName))
+                .ForMember(d => d.PhoneNumber, s => s.MapFrom(s => s.StudentSection.Student.User.PhoneNumber));
             CreateMap<TrainingImage, TrainingImageModel>()
                 .ForMember(d => d.Path, s => s.MapFrom(s => s.Image.Path))
                 .ForMember(d => d.StudentUserName, s => s.MapFrom(s => s.Student.User.UserName));
             CreateMap<AttendanceImage, AttendanceImageModel>()
                 .ForMember(d => d.Path, s => s.MapFrom(s => s.Image.Path));
+            //Calendar item
+            CreateMap<Section, CalendarModel>()
+                .ForMember(d => d.CourseName, s => s.MapFrom(s => s.Course.Name))
+                .ForMember(d => d.RoomName, s => s.MapFrom(s => s.Room.Name));
         }
     }
 }
